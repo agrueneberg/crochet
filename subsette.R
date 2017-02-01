@@ -17,7 +17,6 @@ matrixSubset <- function(x, i, j) {
     b[i, j, drop = FALSE]
 }
 
-# Support integer and character matrices
 `[.TestMatrix` <- function(x, i, j, drop = TRUE) {
 
     # Convert non-numeric types to positive integers
