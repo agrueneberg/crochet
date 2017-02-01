@@ -17,7 +17,7 @@ matrixSubset <- function(x, i, j) {
     b[i, j, drop = FALSE]
 }
 
-`[.TestMatrix` <- function(x, i, j, drop = TRUE) {
+subsette <- function(x, i, j, drop = TRUE) {
 
     # Convert non-numeric types to positive integers
     convertIndex <- function(x, i, type) {
@@ -133,6 +133,8 @@ matrixSubset <- function(x, i, j) {
     return(subset)
 
 }
+
+`[.TestMatrix` <- subsette
 
 
 library(testthat)
