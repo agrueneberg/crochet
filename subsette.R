@@ -1,22 +1,3 @@
-b <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
-dimnames(b) <- list(letters[1:5], letters[1:5])
-
-a <- structure(list(), class = "TestMatrix")
-
-dim.TestMatrix <- function(x) c(5, 5)
-
-dimnames.TestMatrix <- function(x) dimnames(b)
-
-vectorSubset <- function(x, i) {
-    # Dispatch to b instead to x for this demo
-    b[i, drop = FALSE]
-}
-
-matrixSubset <- function(x, i, j) {
-    # Dispatch to b instead to x for this demo
-    b[i, j, drop = FALSE]
-}
-
 subsette <- function(x, i, j, drop = TRUE) {
 
     # Convert non-numeric types to positive integers
@@ -133,5 +114,3 @@ subsette <- function(x, i, j, drop = TRUE) {
     return(subset)
 
 }
-
-`[.TestMatrix` <- subsette
