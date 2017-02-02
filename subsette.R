@@ -1,116 +1,120 @@
-subsette <- function(x, i, j, drop = TRUE) {
+subsette <- function(subset_vector, subset_matrix) {
 
-    # Convert non-numeric types to positive integers
-    convertIndex <- function(x, i, type) {
-        if (type == "k") {
-            # Single Index
-            n <- nrow(x) * ncol(x)
-            checkBounds <- FALSE
-        } else if (type == "i") {
-            # Rows of Multi Index
-            n <- nrow(x)
-            checkBounds <- TRUE
-        } else if (type == "j") {
-            # Columns of Multi Index
-            n <- ncol(x)
-            checkBounds <- TRUE
-        }
-        if (typeof(i) == "logical") { # x[TRUE]
-            len_initial_i <- length(i)
-            if (type != "k" && len_initial_i > n) {
-                stop("(subscript) logical subscript too long")
-            }
-            len_initial_i_sans_false <- len_initial_i - sum(i == FALSE, na.rm = T)
-            # Expand logical index to length of vector while preserving
-            # positions of missing values
-            i <- rep_len(i, n)
-            pos_true <- which(i)
-            pos_na <- which(is.na(i))
-            i <- sort(c(pos_true, pos_na))
-            i[i %in% pos_na] <- NA
-            # Expand logical index to length of i for single indices
-            if (len_initial_i_sans_false > length(i)) {
-                i <- i[1:len_initial_i_sans_false]
-            }
-        } else if (typeof(i) == "character") { # x["a"]
+    return(function(x, i, j, drop = TRUE) {
+
+        # Convert non-numeric types to positive integers
+        convertIndex <- function(x, i, type) {
             if (type == "k") {
-                if (class(i) == "matrix" && ncol(i) == 2L) {
-                    i <- (match(i[, 2], colnames(x)) - 1) * nrow(x) + match(i[, 1], rownames(x))
-                    if (any(is.na(i))) {
-                        stop("subscript out of bounds")
+                # Single Index
+                n <- nrow(x) * ncol(x)
+                checkBounds <- FALSE
+            } else if (type == "i") {
+                # Rows of Multi Index
+                n <- nrow(x)
+                checkBounds <- TRUE
+            } else if (type == "j") {
+                # Columns of Multi Index
+                n <- ncol(x)
+                checkBounds <- TRUE
+            }
+            if (typeof(i) == "logical") { # x[TRUE]
+                len_initial_i <- length(i)
+                if (type != "k" && len_initial_i > n) {
+                    stop("(subscript) logical subscript too long")
+                }
+                len_initial_i_sans_false <- len_initial_i - sum(i == FALSE, na.rm = T)
+                # Expand logical index to length of vector while preserving
+                # positions of missing values
+                i <- rep_len(i, n)
+                pos_true <- which(i)
+                pos_na <- which(is.na(i))
+                i <- sort(c(pos_true, pos_na))
+                i[i %in% pos_na] <- NA
+                # Expand logical index to length of i for single indices
+                if (len_initial_i_sans_false > length(i)) {
+                    i <- i[1:len_initial_i_sans_false]
+                }
+            } else if (typeof(i) == "character") { # x["a"]
+                if (type == "k") {
+                    if (class(i) == "matrix" && ncol(i) == 2L) {
+                        i <- (match(i[, 2], colnames(x)) - 1) * nrow(x) + match(i[, 1], rownames(x))
+                        if (any(is.na(i))) {
+                            stop("subscript out of bounds")
+                        }
+                    } else {
+                        i[] <- NA
                     }
                 } else {
-                    i[] <- NA
+                    if (type == "i") {
+                        names <- rownames(x)
+                    } else {
+                        names <- colnames(x)
+                    }
+                    i <- match(i, names, nomatch = n + 1L) # intentionally overstep bound
                 }
-            } else {
-                if (type == "i") {
-                    names <- rownames(x)
+            } else if (type == "k" && class(i) == "matrix" && ncol(i) == 2L && is.numeric(i)) { # x[y > 1]
+                i <- (as.integer(i[, 2]) - 1) * nrow(x) + as.integer(i[, 1])
+                checkBounds <- TRUE
+            } else if (is.numeric(i)) { # x[1], x[-1], x[0]
+                # Remove all 0s
+                i <- i[i != 0]
+                if (length(i) == 0L) { # x[0]
+                    stop("Unsupported index type")
                 } else {
-                    names <- colnames(x)
+                    i_is_na <- is.na(i)
+                    # Negative integers are not allowed to be combined with
+                    # positive integers or missing values
+                    if (any(i < 0, na.rm = TRUE) && (any(i > 0, na.rm = TRUE) || any(i_is_na))) {
+                        stop("only 0's may be mixed with negative subscripts")
+                    } else if (all(i < 0, na.rm = TRUE)) { # x[-1]
+                        i <- seq(1, n)[i]
+                    }
                 }
-                i <- match(i, names, nomatch = n + 1L) # intentionally overstep bound
             }
-        } else if (type == "k" && class(i) == "matrix" && ncol(i) == 2L && is.numeric(i)) { # x[y > 1]
-            i <- (as.integer(i[, 2]) - 1) * nrow(x) + as.integer(i[, 1])
-            checkBounds <- TRUE
-        } else if (is.numeric(i)) { # x[1], x[-1], x[0]
-            # Remove all 0s
-            i <- i[i != 0]
-            if (length(i) == 0L) { # x[0]
-                stop("Unsupported index type")
+            if (checkBounds && any(i > n, na.rm = TRUE)) {
+                stop("subscript out of bounds")
+            }
+            return(i)
+        }
+
+        nargs <- nargs()
+        # Subtract optional argument drop from nargs if explicitly passed (I still
+        # don't fully understand how this works: x[] and x[drop = TRUE] both result
+        # in nargs == 2L)
+        if (!missing(drop)) {
+            nargs <- nargs - 1L
+        }
+
+        # Single Index: x[i]
+        if (nargs == 2L && !missing(i) && missing(j)) {
+            i <- convertIndex(x, i, "k")
+            subset <- subset_vector(x, i)
+        # Multi Index: x[i, j], x[i, ], or x[, j]
+        } else if (nargs == 3L && (!missing(i) || !missing(j))) {
+            if (missing(i)) {
+                i <- seq(1, nrow(x))
             } else {
-                i_is_na <- is.na(i)
-                # Negative integers are not allowed to be combined with
-                # positive integers or missing values
-                if (any(i < 0, na.rm = TRUE) && (any(i > 0, na.rm = TRUE) || any(i_is_na))) {
-                    stop("only 0's may be mixed with negative subscripts")
-                } else if (all(i < 0, na.rm = TRUE)) { # x[-1]
-                    i <- seq(1, n)[i]
-                }
+                i <- convertIndex(x, i, "i")
             }
-        }
-        if (checkBounds && any(i > n, na.rm = TRUE)) {
-            stop("subscript out of bounds")
-        }
-        return(i)
-    }
-
-    nargs <- nargs()
-    # Subtract optional argument drop from nargs if explicitly passed (I still
-    # don't fully understand how this works: x[] and x[drop = TRUE] both result
-    # in nargs == 2L)
-    if (!missing(drop)) {
-        nargs <- nargs - 1L
-    }
-
-    # Single Index: x[i]
-    if (nargs == 2L && !missing(i) && missing(j)) {
-        i <- convertIndex(x, i, "k")
-        subset <- vectorSubset(x, i)
-    # Multi Index: x[i, j], x[i, ], or x[, j]
-    } else if (nargs == 3L && (!missing(i) || !missing(j))) {
-        if (missing(i)) {
+            if (missing(j)) {
+                j <- seq(1, ncol(x))
+            } else {
+                j <- convertIndex(x, j, "j")
+            }
+            subset <- subset_matrix(x, i, j)
+            # Let R handle drop behavior
+            if (drop == TRUE && (nrow(subset) == 1L || ncol(subset) == 1L)) {
+                subset <- subset[, ]
+            }
+        # No Index: x[] or x[, ]
+        } else {
             i <- seq(1, nrow(x))
-        } else {
-            i <- convertIndex(x, i, "i")
-        }
-        if (missing(j)) {
             j <- seq(1, ncol(x))
-        } else {
-            j <- convertIndex(x, j, "j")
+            subset <- subset_matrix(x, i, j)
         }
-        subset <- matrixSubset(x, i, j)
-        # Let R handle drop behavior
-        if (drop == TRUE && (nrow(subset) == 1L || ncol(subset) == 1L)) {
-            subset <- subset[, ]
-        }
-    # No Index: x[] or x[, ]
-    } else {
-        i <- seq(1, nrow(x))
-        j <- seq(1, ncol(x))
-        subset <- matrixSubset(x, i, j)
-    }
 
-    return(subset)
+        return(subset)
+
+    })
 
 }

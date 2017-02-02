@@ -15,15 +15,15 @@ dim.TestMatrix <- function(x) c(5, 5)
 
 dimnames.TestMatrix <- function(x) dimnames(b)
 
-`[.TestMatrix` <- subsette
-
-vectorSubset <- function(x, i) {
+subset_vector <- function(x, i) {
     # Dispatch to b instead to x for this demo
     b[i, drop = FALSE]
 }
 
-matrixSubset <- function(x, i, j) {
+subset_matrix <- function(x, i, j) {
     # Dispatch to b instead to x for this demo
     b[i, j, drop = FALSE]
 }
+
+`[.TestMatrix` <- subsette(subset_vector = subset_vector, subset_matrix = subset_matrix)
 ```
