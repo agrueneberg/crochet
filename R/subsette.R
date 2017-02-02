@@ -4,7 +4,7 @@ subsette <- function(subset_vector, subset_matrix) {
     if (missing(subset_vector) || typeof(subset_vector) != "closure") {
         stop("subset_vector has to be of type closure")
     }
-    subset_vector_formals <- formalArgs(subset_vector)
+    subset_vector_formals <- methods::formalArgs(subset_vector)
     if (is.null(subset_vector_formals) || length(subset_vector_formals) != 2L || subset_vector_formals[1] != "x" || subset_vector_formals[2] != "i") {
         stop("subset_vector requires two arguments x and i")
     }
@@ -12,7 +12,7 @@ subsette <- function(subset_vector, subset_matrix) {
     if (missing(subset_matrix) || typeof(subset_matrix) != "closure") {
         stop("subset_matrix has to be of type closure")
     }
-    subset_matrix_formals <- formalArgs(subset_matrix)
+    subset_matrix_formals <- methods::formalArgs(subset_matrix)
     if (is.null(subset_matrix_formals) || length(subset_matrix_formals) != 3L || subset_matrix_formals[1] != "x" || subset_matrix_formals[2] != "i" || subset_matrix_formals[3] != "j") {
         stop("subset_matrix requires three arguments x, i, and j")
     }

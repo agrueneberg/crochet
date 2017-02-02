@@ -8,6 +8,8 @@ Description: An implementation of the extraction / subsetting / indexing
 Authors@R: person("Alexander", "Grueneberg", email = "alexander.grueneberg@googlemail.com", role = c("aut", "cre"))
 URL: https://github.com/agrueneberg/subsette
 BugReports: https://github.com/agrueneberg/subsette/issues
+Imports:
+    methods
 Suggests:
     testthat
 RoxygenNote: 5.0.1
