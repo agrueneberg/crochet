@@ -14,6 +14,7 @@
 #' @return A function in the form of \code{function(x, i, j, drop = TRUE} that
 #' is meant to be used as a method for \code{[}.
 #' @export
+#' @example inst/examples/subsette.R
 subsette <- function(subset_vector, subset_matrix) {
 
     if (missing(subset_vector) || typeof(subset_vector) != "closure") {
