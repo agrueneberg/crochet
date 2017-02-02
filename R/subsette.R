@@ -1,3 +1,4 @@
+#' @export
 subsette <- function(subset_vector, subset_matrix) {
 
     if (missing(subset_vector) || typeof(subset_vector) != "closure") {

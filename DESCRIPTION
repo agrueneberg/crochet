@@ -1,0 +1,13 @@
+Package: subsette
+Version: 0.0.0.9000
+License: MIT + file LICENSE
+Title: An Implementation of [ for Custom Matrix-Like Types
+Description: An implementation of the extraction / subsetting / indexing
+    function [ for custom matrix-like types (based on S3, S4, etc.), modeled as
+    closely to the base matrix class as possible (with tests to prove it).
+Authors@R: person("Alexander", "Grueneberg", email = "alexander.grueneberg@googlemail.com", role = c("aut", "cre"))
+URL: https://github.com/agrueneberg/subsette
+BugReports: https://github.com/agrueneberg/subsette/issues
+Suggests:
+    testthat
+RoxygenNote: 5.0.1
