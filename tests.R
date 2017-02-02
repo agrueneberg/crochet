@@ -2,6 +2,22 @@ library(testthat)
 
 set.seed(4711)
 
+test_that("subsette constructor works", {
+
+    expect_error(subsette())
+    expect_error(subsette(subset_vector = "derp"))
+    expect_error(subsette(subset_matrix = "derp"))
+    expect_error(subsette(subset_vector = "derp", subset_matrix = "derp"))
+    expect_error(subsette(subset_vector = function() {}, subset_matrix = "derp"))
+    expect_error(subsette(subset_vector = "derp", subset_matrix = function() {}))
+    expect_error(subsette(subset_vector = function() {}, subset_matrix = function() {}))
+    expect_error(subsette(subset_vector = function(x) {}, subset_matrix = function(x) {}))
+    expect_error(subsette(subset_vector = function(x, i) {}, subset_matrix = function(x, i) {}))
+
+    expect_type(subsette(subset_vector = function(x, i) {}, subset_matrix = function(x, i, j) {}), "closure")
+
+})
+
 test_that("single indexing by nothing works", {
 
     expect_equal(a[], b[])
