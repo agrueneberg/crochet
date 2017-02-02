@@ -1,3 +1,18 @@
+#' Creates an implementation of [ for custom matrix-like types
+#'
+#' subsette is a function that accepts two arguments \code{subset_vector} (in
+#' the form of \code{function(x, i)}) and \code{subset_matrix} (in the form of
+#' \code{function(x, i, j)}), and returns a function that can be used as a
+#' method for \code{[} for a custom type.
+#'
+#' @param subset_vector A function in the form of \code{function(x, i)} that
+#' takes a subset of \code{x} based on a single index \code{i} and returns a
+#' vector.
+#' @param subset_matrix A function in the form of \code{function(x, i, j)} that
+#' takes a subset of \code{x} based on two indices \code{i} and \code{j} and
+#' returns a matrix.
+#' @return A function in the form of \code{function(x, i, j, drop = TRUE} that
+#' is meant to be used as a method for \code{[}.
 #' @export
 subsette <- function(subset_vector, subset_matrix) {
 
