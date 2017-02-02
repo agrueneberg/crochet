@@ -1,6 +1,7 @@
 # Subsette
 
 [![Travis-CI Build Status](https://travis-ci.org/agrueneberg/subsette.svg?branch=master)](https://travis-ci.org/agrueneberg/subsette)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/subsette)](https://cran.r-project.org/package=subsette)
 
 An implementation of the extraction / subsetting / indexing function `[` for custom matrix-like types (based on S3, S4, etc.), modeled as closely to the base `matrix` class as possible (with tests to prove it).
 
