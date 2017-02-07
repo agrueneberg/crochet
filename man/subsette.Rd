@@ -47,4 +47,3 @@ subset_matrix <- function(x, i, j) {
 
 `[.TestMatrix` <- subsette(subset_vector = subset_vector, subset_matrix = subset_matrix)
 }
-
