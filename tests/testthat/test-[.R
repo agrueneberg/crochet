@@ -55,6 +55,49 @@ test_that("single indexing by positive integers works", {
     expect_equal(TST_A[c(2, 100), drop = TRUE], TST_B[c(2, 100), drop = TRUE])
     expect_equal(TST_A[c(2, 100), drop = FALSE], TST_B[c(2, 100), drop = FALSE])
 
+    m <- matrix(data = c(1, 1, 2, 2), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c(1, 1, 2, 2), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c(2, 2, 1, 1), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c(1.1, 1.1, 2.1, 2.1), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c(2.1, 2.1, 1.1, 1.1), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c(1.9, 1.9, 2.9, 2.9), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c(2.9, 2.9, 1.9, 1.9), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c(100, 100), ncol = 2, byrow = TRUE)
+    expect_error(TST_A[m])
+    expect_error(TST_B[m])
+    expect_error(TST_A[m, drop = TRUE])
+    expect_error(TST_B[m, drop = TRUE])
+    expect_error(TST_A[m, drop = FALSE])
+    expect_error(TST_B[m, drop = FALSE])
+
 })
 
 test_that("single indexing by negative integers works", {
@@ -143,6 +186,11 @@ test_that("single indexing by logicals works", {
     expect_equal(TST_A[rep_len(c(FALSE, TRUE), 100), drop = TRUE], TST_B[rep_len(c(FALSE, TRUE), 100), drop = TRUE])
     expect_equal(TST_A[rep_len(c(FALSE, TRUE), 100), drop = FALSE], TST_B[rep_len(c(FALSE, TRUE), 100), drop = FALSE])
 
+    m <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
+    expect_equal(TST_A[m > 1], TST_B[m > 1])
+    expect_equal(TST_A[m > 1, drop = TRUE], TST_B[m > 1, drop = TRUE])
+    expect_equal(TST_A[m > 1, drop = FALSE], TST_B[m > 1, drop = FALSE])
+
 })
 
 test_that("single indexing by characters works", {
@@ -154,6 +202,24 @@ test_that("single indexing by characters works", {
     expect_equal(TST_A["x"], TST_B["x"])
     expect_equal(TST_A["x", drop = TRUE], TST_B["x", drop = TRUE])
     expect_equal(TST_A["x", drop = FALSE], TST_B["x", drop = FALSE])
+
+    m <- matrix(data = c("a", "a", "b", "b"), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c("b", "b", "a", "a"), ncol = 2, byrow = TRUE)
+    expect_equal(TST_A[m], TST_B[m])
+    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
+    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
+
+    m <- matrix(data = c("x", "x"), ncol = 2, byrow = TRUE)
+    expect_error(TST_A[m])
+    expect_error(TST_B[m])
+    expect_error(TST_A[m, drop = TRUE])
+    expect_error(TST_B[m, drop = TRUE])
+    expect_error(TST_A[m, drop = FALSE])
+    expect_error(TST_B[m, drop = FALSE])
 
 })
 
@@ -216,76 +282,6 @@ test_that("single indexing by zero works", {
     expect_error(TST_B[c(0, 1, -1), drop = TRUE])
     expect_error(TST_A[c(0, 1, -1), drop = FALSE])
     expect_error(TST_B[c(0, 1, -1), drop = FALSE])
-
-})
-
-test_that("single indexing by matrix works", {
-
-    m <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
-    expect_equal(TST_A[m > 1], TST_B[m > 1])
-    expect_equal(TST_A[m > 1, drop = TRUE], TST_B[m > 1, drop = TRUE])
-    expect_equal(TST_A[m > 1, drop = FALSE], TST_B[m > 1, drop = FALSE])
-
-    m <- matrix(data = c(1, 1, 2, 2), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c(1, 1, 2, 2), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c(2, 2, 1, 1), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c(1.1, 1.1, 2.1, 2.1), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c(2.1, 2.1, 1.1, 1.1), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c(1.9, 1.9, 2.9, 2.9), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c(2.9, 2.9, 1.9, 1.9), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c(100, 100), ncol = 2, byrow = TRUE)
-    expect_error(TST_A[m])
-    expect_error(TST_B[m])
-    expect_error(TST_A[m, drop = TRUE])
-    expect_error(TST_B[m, drop = TRUE])
-    expect_error(TST_A[m, drop = FALSE])
-    expect_error(TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c("a", "a", "b", "b"), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c("b", "b", "a", "a"), ncol = 2, byrow = TRUE)
-    expect_equal(TST_A[m], TST_B[m])
-    expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
-    expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
-
-    m <- matrix(data = c("x", "x"), ncol = 2, byrow = TRUE)
-    expect_error(TST_A[m])
-    expect_error(TST_B[m])
-    expect_error(TST_A[m, drop = TRUE])
-    expect_error(TST_B[m, drop = TRUE])
-    expect_error(TST_A[m, drop = FALSE])
-    expect_error(TST_B[m, drop = FALSE])
 
 })
 
