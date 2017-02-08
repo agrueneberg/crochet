@@ -5,6 +5,12 @@
 #' i, j)`), and returns a function that can be used as a method for
 #' \code{\link[base]{[}} for a custom type.
 #'
+#' The custom type must implement methods for [base::dim()] and
+#' [base::dimnames()] for subsette to work. Implementing methods for
+#' [base::nrow()], [base::ncol()], [base::rownames()], and [base::colnames()]
+#' is not necessary as the default method of those generics calls [base::dim()]
+#' or [base::dimnames()] internally.
+#'
 #' @param subset_vector A function in the form of `function(x, i)` that takes a
 #' subset of `x` based on a single index `i` and returns a vector.
 #' @param subset_matrix A function in the form of `function(x, i, j)` that

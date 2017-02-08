@@ -22,6 +22,13 @@ subsette is a function that accepts two arguments \code{subset_vector} (in the
 form of \code{function(x, i)}) and \code{subset_matrix} (in the form of \code{function(x, i, j)}), and returns a function that can be used as a method for
 \code{\link[base]{[}} for a custom type.
 }
+\details{
+The custom type must implement methods for \code{\link[base:dim]{base::dim()}} and
+\code{\link[base:dimnames]{base::dimnames()}} for subsette to work. Implementing methods for
+\code{\link[base:nrow]{base::nrow()}}, \code{\link[base:ncol]{base::ncol()}}, \code{\link[base:rownames]{base::rownames()}}, and \code{\link[base:colnames]{base::colnames()}}
+is not necessary as the default method of those generics calls \code{\link[base:dim]{base::dim()}}
+or \code{\link[base:dimnames]{base::dimnames()}} internally.
+}
 \examples{
 b <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
 dimnames(b) <- list(letters[1:5], letters[1:5])
