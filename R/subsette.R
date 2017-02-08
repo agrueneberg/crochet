@@ -2,15 +2,15 @@
 #'
 #' subsette is a function that accepts two arguments `subset_vector` (in the
 #' form of `function(x, i)`) and `subset_matrix` (in the form of `function(x,
-#' i, j)`), and returns a function that can be used as a method for `[` for a
-#' custom type.
+#' i, j)`), and returns a function that can be used as a method for
+#' \code{\link[base]{[}} for a custom type.
 #'
 #' @param subset_vector A function in the form of `function(x, i)` that takes a
 #' subset of `x` based on a single index `i` and returns a vector.
 #' @param subset_matrix A function in the form of `function(x, i, j)` that
 #' takes a subset of `x` based on two indices `i` and `j` and returns a matrix.
 #' @return A function in the form of `function(x, i, j, drop = TRUE` that is
-#' meant to be used as a method for `[`.
+#' meant to be used as a method for \code{\link[base]{[}}.
 #' @export
 #' @example inst/examples/subsette.R
 subsette <- function(subset_vector, subset_matrix) {
