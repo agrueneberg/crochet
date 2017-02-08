@@ -19,4 +19,5 @@ registerS3method("dimnames", "TestMatrix", function(x) dimnames(TST_B))
 
 registerS3method("[", "TestMatrix", subsette(subset_vector = subset_vector, subset_matrix = subset_matrix))
 
-OUT_OF_BOUNDS <- 100
+OUT_OF_BOUNDS_INT <- 100
+OUT_OF_BOUNDS_CHAR <- "x"
