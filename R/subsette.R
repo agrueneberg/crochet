@@ -79,7 +79,7 @@ subsette <- function(subset_vector, subset_matrix) {
                             stop("subscript out of bounds")
                         }
                     } else {
-                        i[] <- NA
+                        i <- rep(NA_integer_, times = length(i))
                     }
                 } else {
                     if (type == "i") {
