@@ -251,23 +251,25 @@ test_that("single indexing by characters works", {
         skip("skipping character indexing because dimnames are NULL")
     }
 
-    NAME_1 <- rownames(TST_A)[1]
-    NAME_2 <- rownames(TST_A)[2]
+    ROW_NAME_1 <- rownames(TST_A)[1]
+    ROW_NAME_2 <- rownames(TST_A)[2]
+    COL_NAME_1 <- colnames(TST_A)[1]
+    COL_NAME_2 <- colnames(TST_A)[2]
 
-    expect_equal(TST_A[NAME_1], TST_B[NAME_1])
-    expect_equal(TST_A[NAME_1, drop = TRUE], TST_B[NAME_1, drop = TRUE])
-    expect_equal(TST_A[NAME_1, drop = FALSE], TST_B[NAME_1, drop = FALSE])
+    expect_equal(TST_A[ROW_NAME_1], TST_B[ROW_NAME_1])
+    expect_equal(TST_A[ROW_NAME_1, drop = TRUE], TST_B[ROW_NAME_1, drop = TRUE])
+    expect_equal(TST_A[ROW_NAME_1, drop = FALSE], TST_B[ROW_NAME_1, drop = FALSE])
 
     expect_equal(TST_A[OUT_OF_BOUNDS_CHAR], TST_B[OUT_OF_BOUNDS_CHAR])
     expect_equal(TST_A[OUT_OF_BOUNDS_CHAR, drop = TRUE], TST_B[OUT_OF_BOUNDS_CHAR, drop = TRUE])
     expect_equal(TST_A[OUT_OF_BOUNDS_CHAR, drop = FALSE], TST_B[OUT_OF_BOUNDS_CHAR, drop = FALSE])
 
-    m <- matrix(data = c(NAME_1, NAME_1, NAME_2, NAME_2), ncol = 2, byrow = TRUE)
+    m <- matrix(data = c(ROW_NAME_1, COL_NAME_1, ROW_NAME_2, COL_NAME_2), ncol = 2, byrow = TRUE)
     expect_equal(TST_A[m], TST_B[m])
     expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
     expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
 
-    m <- matrix(data = c(NAME_2, NAME_2, NAME_1, NAME_1), ncol = 2, byrow = TRUE)
+    m <- matrix(data = c(ROW_NAME_2, COL_NAME_2, ROW_NAME_1, COL_NAME_1), ncol = 2, byrow = TRUE)
     expect_equal(TST_A[m], TST_B[m])
     expect_equal(TST_A[m, drop = TRUE], TST_B[m, drop = TRUE])
     expect_equal(TST_A[m, drop = FALSE], TST_B[m, drop = FALSE])
@@ -280,9 +282,9 @@ test_that("single indexing by characters works", {
     expect_error(TST_A[m, drop = FALSE])
     expect_error(TST_B[m, drop = FALSE])
 
-    expect_equal(TST_A[c(NAME_1, NA)], TST_B[c(NAME_1, NA)])
-    expect_equal(TST_A[c(NAME_1, NA), drop = TRUE], TST_B[c(NAME_1, NA), drop = TRUE])
-    expect_equal(TST_A[c(NAME_1, NA), drop = FALSE], TST_B[c(NAME_1, NA), drop = FALSE])
+    expect_equal(TST_A[c(ROW_NAME_1, NA)], TST_B[c(ROW_NAME_1, NA)])
+    expect_equal(TST_A[c(ROW_NAME_1, NA), drop = TRUE], TST_B[c(ROW_NAME_1, NA), drop = TRUE])
+    expect_equal(TST_A[c(ROW_NAME_1, NA), drop = FALSE], TST_B[c(ROW_NAME_1, NA), drop = FALSE])
 
 })
 

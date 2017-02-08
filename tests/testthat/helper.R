@@ -1,5 +1,5 @@
 TST_B <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
-dimnames(TST_B) <- list(letters[1:5], letters[1:5])
+dimnames(TST_B) <- list(letters[1:5], letters[6:10])
 
 subset_vector <- function(x, i) {
     # Dispatch to TST_B instead to x
