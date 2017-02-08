@@ -1,8 +1,35 @@
+context("requirements for [")
+
+test_that("dims are the same", {
+
+    expect_equal(dim(TST_A), dim(TST_B))
+
+})
+
 test_that("dimnames are the same", {
 
     expect_equal(dimnames(TST_A), dimnames(TST_B))
 
 })
+
+test_that("minimum dimension requirement are met", {
+
+    expect_gt(nrow(TST_A), 3)
+    expect_gt(ncol(TST_A), 3)
+    expect_gt(prod(dim(TST_A)), 3)
+
+})
+
+test_that("maximum dimension requirement are met", {
+
+    expect_lt(nrow(TST_A), 100)
+    expect_lt(ncol(TST_A), 100)
+    expect_lt(prod(dim(TST_A)), 100)
+
+})
+
+
+context("[")
 
 test_that("single indexing by nothing works", {
 
