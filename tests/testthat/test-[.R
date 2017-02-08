@@ -1,3 +1,9 @@
+test_that("dimnames are the same", {
+
+    expect_equal(dimnames(TST_A), dimnames(TST_B))
+
+})
+
 test_that("single indexing by nothing works", {
 
     expect_equal(TST_A[], TST_B[])
@@ -194,6 +200,10 @@ test_that("single indexing by logicals works", {
 })
 
 test_that("single indexing by characters works", {
+
+    if (is.null(dimnames(TST_A))) {
+        skip("skipping character indexing because dimnames are NULL")
+    }
 
     expect_equal(TST_A["a"], TST_B["a"])
     expect_equal(TST_A["a", drop = TRUE], TST_B["a", drop = TRUE])
@@ -753,6 +763,10 @@ test_that("multi indexing by logicals works", {
 })
 
 test_that("multi indexing by characters works", {
+
+    if (is.null(dimnames(TST_A))) {
+        skip("skipping character indexing because dimnames are NULL")
+    }
 
     expect_equal(TST_A["a", ], TST_B["a", ])
     expect_equal(TST_A["a", , drop = TRUE], TST_B["a", , drop = TRUE])
