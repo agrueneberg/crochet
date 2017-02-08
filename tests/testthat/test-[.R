@@ -131,6 +131,10 @@ test_that("single indexing by positive integers works", {
     expect_error(TST_A[m, drop = FALSE])
     expect_error(TST_B[m, drop = FALSE])
 
+    expect_equal(TST_A[c(1, NA)], TST_B[c(1, NA)])
+    expect_equal(TST_A[c(1, NA), drop = TRUE], TST_B[c(1, NA), drop = TRUE])
+    expect_equal(TST_A[c(1, NA), drop = FALSE], TST_B[c(1, NA), drop = FALSE])
+
 })
 
 test_that("single indexing by negative integers works", {
@@ -183,6 +187,13 @@ test_that("single indexing by negative integers works", {
     expect_equal(TST_A[c(-2, -OUT_OF_BOUNDS), drop = TRUE], TST_B[c(-2, -OUT_OF_BOUNDS), drop = TRUE])
     expect_equal(TST_A[c(-2, -OUT_OF_BOUNDS), drop = FALSE], TST_B[c(-2, -OUT_OF_BOUNDS), drop = FALSE])
 
+    expect_error(TST_A[c(-1, NA)])
+    expect_error(TST_B[c(-1, NA)])
+    expect_error(TST_A[c(-1, NA), drop = TRUE])
+    expect_error(TST_B[c(-1, NA), drop = TRUE])
+    expect_error(TST_A[c(-1, NA), drop = FALSE])
+    expect_error(TST_B[c(-1, NA), drop = FALSE])
+
 })
 
 test_that("single indexing by logicals works", {
@@ -224,6 +235,14 @@ test_that("single indexing by logicals works", {
     expect_equal(TST_A[m > 1, drop = TRUE], TST_B[m > 1, drop = TRUE])
     expect_equal(TST_A[m > 1, drop = FALSE], TST_B[m > 1, drop = FALSE])
 
+    expect_equal(TST_A[c(TRUE, NA)], TST_B[c(TRUE, NA)])
+    expect_equal(TST_A[c(TRUE, NA), drop = TRUE], TST_B[c(TRUE, NA), drop = TRUE])
+    expect_equal(TST_A[c(TRUE, NA), drop = FALSE], TST_B[c(TRUE, NA), drop = FALSE])
+
+    expect_equal(TST_A[c(FALSE, NA)], TST_B[c(FALSE, NA)])
+    expect_equal(TST_A[c(FALSE, NA), drop = TRUE], TST_B[c(FALSE, NA), drop = TRUE])
+    expect_equal(TST_A[c(FALSE, NA), drop = FALSE], TST_B[c(FALSE, NA), drop = FALSE])
+
 })
 
 test_that("single indexing by characters works", {
@@ -258,32 +277,13 @@ test_that("single indexing by characters works", {
     expect_error(TST_A[m, drop = FALSE])
     expect_error(TST_B[m, drop = FALSE])
 
-})
-
-test_that("single indexing by NA works", {
-
-    expect_equal(TST_A[c(1, NA)], TST_B[c(1, NA)])
-    expect_equal(TST_A[c(1, NA), drop = TRUE], TST_B[c(1, NA), drop = TRUE])
-    expect_equal(TST_A[c(1, NA), drop = FALSE], TST_B[c(1, NA), drop = FALSE])
-
-    expect_error(TST_A[c(-1, NA)])
-    expect_error(TST_B[c(-1, NA)])
-    expect_error(TST_A[c(-1, NA), drop = TRUE])
-    expect_error(TST_B[c(-1, NA), drop = TRUE])
-    expect_error(TST_A[c(-1, NA), drop = FALSE])
-    expect_error(TST_B[c(-1, NA), drop = FALSE])
-
     expect_equal(TST_A[c("a", NA)], TST_B[c("a", NA)])
     expect_equal(TST_A[c("a", NA), drop = TRUE], TST_B[c("a", NA), drop = TRUE])
     expect_equal(TST_A[c("a", NA), drop = FALSE], TST_B[c("a", NA), drop = FALSE])
 
-    expect_equal(TST_A[c(TRUE, NA)], TST_B[c(TRUE, NA)])
-    expect_equal(TST_A[c(TRUE, NA), drop = TRUE], TST_B[c(TRUE, NA), drop = TRUE])
-    expect_equal(TST_A[c(TRUE, NA), drop = FALSE], TST_B[c(TRUE, NA), drop = FALSE])
+})
 
-    expect_equal(TST_A[c(FALSE, NA)], TST_B[c(FALSE, NA)])
-    expect_equal(TST_A[c(FALSE, NA), drop = TRUE], TST_B[c(FALSE, NA), drop = TRUE])
-    expect_equal(TST_A[c(FALSE, NA), drop = FALSE], TST_B[c(FALSE, NA), drop = FALSE])
+test_that("single indexing by NA works", {
 
     expect_equal(TST_A[NA], TST_B[NA])
     expect_equal(TST_A[NA, drop = TRUE], TST_B[NA, drop = TRUE])
@@ -503,6 +503,18 @@ test_that("multi indexing by positive integers works", {
     expect_error(TST_A[c(2, OUT_OF_BOUNDS), c(2, OUT_OF_BOUNDS), drop = FALSE])
     expect_error(TST_B[c(2, OUT_OF_BOUNDS), c(2, OUT_OF_BOUNDS), drop = FALSE])
 
+    expect_equal(TST_A[c(1, NA), ], TST_B[c(1, NA), ])
+    expect_equal(TST_A[c(1, NA), , drop = TRUE], TST_B[c(1, NA), , drop = TRUE])
+    expect_equal(TST_A[c(1, NA), , drop = FALSE], TST_B[c(1, NA), , drop = FALSE])
+
+    expect_equal(TST_A[, c(1, NA)], TST_B[, c(1, NA)])
+    expect_equal(TST_A[, c(1, NA), drop = TRUE], TST_B[, c(1, NA), drop = TRUE])
+    expect_equal(TST_A[, c(1, NA), drop = FALSE], TST_B[, c(1, NA), drop = FALSE])
+
+    expect_equal(TST_A[c(1, NA), c(1, NA)], TST_B[c(1, NA), c(1, NA)])
+    expect_equal(TST_A[c(1, NA), c(1, NA), drop = TRUE], TST_B[c(1, NA), c(1, NA), drop = TRUE])
+    expect_equal(TST_A[c(1, NA), c(1, NA), drop = FALSE], TST_B[c(1, NA), c(1, NA), drop = FALSE])
+
 })
 
 test_that("multi indexing by negative integers works", {
@@ -651,6 +663,27 @@ test_that("multi indexing by negative integers works", {
     expect_equal(TST_A[c(-2, -OUT_OF_BOUNDS), c(-2, -OUT_OF_BOUNDS), drop = TRUE], TST_B[c(-2, -OUT_OF_BOUNDS), c(-2, -OUT_OF_BOUNDS), drop = TRUE])
     expect_equal(TST_A[c(-2, -OUT_OF_BOUNDS), c(-2, -OUT_OF_BOUNDS), drop = FALSE], TST_B[c(-2, -OUT_OF_BOUNDS), c(-2, -OUT_OF_BOUNDS), drop = FALSE])
 
+    expect_error(TST_A[c(-1, NA), ])
+    expect_error(TST_B[c(-1, NA), ])
+    expect_error(TST_A[c(-1, NA), , drop = TRUE])
+    expect_error(TST_B[c(-1, NA), , drop = TRUE])
+    expect_error(TST_A[c(-1, NA), , drop = FALSE])
+    expect_error(TST_B[c(-1, NA), , drop = FALSE])
+
+    expect_error(TST_A[, c(-1, NA)])
+    expect_error(TST_B[, c(-1, NA)])
+    expect_error(TST_A[, c(-1, NA), drop = TRUE])
+    expect_error(TST_B[, c(-1, NA), drop = TRUE])
+    expect_error(TST_A[, c(-1, NA), drop = FALSE])
+    expect_error(TST_B[, c(-1, NA), drop = FALSE])
+
+    expect_error(TST_A[c(-1, NA), c(-1, NA)])
+    expect_error(TST_B[c(-1, NA), c(-1, NA)])
+    expect_error(TST_A[c(-1, NA), c(-1, NA), drop = TRUE])
+    expect_error(TST_B[c(-1, NA), c(-1, NA), drop = TRUE])
+    expect_error(TST_A[c(-1, NA), c(-1, NA), drop = FALSE])
+    expect_error(TST_B[c(-1, NA), c(-1, NA), drop = FALSE])
+
 })
 
 test_that("multi indexing by logicals works", {
@@ -787,6 +820,30 @@ test_that("multi indexing by logicals works", {
     expect_error(TST_A[rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS), drop = FALSE])
     expect_error(TST_B[rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS), drop = FALSE])
 
+    expect_equal(TST_A[c(TRUE, NA), ], TST_B[c(TRUE, NA), ])
+    expect_equal(TST_A[c(TRUE, NA), , drop = TRUE], TST_B[c(TRUE, NA), , drop = TRUE])
+    expect_equal(TST_A[c(TRUE, NA), , drop = FALSE], TST_B[c(TRUE, NA), , drop = FALSE])
+
+    expect_equal(TST_A[, c(TRUE, NA)], TST_B[, c(TRUE, NA)])
+    expect_equal(TST_A[, c(TRUE, NA), drop = TRUE], TST_B[, c(TRUE, NA), drop = TRUE])
+    expect_equal(TST_A[, c(TRUE, NA), drop = FALSE], TST_B[, c(TRUE, NA), drop = FALSE])
+
+    expect_equal(TST_A[c(TRUE, NA), c(TRUE, NA)], TST_B[c(TRUE, NA), c(TRUE, NA)])
+    expect_equal(TST_A[c(TRUE, NA), c(TRUE, NA), drop = TRUE], TST_B[c(TRUE, NA), c(TRUE, NA), drop = TRUE])
+    expect_equal(TST_A[c(TRUE, NA), c(TRUE, NA), drop = FALSE], TST_B[c(TRUE, NA), c(TRUE, NA), drop = FALSE])
+
+    expect_equal(TST_A[c(FALSE, NA), ], TST_B[c(FALSE, NA), ])
+    expect_equal(TST_A[c(FALSE, NA), , drop = FALSE], TST_B[c(FALSE, NA), , drop = FALSE])
+    expect_equal(TST_A[c(FALSE, NA), , drop = FALSE], TST_B[c(FALSE, NA), , drop = FALSE])
+
+    expect_equal(TST_A[, c(FALSE, NA)], TST_B[, c(FALSE, NA)])
+    expect_equal(TST_A[, c(FALSE, NA), drop = FALSE], TST_B[, c(FALSE, NA), drop = FALSE])
+    expect_equal(TST_A[, c(FALSE, NA), drop = FALSE], TST_B[, c(FALSE, NA), drop = FALSE])
+
+    expect_equal(TST_A[c(FALSE, NA), c(FALSE, NA)], TST_B[c(FALSE, NA), c(FALSE, NA)])
+    expect_equal(TST_A[c(FALSE, NA), c(FALSE, NA), drop = FALSE], TST_B[c(FALSE, NA), c(FALSE, NA), drop = FALSE])
+    expect_equal(TST_A[c(FALSE, NA), c(FALSE, NA), drop = FALSE], TST_B[c(FALSE, NA), c(FALSE, NA), drop = FALSE])
+
 })
 
 test_that("multi indexing by characters works", {
@@ -894,67 +951,6 @@ test_that("multi indexing by characters works", {
     expect_error(TST_A[c("x", "a"), c("x", "a"), drop = FALSE])
     expect_error(TST_B[c("x", "a"), c("x", "a"), drop = FALSE])
 
-})
-
-test_that("multi indexing by NA works", {
-
-    expect_equal(TST_A[c(1, NA), ], TST_B[c(1, NA), ])
-    expect_equal(TST_A[c(1, NA), , drop = TRUE], TST_B[c(1, NA), , drop = TRUE])
-    expect_equal(TST_A[c(1, NA), , drop = FALSE], TST_B[c(1, NA), , drop = FALSE])
-
-    expect_equal(TST_A[, c(1, NA)], TST_B[, c(1, NA)])
-    expect_equal(TST_A[, c(1, NA), drop = TRUE], TST_B[, c(1, NA), drop = TRUE])
-    expect_equal(TST_A[, c(1, NA), drop = FALSE], TST_B[, c(1, NA), drop = FALSE])
-
-    expect_equal(TST_A[c(1, NA), c(1, NA)], TST_B[c(1, NA), c(1, NA)])
-    expect_equal(TST_A[c(1, NA), c(1, NA), drop = TRUE], TST_B[c(1, NA), c(1, NA), drop = TRUE])
-    expect_equal(TST_A[c(1, NA), c(1, NA), drop = FALSE], TST_B[c(1, NA), c(1, NA), drop = FALSE])
-
-    expect_error(TST_A[c(-1, NA), ])
-    expect_error(TST_B[c(-1, NA), ])
-    expect_error(TST_A[c(-1, NA), , drop = TRUE])
-    expect_error(TST_B[c(-1, NA), , drop = TRUE])
-    expect_error(TST_A[c(-1, NA), , drop = FALSE])
-    expect_error(TST_B[c(-1, NA), , drop = FALSE])
-
-    expect_error(TST_A[, c(-1, NA)])
-    expect_error(TST_B[, c(-1, NA)])
-    expect_error(TST_A[, c(-1, NA), drop = TRUE])
-    expect_error(TST_B[, c(-1, NA), drop = TRUE])
-    expect_error(TST_A[, c(-1, NA), drop = FALSE])
-    expect_error(TST_B[, c(-1, NA), drop = FALSE])
-
-    expect_error(TST_A[c(-1, NA), c(-1, NA)])
-    expect_error(TST_B[c(-1, NA), c(-1, NA)])
-    expect_error(TST_A[c(-1, NA), c(-1, NA), drop = TRUE])
-    expect_error(TST_B[c(-1, NA), c(-1, NA), drop = TRUE])
-    expect_error(TST_A[c(-1, NA), c(-1, NA), drop = FALSE])
-    expect_error(TST_B[c(-1, NA), c(-1, NA), drop = FALSE])
-
-    expect_equal(TST_A[c(TRUE, NA), ], TST_B[c(TRUE, NA), ])
-    expect_equal(TST_A[c(TRUE, NA), , drop = TRUE], TST_B[c(TRUE, NA), , drop = TRUE])
-    expect_equal(TST_A[c(TRUE, NA), , drop = FALSE], TST_B[c(TRUE, NA), , drop = FALSE])
-
-    expect_equal(TST_A[, c(TRUE, NA)], TST_B[, c(TRUE, NA)])
-    expect_equal(TST_A[, c(TRUE, NA), drop = TRUE], TST_B[, c(TRUE, NA), drop = TRUE])
-    expect_equal(TST_A[, c(TRUE, NA), drop = FALSE], TST_B[, c(TRUE, NA), drop = FALSE])
-
-    expect_equal(TST_A[c(TRUE, NA), c(TRUE, NA)], TST_B[c(TRUE, NA), c(TRUE, NA)])
-    expect_equal(TST_A[c(TRUE, NA), c(TRUE, NA), drop = TRUE], TST_B[c(TRUE, NA), c(TRUE, NA), drop = TRUE])
-    expect_equal(TST_A[c(TRUE, NA), c(TRUE, NA), drop = FALSE], TST_B[c(TRUE, NA), c(TRUE, NA), drop = FALSE])
-
-    expect_equal(TST_A[c(FALSE, NA), ], TST_B[c(FALSE, NA), ])
-    expect_equal(TST_A[c(FALSE, NA), , drop = FALSE], TST_B[c(FALSE, NA), , drop = FALSE])
-    expect_equal(TST_A[c(FALSE, NA), , drop = FALSE], TST_B[c(FALSE, NA), , drop = FALSE])
-
-    expect_equal(TST_A[, c(FALSE, NA)], TST_B[, c(FALSE, NA)])
-    expect_equal(TST_A[, c(FALSE, NA), drop = FALSE], TST_B[, c(FALSE, NA), drop = FALSE])
-    expect_equal(TST_A[, c(FALSE, NA), drop = FALSE], TST_B[, c(FALSE, NA), drop = FALSE])
-
-    expect_equal(TST_A[c(FALSE, NA), c(FALSE, NA)], TST_B[c(FALSE, NA), c(FALSE, NA)])
-    expect_equal(TST_A[c(FALSE, NA), c(FALSE, NA), drop = FALSE], TST_B[c(FALSE, NA), c(FALSE, NA), drop = FALSE])
-    expect_equal(TST_A[c(FALSE, NA), c(FALSE, NA), drop = FALSE], TST_B[c(FALSE, NA), c(FALSE, NA), drop = FALSE])
-
     expect_error(TST_A[c("a", NA), ])
     expect_error(TST_B[c("a", NA), ])
     expect_error(TST_A[c("a", NA), , drop = TRUE])
@@ -975,6 +971,10 @@ test_that("multi indexing by NA works", {
     expect_error(TST_B[c("a", NA), c("a", NA), drop = TRUE])
     expect_error(TST_A[c("a", NA), c("a", NA), drop = FALSE])
     expect_error(TST_B[c("a", NA), c("a", NA), drop = FALSE])
+
+})
+
+test_that("multi indexing by NA works", {
 
     expect_equal(TST_A[NA, ], TST_B[NA, ])
     expect_equal(TST_A[NA, , drop = TRUE], TST_B[NA, , drop = TRUE])
