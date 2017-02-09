@@ -1,15 +1,15 @@
-# Subsette
+# crochet
 
-[![Travis-CI Build Status](https://travis-ci.org/agrueneberg/subsette.svg?branch=master)](https://travis-ci.org/agrueneberg/subsette)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/subsette)](https://cran.r-project.org/package=subsette)
-[![Rdoc](http://www.rdocumentation.org/badges/version/subsette)](http://www.rdocumentation.org/packages/subsette)
+[![Travis-CI Build Status](https://travis-ci.org/agrueneberg/crochet.svg?branch=master)](https://travis-ci.org/agrueneberg/crochet)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/crochet)](https://cran.r-project.org/package=crochet)
+[![Rdoc](http://www.rdocumentation.org/badges/version/crochet)](http://www.rdocumentation.org/packages/crochet)
 
 An implementation of the extraction / subsetting / indexing function `[` for custom matrix-like types (based on S3, S4, etc.), modeled as closely to the base `matrix` class as possible (with tests to prove it).
 
 
 ## Example
 
-`subsette` is a function that accepts two arguments `subset_vector` (in the form of `function(x, i)`) and `subset_matrix` (in the form of `function(x, i, j)`), and returns a function that can be used as a method for `[` for a custom type.
+`crochet` is a function that accepts two arguments `subset_vector` (in the form of `function(x, i)`) and `subset_matrix` (in the form of `function(x, i, j)`), and returns a function that can be used as a method for `[` for a custom type.
 
 The following example creates a dummy matrix `b` and an instance `a` of a custom type called `TestMatrix`. `TestMatrix` is an S3 "class" that in addition to the `[` implements methods for `dim` and `dimnames`. In this case, the `subset_vector` and `subset_matrix` function close over `b` and simply delegate the subsetting. Note that the `[` character is not allowed in a variable name, so it needs to be escaped with backticks.
 
@@ -33,8 +33,8 @@ subset_matrix <- function(x, i, j) {
     b[i, j, drop = FALSE]
 }
 
-`[.TestMatrix` <- subsette(subset_vector = subset_vector, subset_matrix = subset_matrix)
+`[.TestMatrix` <- crochet(subset_vector = subset_vector, subset_matrix = subset_matrix)
 
 b[1, ] # Get the subset from the source
-a[1, ] # Get the subset through the subsette function
+a[1, ] # Get the subset through the crochet function
 ```

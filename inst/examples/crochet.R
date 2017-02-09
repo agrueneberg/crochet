@@ -17,4 +17,4 @@ subset_matrix <- function(x, i, j) {
         b[i, j, drop = FALSE]
 }
 
-`[.TestMatrix` <- subsette(subset_vector = subset_vector, subset_matrix = subset_matrix)
+`[.TestMatrix` <- crochet(subset_vector = subset_vector, subset_matrix = subset_matrix)

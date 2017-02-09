@@ -1,4 +1,4 @@
 library(testthat)
-library(subsette)
+library(crochet)
 
-test_check("subsette")
+test_check("crochet")
