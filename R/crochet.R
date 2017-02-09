@@ -1,12 +1,12 @@
 #' Creates an implementation of [ for custom matrix-like types
 #'
-#' crochet is a function that accepts two arguments `subset_vector` (in the
+#' extract is a function that accepts two arguments `subset_vector` (in the
 #' form of `function(x, i)`) and `subset_matrix` (in the form of `function(x,
 #' i, j)`), and returns a function that can be used as a method for
 #' \code{\link[base]{[}} for a custom type.
 #'
 #' The custom type must implement methods for [base::dim()] and
-#' [base::dimnames()] for crochet to work. Implementing methods for
+#' [base::dimnames()] for this function to work. Implementing methods for
 #' [base::nrow()], [base::ncol()], [base::rownames()], and [base::colnames()]
 #' is not necessary as the default method of those generics calls [base::dim()]
 #' or [base::dimnames()] internally.
@@ -18,8 +18,8 @@
 #' @return A function in the form of `function(x, i, j, drop = TRUE` that is
 #' meant to be used as a method for \code{\link[base]{[}}.
 #' @export
-#' @example inst/examples/crochet.R
-crochet <- function(subset_vector, subset_matrix) {
+#' @example inst/examples/extract.R
+extract <- function(subset_vector, subset_matrix) {
 
     if (missing(subset_vector) || typeof(subset_vector) != "closure") {
         stop("subset_vector has to be of type closure")
