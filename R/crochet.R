@@ -93,17 +93,20 @@ extract <- function(subset_vector, subset_matrix) {
                 i <- (as.integer(i[, 2]) - 1) * nrow(x) + as.integer(i[, 1])
                 checkBounds <- TRUE
             } else if (is.numeric(i)) { # x[1], x[-1], x[0]
+                if (typeof(i) == "double") {
+                    i <- as.integer(i)
+                }
                 # Remove all 0s
-                i <- i[i != 0]
+                i <- i[i != 0L]
                 if (length(i) == 0L) { # x[0]
                     stop("Unsupported index type")
                 } else {
                     i_is_na <- is.na(i)
                     # Negative integers are not allowed to be combined with
                     # positive integers or missing values
-                    if (any(i < 0, na.rm = TRUE) && (any(i > 0, na.rm = TRUE) || any(i_is_na))) {
+                    if (any(i < 0L, na.rm = TRUE) && (any(i > 0L, na.rm = TRUE) || any(i_is_na))) {
                         stop("only 0's may be mixed with negative subscripts")
-                    } else if (all(i < 0, na.rm = TRUE)) { # x[-1]
+                    } else if (all(i < 0L, na.rm = TRUE)) { # x[-1]
                         i <- seq(1, n)[i]
                     }
                 }
