@@ -25,7 +25,7 @@ extract <- function(subset_vector, subset_matrix) {
         stop("subset_vector has to be of type closure")
     }
     subset_vector_formals <- methods::formalArgs(subset_vector)
-    if (is.null(subset_vector_formals) || length(subset_vector_formals) != 2L || subset_vector_formals[1] != "x" || subset_vector_formals[2] != "i") {
+    if (is.null(subset_vector_formals) || length(subset_vector_formals) < 2L || subset_vector_formals[1] != "x" || subset_vector_formals[2] != "i") {
         stop("subset_vector requires two arguments x and i")
     }
 
@@ -33,11 +33,11 @@ extract <- function(subset_vector, subset_matrix) {
         stop("subset_matrix has to be of type closure")
     }
     subset_matrix_formals <- methods::formalArgs(subset_matrix)
-    if (is.null(subset_matrix_formals) || length(subset_matrix_formals) != 3L || subset_matrix_formals[1] != "x" || subset_matrix_formals[2] != "i" || subset_matrix_formals[3] != "j") {
+    if (is.null(subset_matrix_formals) || length(subset_matrix_formals) < 3L || subset_matrix_formals[1] != "x" || subset_matrix_formals[2] != "i" || subset_matrix_formals[3] != "j") {
         stop("subset_matrix requires three arguments x, i, and j")
     }
 
-    return(function(x, i, j, drop = TRUE) {
+    return(function(x, i, j, ..., drop = TRUE) {
 
         # Convert non-numeric types to positive integers
         convertIndex <- function(x, i, type) {
@@ -141,7 +141,7 @@ extract <- function(subset_vector, subset_matrix) {
             } else {
                 j <- convertIndex(x, j, "j")
             }
-            subset <- subset_matrix(x, i, j)
+            subset <- subset_matrix(x, i, j, ...)
             # Let R handle drop behavior
             if (drop == TRUE && (nrow(subset) == 1L || ncol(subset) == 1L)) {
                 subset <- subset[, ]
@@ -150,7 +150,7 @@ extract <- function(subset_vector, subset_matrix) {
         } else {
             i <- seq(1, nrow(x))
             j <- seq(1, ncol(x))
-            subset <- subset_matrix(x, i, j)
+            subset <- subset_matrix(x, i, j, ...)
         }
 
         return(subset)
