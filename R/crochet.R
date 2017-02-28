@@ -19,7 +19,7 @@
 #' @return A function in the form of `function(x, i, j, ..., drop = TRUE` that
 #' is meant to be used as a method for \code{\link[base]{[}}.
 #' @export
-#' @example inst/examples/extract.R
+#' @example man/examples/extract.R
 extract <- function(extract_vector, extract_matrix) {
 
     if (missing(extract_vector) || typeof(extract_vector) != "closure") {
