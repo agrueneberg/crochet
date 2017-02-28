@@ -7,20 +7,21 @@
 extract(subset_vector, subset_matrix)
 }
 \arguments{
-\item{subset_vector}{A function in the form of \code{function(x, i)} that takes a
-subset of \code{x} based on a single index \code{i} and returns a vector.}
+\item{subset_vector}{A function in the form of \code{function(x, i, ...)} that
+takes a subset of \code{x} based on a single index \code{i} and returns a vector.}
 
-\item{subset_matrix}{A function in the form of \code{function(x, i, j)} that
+\item{subset_matrix}{A function in the form of \code{function(x, i, j, ...)} that
 takes a subset of \code{x} based on two indices \code{i} and \code{j} and returns a matrix.}
 }
 \value{
-A function in the form of \code{function(x, i, j, drop = TRUE} that is
-meant to be used as a method for \code{\link[base]{[}}.
+A function in the form of \code{function(x, i, j, ..., drop = TRUE} that
+is meant to be used as a method for \code{\link[base]{[}}.
 }
 \description{
-extract is a function that accepts two arguments \code{subset_vector} (in the
-form of \code{function(x, i)}) and \code{subset_matrix} (in the form of \code{function(x, i, j)}), and returns a function that can be used as a method for
-\code{\link[base]{[}} for a custom type.
+\code{extract} is a function that accepts two arguments \code{subset_vector} (in the
+form of \code{function(x, i, ...)}) and \code{subset_matrix} (in the form of
+\code{function(x, i, j, ...)}), and returns a function that can be used as a
+method for \code{\link[base]{[}} for a custom type.
 }
 \details{
 The custom type must implement methods for \code{\link[base:dim]{base::dim()}} and
