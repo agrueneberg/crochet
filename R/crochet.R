@@ -1,7 +1,7 @@
 #' Creates an implementation of [ for custom matrix-like types
 #'
-#' `extract` is a function that accepts two arguments `subset_vector` (in the
-#' form of `function(x, i, ...)`) and `subset_matrix` (in the form of
+#' `extract` is a function that accepts two arguments `extract_vector` (in the
+#' form of `function(x, i, ...)`) and `extract_matrix` (in the form of
 #' `function(x, i, j, ...)`), and returns a function that can be used as a
 #' method for \code{\link[base]{[}} for a custom type.
 #'
@@ -11,30 +11,31 @@
 #' is not necessary as the default method of those generics calls [base::dim()]
 #' or [base::dimnames()] internally.
 #'
-#' @param subset_vector A function in the form of `function(x, i, ...)` that
+#' @param extract_vector A function in the form of `function(x, i, ...)` that
 #' takes a subset of `x` based on a single index `i` and returns a vector.
-#' @param subset_matrix A function in the form of `function(x, i, j, ...)` that
-#' takes a subset of `x` based on two indices `i` and `j` and returns a matrix.
+#' @param extract_matrix A function in the form of `function(x, i, j, ...)`
+#' that takes a subset of `x` based on two indices `i` and `j` and returns a
+#' matrix.
 #' @return A function in the form of `function(x, i, j, ..., drop = TRUE` that
 #' is meant to be used as a method for \code{\link[base]{[}}.
 #' @export
 #' @example inst/examples/extract.R
-extract <- function(subset_vector, subset_matrix) {
+extract <- function(extract_vector, extract_matrix) {
 
-    if (missing(subset_vector) || typeof(subset_vector) != "closure") {
-        stop("subset_vector has to be of type closure")
+    if (missing(extract_vector) || typeof(extract_vector) != "closure") {
+        stop("extract_vector has to be of type closure")
     }
-    subset_vector_formals <- methods::formalArgs(subset_vector)
-    if (is.null(subset_vector_formals) || length(subset_vector_formals) < 2L || subset_vector_formals[1] != "x" || subset_vector_formals[2] != "i") {
-        stop("subset_vector requires two arguments x and i")
+    extract_vector_formals <- methods::formalArgs(extract_vector)
+    if (is.null(extract_vector_formals) || length(extract_vector_formals) < 2L || extract_vector_formals[1] != "x" || extract_vector_formals[2] != "i") {
+        stop("extract_vector requires two arguments x and i")
     }
 
-    if (missing(subset_matrix) || typeof(subset_matrix) != "closure") {
-        stop("subset_matrix has to be of type closure")
+    if (missing(extract_matrix) || typeof(extract_matrix) != "closure") {
+        stop("extract_matrix has to be of type closure")
     }
-    subset_matrix_formals <- methods::formalArgs(subset_matrix)
-    if (is.null(subset_matrix_formals) || length(subset_matrix_formals) < 3L || subset_matrix_formals[1] != "x" || subset_matrix_formals[2] != "i" || subset_matrix_formals[3] != "j") {
-        stop("subset_matrix requires three arguments x, i, and j")
+    extract_matrix_formals <- methods::formalArgs(extract_matrix)
+    if (is.null(extract_matrix_formals) || length(extract_matrix_formals) < 3L || extract_matrix_formals[1] != "x" || extract_matrix_formals[2] != "i" || extract_matrix_formals[3] != "j") {
+        stop("extract_matrix requires three arguments x, i, and j")
     }
 
     return(function(x, i, j, ..., drop = TRUE) {
@@ -128,7 +129,7 @@ extract <- function(subset_vector, subset_matrix) {
         # Single Index: x[i]
         if (nargs == 2L && !missing(i) && missing(j)) {
             i <- convertIndex(x, i, "k")
-            subset <- subset_vector(x, i)
+            subset <- extract_vector(x, i)
         # Multi Index: x[i, j], x[i, ], or x[, j]
         } else if (nargs == 3L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
@@ -141,7 +142,7 @@ extract <- function(subset_vector, subset_matrix) {
             } else {
                 j <- convertIndex(x, j, "j")
             }
-            subset <- subset_matrix(x, i, j, ...)
+            subset <- extract_matrix(x, i, j, ...)
             # Let R handle drop behavior
             if (drop == TRUE && (nrow(subset) == 1L || ncol(subset) == 1L)) {
                 subset <- subset[, ]
@@ -150,7 +151,7 @@ extract <- function(subset_vector, subset_matrix) {
         } else {
             i <- seq(1, nrow(x))
             j <- seq(1, ncol(x))
-            subset <- subset_matrix(x, i, j, ...)
+            subset <- extract_matrix(x, i, j, ...)
         }
 
         return(subset)

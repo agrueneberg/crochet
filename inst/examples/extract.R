@@ -7,14 +7,14 @@ dim.TestMatrix <- function(x) c(5, 5)
 
 dimnames.TestMatrix <- function(x) dimnames(b)
 
-subset_vector <- function(x, i) {
+extract_vector <- function(x, i) {
         # Dispatch to b instead to x for this demo
         b[i, drop = FALSE]
 }
 
-subset_matrix <- function(x, i, j) {
+extract_matrix <- function(x, i, j) {
         # Dispatch to b instead to x for this demo
         b[i, j, drop = FALSE]
 }
 
-`[.TestMatrix` <- extract(subset_vector = subset_vector, subset_matrix = subset_matrix)
+`[.TestMatrix` <- extract(extract_vector = extract_vector, extract_matrix = extract_matrix)
