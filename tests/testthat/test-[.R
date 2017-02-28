@@ -721,12 +721,10 @@ test_that("multi indexing by logicals works", {
     test_subsetting_error(, rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT))
     test_subsetting_error(, rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting_error(, rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = FALSE)
-    expect_error(TST_B[, rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = FALSE])
 
     test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT))
     test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = FALSE)
-    expect_error(TST_B[rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = FALSE])
 
     test_subsetting(c(FALSE, TRUE), )
     test_subsetting(c(FALSE, TRUE), , drop = TRUE)
@@ -743,17 +741,14 @@ test_that("multi indexing by logicals works", {
     test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), )
     test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), , drop = TRUE)
     test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), , drop = FALSE)
-    expect_error(TST_B[rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), , drop = FALSE])
 
     test_subsetting_error(, rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT))
     test_subsetting_error(, rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting_error(, rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = FALSE)
-    expect_error(TST_B[, rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = FALSE])
 
     test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT))
     test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = FALSE)
-    expect_error(TST_B[rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = FALSE])
 
     test_subsetting(c(TRUE, NA), )
     test_subsetting(c(TRUE, NA), , drop = TRUE)
@@ -807,17 +802,14 @@ test_that("multi indexing by characters works", {
     test_subsetting_error(OUT_OF_BOUNDS_CHAR, )
     test_subsetting_error(OUT_OF_BOUNDS_CHAR, , drop = TRUE)
     test_subsetting_error(OUT_OF_BOUNDS_CHAR, , drop = FALSE)
-    expect_error(TST_B[OUT_OF_BOUNDS_CHAR, , drop = FALSE])
 
     test_subsetting_error(, OUT_OF_BOUNDS_CHAR)
     test_subsetting_error(, OUT_OF_BOUNDS_CHAR, drop = TRUE)
     test_subsetting_error(, OUT_OF_BOUNDS_CHAR, drop = FALSE)
-    expect_error(TST_B[, OUT_OF_BOUNDS_CHAR, drop = FALSE])
 
     test_subsetting_error(OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR)
     test_subsetting_error(OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR, drop = TRUE)
     test_subsetting_error(OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR, drop = FALSE)
-    expect_error(TST_B[OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR, drop = FALSE])
 
     test_subsetting(c(ROW_NAME_1, ROW_NAME_2), )
     test_subsetting(c(ROW_NAME_1, ROW_NAME_2), , drop = TRUE)
@@ -846,47 +838,38 @@ test_that("multi indexing by characters works", {
     test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), )
     test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), , drop = TRUE)
     test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), , drop = FALSE)
-    expect_error(TST_B[c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), , drop = FALSE])
 
     test_subsetting_error(, c(COL_NAME_1, OUT_OF_BOUNDS_CHAR))
     test_subsetting_error(, c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = TRUE)
     test_subsetting_error(, c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = FALSE)
-    expect_error(TST_B[, c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = FALSE])
 
     test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, OUT_OF_BOUNDS_CHAR))
     test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = TRUE)
     test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = FALSE)
-    expect_error(TST_B[c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = FALSE])
 
     test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), )
     test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , drop = TRUE)
     test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , drop = FALSE)
-    expect_error(TST_B[c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , drop = FALSE])
 
     test_subsetting_error(, c(OUT_OF_BOUNDS_CHAR, COL_NAME_1))
     test_subsetting_error(, c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = TRUE)
     test_subsetting_error(, c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE)
-    expect_error(TST_B[, c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE])
 
     test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(OUT_OF_BOUNDS_CHAR, COL_NAME_1))
     test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = TRUE)
     test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE)
-    expect_error(TST_B[c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE])
 
     test_subsetting_error(c(ROW_NAME_1, NA), )
     test_subsetting_error(c(ROW_NAME_1, NA), , drop = TRUE)
     test_subsetting_error(c(ROW_NAME_1, NA), , drop = FALSE)
-    expect_error(TST_B[c(ROW_NAME_1, NA), , drop = FALSE])
 
     test_subsetting_error(, c(COL_NAME_1, NA))
     test_subsetting_error(, c(COL_NAME_1, NA), drop = TRUE)
     test_subsetting_error(, c(COL_NAME_1, NA), drop = FALSE)
-    expect_error(TST_B[, c(COL_NAME_1, NA), drop = FALSE])
 
     test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA))
     test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA), drop = TRUE)
     test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA), drop = FALSE)
-    expect_error(TST_B[c(ROW_NAME_1, NA), c(COL_NAME_1, NA), drop = FALSE])
 
 })
 
@@ -919,17 +902,14 @@ test_that("multi indexing by NA works", {
     test_subsetting_error(NA_character_, )
     test_subsetting_error(NA_character_, , drop = TRUE)
     test_subsetting_error(NA_character_, , drop = FALSE)
-    expect_error(TST_B[NA_character_, , drop = FALSE])
 
     test_subsetting_error(, NA_character_)
     test_subsetting_error(, NA_character_, drop = TRUE)
     test_subsetting_error(, NA_character_, drop = FALSE)
-    expect_error(TST_B[, NA_character_, drop = FALSE])
 
     test_subsetting_error(NA_character_, NA_character_)
     test_subsetting_error(NA_character_, NA_character_, drop = TRUE)
     test_subsetting_error(NA_character_, NA_character_, drop = FALSE)
-    expect_error(TST_B[NA_character_, NA_character_, drop = FALSE])
 
 })
 
@@ -966,7 +946,6 @@ test_that("multi indexing by zero works", {
     test_subsetting_error(c(0, 1, -1), )
     test_subsetting_error(c(0, 1, -1), , drop = TRUE)
     test_subsetting_error(c(0, 1, -1), , drop = FALSE)
-    expect_error(TST_B[c(0, 1, -1), , drop = FALSE])
 
     test_subsetting_error(, c(0, 1, -1))
     test_subsetting_error(, c(0, 1, -1), drop = TRUE)
