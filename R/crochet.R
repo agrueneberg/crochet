@@ -1,9 +1,11 @@
 #' Creates an implementation of [ for custom matrix-like types
 #'
-#' `extract` is a function that accepts two arguments `extract_vector` (in the
-#' form of `function(x, i, ...)`) and `extract_matrix` (in the form of
-#' `function(x, i, j, ...)`), and returns a function that can be used as a
-#' method for \code{\link[base]{[}} for a custom type.
+#' `extract` is a function that converts different index types such as negative
+#' integer vectors, character vectors, or logical vectors passed to the `[`
+#' function as `i` (e.g. `X[i]`) or `i` and `j` (e.g. `X[i, j]`) into positive
+#' integer vectors. The converted indices are provided as the `i` parameter of
+#' `extract_vector` or `i` and `j` parameters of `extract_matrix` to facilitate
+#' implementing the extraction mechanism for custom matrix-like types.
 #'
 #' The custom type must implement methods for [base::dim()] and
 #' [base::dimnames()] for this function to work. Implementing methods for
@@ -16,8 +18,8 @@
 #' @param extract_matrix A function in the form of `function(x, i, j, ...)`
 #' that takes a subset of `x` based on two indices `i` and `j` and returns a
 #' matrix.
-#' @return A function in the form of `function(x, i, j, ..., drop = TRUE` that
-#' is meant to be used as a method for \code{\link[base]{[}}.
+#' @return A function in the form of `function(x, i, j, ..., drop = TRUE)` that
+#' is meant to be used as a method for \code{\link[base]{[}} for a custom type.
 #' @export
 #' @example man/examples/extract.R
 extract <- function(extract_vector, extract_matrix) {

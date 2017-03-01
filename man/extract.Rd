@@ -15,14 +15,19 @@ that takes a subset of \code{x} based on two indices \code{i} and \code{j} and r
 matrix.}
 }
 \value{
-A function in the form of \code{function(x, i, j, ..., drop = TRUE} that
-is meant to be used as a method for \code{\link[base]{[}}.
+A function in the form of \code{function(x, i, j, ..., drop = TRUE)} that
+is meant to be used as a method for \code{\link[base]{[}} for a custom type.
 }
 \description{
-\code{extract} is a function that accepts two arguments \code{extract_vector} (in the
-form of \code{function(x, i, ...)}) and \code{extract_matrix} (in the form of
-\code{function(x, i, j, ...)}), and returns a function that can be used as a
-method for \code{\link[base]{[}} for a custom type.
+\code{extract} is a function that converts different index types such as negative
+integer vectors, character vectors, or logical vectors passed to the \code{[}
+function as \code{i} (e.g. \code{X[i]}) or \code{i} and \code{j} (e.g. \code{X[i, j]}) into positive
+integer vectors. The converted indices are provided as the \code{i} parameter of
+\code{extract_vector} or \code{i} and \code{j} parameters of \code{extract_matrix} to facilitate
+implementing the extraction mechanism for custom matrix-like types.
+
+[\code{function as}i\code{(e.g.}X[i]: R:%60%0Afunction%20as%20%60i%60%20(e.g.%20%60X[i
+[i, j]: R:i,%20j
 }
 \details{
 The custom type must implement methods for \code{\link[base:dim]{base::dim()}} and
