@@ -2,29 +2,29 @@ context("requirements for [")
 
 test_that("dims are the same", {
 
-    expect_equal(dim(TST_A), dim(TST_B))
+    expect_equal(dim(CROCHET_EXTRACT_A), dim(CROCHET_EXTRACT_B))
 
 })
 
 test_that("dimnames are the same", {
 
-    expect_equal(dimnames(TST_A), dimnames(TST_B))
+    expect_equal(dimnames(CROCHET_EXTRACT_A), dimnames(CROCHET_EXTRACT_B))
 
 })
 
 test_that("minimum dimension requirement are met", {
 
-    expect_gt(nrow(TST_A), 3)
-    expect_gt(ncol(TST_A), 3)
-    expect_gt(prod(dim(TST_A)), 3)
+    expect_gt(nrow(CROCHET_EXTRACT_A), 3)
+    expect_gt(ncol(CROCHET_EXTRACT_A), 3)
+    expect_gt(prod(dim(CROCHET_EXTRACT_A)), 3)
 
 })
 
 test_that("maximum dimension requirement are met", {
 
-    expect_lt(nrow(TST_A), OUT_OF_BOUNDS_INT)
-    expect_lt(ncol(TST_A), OUT_OF_BOUNDS_INT)
-    expect_lt(prod(dim(TST_A)), OUT_OF_BOUNDS_INT)
+    expect_lt(nrow(CROCHET_EXTRACT_A), OUT_OF_BOUNDS_INT)
+    expect_lt(ncol(CROCHET_EXTRACT_A), OUT_OF_BOUNDS_INT)
+    expect_lt(prod(dim(CROCHET_EXTRACT_A)), OUT_OF_BOUNDS_INT)
 
 })
 
@@ -32,12 +32,12 @@ test_that("maximum dimension requirement are met", {
 context("[")
 
 test_subsetting <- function(...) {
-    expect_equal(TST_A[...], TST_B[...])
+    expect_equal(CROCHET_EXTRACT_A[...], CROCHET_EXTRACT_B[...])
 }
 
 test_subsetting_error <- function(...) {
-    expect_error(TST_A[...])
-    expect_error(TST_B[...])
+    expect_error(CROCHET_EXTRACT_A[...])
+    expect_error(CROCHET_EXTRACT_B[...])
 }
 
 test_that("single indexing by nothing works", {
@@ -250,14 +250,14 @@ test_that("single indexing by logicals works", {
 
 test_that("single indexing by characters works", {
 
-    if (is.null(dimnames(TST_A))) {
+    if (is.null(dimnames(CROCHET_EXTRACT_A))) {
         skip("skipping character indexing because dimnames are NULL")
     }
 
-    ROW_NAME_1 <- rownames(TST_A)[1]
-    ROW_NAME_2 <- rownames(TST_A)[2]
-    COL_NAME_1 <- colnames(TST_A)[1]
-    COL_NAME_2 <- colnames(TST_A)[2]
+    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_A)[1]
+    ROW_NAME_2 <- rownames(CROCHET_EXTRACT_A)[2]
+    COL_NAME_1 <- colnames(CROCHET_EXTRACT_A)[1]
+    COL_NAME_2 <- colnames(CROCHET_EXTRACT_A)[2]
 
     test_subsetting(ROW_NAME_1)
     test_subsetting(ROW_NAME_1, drop = TRUE)
@@ -778,14 +778,14 @@ test_that("multi indexing by logicals works", {
 
 test_that("multi indexing by characters works", {
 
-    if (is.null(dimnames(TST_A))) {
+    if (is.null(dimnames(CROCHET_EXTRACT_A))) {
         skip("skipping character indexing because dimnames are NULL")
     }
 
-    ROW_NAME_1 <- rownames(TST_A)[1]
-    ROW_NAME_2 <- rownames(TST_A)[2]
-    COL_NAME_1 <- colnames(TST_A)[1]
-    COL_NAME_2 <- colnames(TST_A)[2]
+    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_A)[1]
+    ROW_NAME_2 <- rownames(CROCHET_EXTRACT_A)[2]
+    COL_NAME_1 <- colnames(CROCHET_EXTRACT_A)[1]
+    COL_NAME_2 <- colnames(CROCHET_EXTRACT_A)[2]
 
     test_subsetting(ROW_NAME_1, )
     test_subsetting(ROW_NAME_1, , drop = TRUE)
