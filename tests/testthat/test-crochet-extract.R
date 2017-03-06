@@ -306,9 +306,10 @@ test_that("single indexing by NA works", {
 
 test_that("single indexing by zero works", {
 
-    #test_subsetting_error(0) # Not implemented
-    #test_subsetting_error(0, drop = TRUE) # Not implemented
-    #test_subsetting_error(0, drop = FALSE) # Not implemented
+    # Not implemented
+    # test_subsetting_error(0)
+    # test_subsetting_error(0, drop = TRUE)
+    # test_subsetting_error(0, drop = FALSE)
 
     test_subsetting(c(0, 1))
     test_subsetting(c(0, 1), drop = TRUE)
@@ -915,9 +916,10 @@ test_that("multi indexing by NA works", {
 
 test_that("multi indexing by zero works", {
 
-    #test_subsetting_error(0, 0) # Not implemented
-    #test_subsetting_error(0, 0, drop = TRUE) # Not implemented
-    #test_subsetting_error(0, 0, drop = FALSE) # Not implemented
+    # Not implemented
+    # test_subsetting_error(0, 0)
+    # test_subsetting_error(0, 0, drop = TRUE)
+    # test_subsetting_error(0, 0, drop = FALSE)
 
     test_subsetting(c(0, 1), )
     test_subsetting(c(0, 1), , drop = TRUE)
