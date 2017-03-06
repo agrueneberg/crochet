@@ -76,6 +76,31 @@ convertIndex <- function(x, i, type) {
     return(i)
 }
 
+handleNAs <- function(i, value) {
+    isNA <- is.na(i)
+    if (any(isNA)) {
+        if (length(value) == 1) {
+            i <- i[!isNA]
+        } else {
+            stop("NAs are not allowed in subscripted assignments")
+        }
+    }
+    return(i)
+}
+
+expandValue <- function(value, replacement_length) {
+    value_length <- length(value)
+    if (value_length == 0L) {
+        stop("replacement has length zero")
+    } else if (value_length != replacement_length) {
+        if (value_length != 1L) {
+            warning("number of items to replace is not a multiple of replacement length")
+        }
+        value <- rep_len(value, length.out = replacement_length)
+    }
+    return(value)
+}
+
 #' Creates an implementation of [ for custom matrix-like types
 #'
 #' `extract` is a function that converts different index types such as negative
@@ -157,6 +182,88 @@ extract <- function(extract_vector, extract_matrix) {
         }
 
         return(subset)
+
+    })
+
+}
+
+#' Creates an implementation of [<- for custom matrix-like types
+#'
+#' `replace` is a function that converts different index types such as negative
+#' integer vectors, character vectors, or logical vectors passed to the `[<-`
+#' function as `i` (e.g. `X[i]`) or `i` and `j` (e.g. `X[i, j]`) into positive
+#' integer vectors. The converted indices are provided as the `i` parameter of
+#' `replace_vector` or `i` and `j` parameters of `replace_matrix` to facilitate
+#' implementing the replacement mechanism for custom matrix-like types. Values
+#' are recycled to match the replacement length.
+#'
+#' The custom type must implement methods for [base::dim()] and
+#' [base::dimnames()] for this function to work. Implementing methods for
+#' [base::nrow()], [base::ncol()], [base::rownames()], and [base::colnames()]
+#' is not necessary as the default method of those generics calls [base::dim()]
+#' or [base::dimnames()] internally.
+#'
+#' @param replace_vector A function in the form of `function(x, i, ..., value)`
+#' that takes a subset of `x` based on a single index `i` and returns a vector.
+#' @param replace_matrix A function in the form of `function(x, i, j, ...,
+#' value)` that takes a subset of `x` based on two indices `i` and `j` and
+#' returns a matrix.
+#' @return A function in the form of `function(x, i, j, ..., value)` that is
+#' meant to be used as a method for \code{\link[base]{[<-}} for a custom type.
+#' @export
+replace <- function(replace_vector, replace_matrix) {
+
+    if (missing(replace_vector) || typeof(replace_vector) != "closure") {
+        stop("replace_vector has to be of type closure")
+    }
+    replace_vector_formals <- methods::formalArgs(replace_vector)
+    if (is.null(replace_vector_formals) || length(replace_vector_formals) < 2L || replace_vector_formals[1] != "x" || replace_vector_formals[2] != "i" || !("value" %in% replace_vector_formals)) {
+        stop("replace_vector requires three arguments x, i, and value")
+    }
+
+    if (missing(replace_matrix) || typeof(replace_matrix) != "closure") {
+        stop("replace_matrix has to be of type closure")
+    }
+    replace_matrix_formals <- methods::formalArgs(replace_matrix)
+    if (is.null(replace_matrix_formals) || length(replace_matrix_formals) < 3L || replace_matrix_formals[1] != "x" || replace_matrix_formals[2] != "i" || replace_matrix_formals[3] != "j" || !("value" %in% replace_vector_formals)) {
+        stop("replace_matrix requires four arguments x, i, j, and value")
+    }
+
+    return(function(x, i, j, ..., value) {
+
+        nargs <- nargs()
+
+        # Single Index: x[i]
+        if (nargs == 3L && !missing(i) && missing(j)) {
+            i <- convertIndex(x, i, "k")
+            i <- handleNAs(i, value)
+            value <- expandValue(value, length(i))
+            replace_vector(x, i, ..., value = value)
+        # Multi Index: x[i, j], x[i, ], or x[, j]
+        } else if (nargs == 4L && (!missing(i) || !missing(j))) {
+            if (missing(i)) {
+                i <- seq(1, nrow(x))
+            } else {
+                i <- convertIndex(x, i, "i")
+            }
+            if (missing(j)) {
+                j <- seq(1, ncol(x))
+            } else {
+                j <- convertIndex(x, j, "j")
+            }
+            i <- handleNAs(i, value)
+            j <- handleNAs(j, value)
+            value <- expandValue(value, length(i) * length(j))
+            replace_matrix(x, i, j, ..., value = value)
+        # No Index: x[] or x[, ]
+        } else {
+            i <- seq(1, nrow(x))
+            j <- seq(1, ncol(x))
+            value <- expandValue(value, length(i) * length(j))
+            replace_matrix(x, i, j, ..., value = value)
+        }
+
+        return(x)
 
     })
 

@@ -40,3 +40,54 @@ extract_matrix <- function(x, i, j) {
 }
 
 registerS3method("[", "CustomExtractMatrix", extract(extract_vector = extract_vector, extract_matrix = extract_matrix))
+
+# replace
+
+CROCHET_REPLACE_ENV <- new.env()
+
+CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
+CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
+CROCHET_REPLACE_ENV$VALUE_POOL <- as.double(0:9)
+
+CROCHET_REPLACE_ENV$RESET <- function() {
+    CROCHET_REPLACE_ENV$COMPARE_OBJECT <- createMatrix()
+    CROCHET_REPLACE_ENV$backend <- createMatrix()
+}
+
+CROCHET_REPLACE_ENV$RESET()
+
+CROCHET_REPLACE_ENV$CUSTOM_OBJECT <- structure(list(), class = "CustomReplaceMatrix")
+
+registerS3method("dim", "CustomReplaceMatrix", function(x) {
+    # Dispatch to backend instead of x
+    dim(CROCHET_REPLACE_ENV$backend)
+})
+
+registerS3method("dimnames", "CustomReplaceMatrix", function(x) {
+    # Dispatch to backend instead of x
+    dimnames(CROCHET_REPLACE_ENV$backend)
+})
+
+registerS3method("[", "CustomReplaceMatrix", function(x, ...) {
+    # Dispatch to backend instead of x
+    CROCHET_REPLACE_ENV$backend[...]
+})
+
+replace_vector <- function(x, i, value) {
+    message(paste(i, collapse = ", "))
+    message(paste(value, collapse = ", "))
+    CROCHET_REPLACE_ENV$i <- i
+    CROCHET_REPLACE_ENV$value <- value
+    # Dispatch to backend instead of x
+    with(CROCHET_REPLACE_ENV, backend[i] <- value)
+}
+
+replace_matrix <- function(x, i, j, value) {
+    CROCHET_REPLACE_ENV$i <- i
+    CROCHET_REPLACE_ENV$j <- j
+    CROCHET_REPLACE_ENV$value <- value
+    # Dispatch to backend instead of x
+    with(CROCHET_REPLACE_ENV, backend[i, j] <- value)
+}
+
+registerS3method("[<-", "CustomReplaceMatrix", replace(replace_vector = replace_vector, replace_matrix = replace_matrix))
