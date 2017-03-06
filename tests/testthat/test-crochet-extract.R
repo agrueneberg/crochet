@@ -2,29 +2,29 @@ context("requirements for [")
 
 test_that("dims are the same", {
 
-    expect_equal(dim(CROCHET_EXTRACT_A), dim(CROCHET_EXTRACT_B))
+    expect_equal(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), dim(CROCHET_EXTRACT_ENV$COMPARE_OBJECT))
 
 })
 
 test_that("dimnames are the same", {
 
-    expect_equal(dimnames(CROCHET_EXTRACT_A), dimnames(CROCHET_EXTRACT_B))
+    expect_equal(dimnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), dimnames(CROCHET_EXTRACT_ENV$COMPARE_OBJECT))
 
 })
 
 test_that("minimum dimension requirement are met", {
 
-    expect_gt(nrow(CROCHET_EXTRACT_A), 3)
-    expect_gt(ncol(CROCHET_EXTRACT_A), 3)
-    expect_gt(prod(dim(CROCHET_EXTRACT_A)), 3)
+    expect_gt(nrow(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), 3)
+    expect_gt(ncol(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), 3)
+    expect_gt(prod(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)), 3)
 
 })
 
 test_that("maximum dimension requirement are met", {
 
-    expect_lt(nrow(CROCHET_EXTRACT_A), OUT_OF_BOUNDS_INT)
-    expect_lt(ncol(CROCHET_EXTRACT_A), OUT_OF_BOUNDS_INT)
-    expect_lt(prod(dim(CROCHET_EXTRACT_A)), OUT_OF_BOUNDS_INT)
+    expect_lt(nrow(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
+    expect_lt(ncol(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
+    expect_lt(prod(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
 
 })
 
@@ -32,12 +32,12 @@ test_that("maximum dimension requirement are met", {
 context("[")
 
 test_subsetting <- function(...) {
-    expect_equal(CROCHET_EXTRACT_A[...], CROCHET_EXTRACT_B[...])
+    expect_equal(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT[...], CROCHET_EXTRACT_ENV$COMPARE_OBJECT[...])
 }
 
 test_subsetting_error <- function(...) {
-    expect_error(CROCHET_EXTRACT_A[...])
-    expect_error(CROCHET_EXTRACT_B[...])
+    expect_error(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT[...])
+    expect_error(CROCHET_EXTRACT_ENV$COMPARE_OBJECT[...])
 }
 
 test_that("single indexing by nothing works", {
@@ -85,17 +85,17 @@ test_that("single indexing by positive integers works", {
     test_subsetting(c(2.9, 1.9), drop = TRUE)
     test_subsetting(c(2.9, 1.9), drop = FALSE)
 
-    test_subsetting(OUT_OF_BOUNDS_INT)
-    test_subsetting(OUT_OF_BOUNDS_INT, drop = TRUE)
-    test_subsetting(OUT_OF_BOUNDS_INT, drop = FALSE)
+    test_subsetting(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
+    test_subsetting(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = TRUE)
+    test_subsetting(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = FALSE)
 
-    test_subsetting(c(OUT_OF_BOUNDS_INT, 2))
-    test_subsetting(c(OUT_OF_BOUNDS_INT, 2), drop = TRUE)
-    test_subsetting(c(OUT_OF_BOUNDS_INT, 2), drop = FALSE)
+    test_subsetting(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2))
+    test_subsetting(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), drop = TRUE)
+    test_subsetting(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), drop = FALSE)
 
-    test_subsetting(c(2, OUT_OF_BOUNDS_INT))
-    test_subsetting(c(2, OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(c(2, OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
     m <- matrix(data = c(1, 1, 2, 2), ncol = 2, byrow = TRUE)
     test_subsetting(m)
@@ -132,7 +132,7 @@ test_that("single indexing by positive integers works", {
     test_subsetting(m, drop = TRUE)
     test_subsetting(m, drop = FALSE)
 
-    m <- matrix(data = c(OUT_OF_BOUNDS_INT, OUT_OF_BOUNDS_INT), ncol = 2, byrow = TRUE)
+    m <- matrix(data = c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), ncol = 2, byrow = TRUE)
     test_subsetting_error(m)
     test_subsetting_error(m, drop = TRUE)
     test_subsetting_error(m, drop = FALSE)
@@ -181,17 +181,17 @@ test_that("single indexing by negative integers works", {
     test_subsetting(c(-2.9, -1.9), drop = TRUE)
     test_subsetting(c(-2.9, -1.9), drop = FALSE)
 
-    test_subsetting(-OUT_OF_BOUNDS_INT)
-    test_subsetting(-OUT_OF_BOUNDS_INT, drop = TRUE)
-    test_subsetting(-OUT_OF_BOUNDS_INT, drop = FALSE)
+    test_subsetting(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
+    test_subsetting(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = TRUE)
+    test_subsetting(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = FALSE)
 
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2))
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), drop = TRUE)
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), drop = FALSE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2))
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), drop = TRUE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), drop = FALSE)
 
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT))
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
     test_subsetting_error(c(-1, NA))
     test_subsetting_error(c(-1, NA), drop = TRUE)
@@ -217,21 +217,21 @@ test_that("single indexing by logicals works", {
     test_subsetting(c(FALSE, TRUE), drop = TRUE)
     test_subsetting(c(FALSE, TRUE), drop = FALSE)
 
-    test_subsetting(rep_len(TRUE, OUT_OF_BOUNDS_INT))
-    test_subsetting(rep_len(TRUE, OUT_OF_BOUNDS_INT), drop = rep_len(TRUE, OUT_OF_BOUNDS_INT))
-    test_subsetting(rep_len(TRUE, OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting(rep_len(FALSE, OUT_OF_BOUNDS_INT))
-    test_subsetting(rep_len(FALSE, OUT_OF_BOUNDS_INT), drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
-    test_subsetting(rep_len(FALSE, OUT_OF_BOUNDS_INT), drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
+    test_subsetting(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
 
-    test_subsetting(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT))
-    test_subsetting(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT))
-    test_subsetting(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
     m <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
     test_subsetting(m > 1)
@@ -250,22 +250,22 @@ test_that("single indexing by logicals works", {
 
 test_that("single indexing by characters works", {
 
-    if (is.null(dimnames(CROCHET_EXTRACT_A))) {
+    if (is.null(dimnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT))) {
         skip("skipping character indexing because dimnames are NULL")
     }
 
-    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_A)[1]
-    ROW_NAME_2 <- rownames(CROCHET_EXTRACT_A)[2]
-    COL_NAME_1 <- colnames(CROCHET_EXTRACT_A)[1]
-    COL_NAME_2 <- colnames(CROCHET_EXTRACT_A)[2]
+    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[1]
+    ROW_NAME_2 <- rownames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[2]
+    COL_NAME_1 <- colnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[1]
+    COL_NAME_2 <- colnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[2]
 
     test_subsetting(ROW_NAME_1)
     test_subsetting(ROW_NAME_1, drop = TRUE)
     test_subsetting(ROW_NAME_1, drop = FALSE)
 
-    test_subsetting(OUT_OF_BOUNDS_CHAR)
-    test_subsetting(OUT_OF_BOUNDS_CHAR, drop = TRUE)
-    test_subsetting(OUT_OF_BOUNDS_CHAR, drop = FALSE)
+    test_subsetting(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR)
+    test_subsetting(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, drop = TRUE)
+    test_subsetting(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, drop = FALSE)
 
     m <- matrix(data = c(ROW_NAME_1, COL_NAME_1, ROW_NAME_2, COL_NAME_2), ncol = 2, byrow = TRUE)
     test_subsetting(m)
@@ -277,7 +277,7 @@ test_that("single indexing by characters works", {
     test_subsetting(m, drop = TRUE)
     test_subsetting(m, drop = FALSE)
 
-    m <- matrix(data = c(OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR), ncol = 2, byrow = TRUE)
+    m <- matrix(data = c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), ncol = 2, byrow = TRUE)
     test_subsetting_error(m)
     test_subsetting_error(m, drop = TRUE)
     test_subsetting_error(m, drop = FALSE)
@@ -442,41 +442,41 @@ test_that("multi indexing by positive integers works", {
     test_subsetting(c(2.9, 1.9), c(2.9, 1.9), drop = TRUE)
     test_subsetting(c(2.9, 1.9), c(2.9, 1.9), drop = FALSE)
 
-    test_subsetting_error(OUT_OF_BOUNDS_INT, )
-    test_subsetting_error(OUT_OF_BOUNDS_INT, , drop = TRUE)
-    test_subsetting_error(OUT_OF_BOUNDS_INT, , drop = FALSE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, )
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, , drop = TRUE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, , drop = FALSE)
 
-    test_subsetting_error(, OUT_OF_BOUNDS_INT)
-    test_subsetting_error(, OUT_OF_BOUNDS_INT, drop = TRUE)
-    test_subsetting_error(, OUT_OF_BOUNDS_INT, drop = FALSE)
+    test_subsetting_error(, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
+    test_subsetting_error(, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = TRUE)
+    test_subsetting_error(, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = FALSE)
 
-    test_subsetting_error(OUT_OF_BOUNDS_INT, OUT_OF_BOUNDS_INT)
-    test_subsetting_error(OUT_OF_BOUNDS_INT, OUT_OF_BOUNDS_INT, drop = TRUE)
-    test_subsetting_error(OUT_OF_BOUNDS_INT, OUT_OF_BOUNDS_INT, drop = FALSE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = TRUE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, drop = FALSE)
 
-    test_subsetting_error(c(OUT_OF_BOUNDS_INT, 2), )
-    test_subsetting_error(c(OUT_OF_BOUNDS_INT, 2), , drop = TRUE)
-    test_subsetting_error(c(OUT_OF_BOUNDS_INT, 2), , drop = FALSE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), )
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), , drop = TRUE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), , drop = FALSE)
 
-    test_subsetting_error(, c(OUT_OF_BOUNDS_INT, 2))
-    test_subsetting_error(, c(OUT_OF_BOUNDS_INT, 2), drop = TRUE)
-    test_subsetting_error(, c(OUT_OF_BOUNDS_INT, 2), drop = FALSE)
+    test_subsetting_error(, c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2))
+    test_subsetting_error(, c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), drop = TRUE)
+    test_subsetting_error(, c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), drop = FALSE)
 
-    test_subsetting_error(c(OUT_OF_BOUNDS_INT, 2), c(OUT_OF_BOUNDS_INT, 2))
-    test_subsetting_error(c(OUT_OF_BOUNDS_INT, 2), c(OUT_OF_BOUNDS_INT, 2), drop = TRUE)
-    test_subsetting_error(c(OUT_OF_BOUNDS_INT, 2), c(OUT_OF_BOUNDS_INT, 2), drop = FALSE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2))
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), drop = TRUE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, 2), drop = FALSE)
 
-    test_subsetting_error(c(2, OUT_OF_BOUNDS_INT), )
-    test_subsetting_error(c(2, OUT_OF_BOUNDS_INT), , drop = TRUE)
-    test_subsetting_error(c(2, OUT_OF_BOUNDS_INT), , drop = FALSE)
+    test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), )
+    test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = TRUE)
+    test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = FALSE)
 
-    test_subsetting_error(, c(2, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(, c(2, OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting_error(, c(2, OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting_error(, c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(, c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting_error(, c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting_error(c(2, OUT_OF_BOUNDS_INT), c(2, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(c(2, OUT_OF_BOUNDS_INT), c(2, OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting_error(c(2, OUT_OF_BOUNDS_INT), c(2, OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
     test_subsetting(c(1, NA), )
     test_subsetting(c(1, NA), , drop = TRUE)
@@ -602,41 +602,41 @@ test_that("multi indexing by negative integers works", {
     test_subsetting(c(-2.9, -1.9), c(-2.9, -1.9), drop = TRUE)
     test_subsetting(c(-2.9, -1.9), c(-2.9, -1.9), drop = FALSE)
 
-    test_subsetting(c(-OUT_OF_BOUNDS_INT), )
-    test_subsetting(c(-OUT_OF_BOUNDS_INT), , drop = TRUE)
-    test_subsetting(c(-OUT_OF_BOUNDS_INT), , drop = FALSE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), )
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = TRUE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = FALSE)
 
-    test_subsetting(, c(-OUT_OF_BOUNDS_INT))
-    test_subsetting(, c(-OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(, c(-OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(, c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(, c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(, c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting(c(-OUT_OF_BOUNDS_INT), c(-OUT_OF_BOUNDS_INT))
-    test_subsetting(c(-OUT_OF_BOUNDS_INT), c(-OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(c(-OUT_OF_BOUNDS_INT), c(-OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), )
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), , drop = TRUE)
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), , drop = FALSE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), )
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), , drop = TRUE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), , drop = FALSE)
 
-    test_subsetting(, c(-OUT_OF_BOUNDS_INT, -2))
-    test_subsetting(, c(-OUT_OF_BOUNDS_INT, -2), drop = TRUE)
-    test_subsetting(, c(-OUT_OF_BOUNDS_INT, -2), drop = FALSE)
+    test_subsetting(, c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2))
+    test_subsetting(, c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), drop = TRUE)
+    test_subsetting(, c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), drop = FALSE)
 
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), c(-OUT_OF_BOUNDS_INT, -2))
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), c(-OUT_OF_BOUNDS_INT, -2), drop = TRUE)
-    test_subsetting(c(-OUT_OF_BOUNDS_INT, -2), c(-OUT_OF_BOUNDS_INT, -2), drop = FALSE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2))
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), drop = TRUE)
+    test_subsetting(c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), c(-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT, -2), drop = FALSE)
 
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), )
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), , drop = TRUE)
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), , drop = FALSE)
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), )
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = TRUE)
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = FALSE)
 
-    test_subsetting(, c(-2, -OUT_OF_BOUNDS_INT))
-    test_subsetting(, c(-2, -OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(, c(-2, -OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(, c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(, c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(, c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), c(-2, -OUT_OF_BOUNDS_INT))
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), c(-2, -OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting(c(-2, -OUT_OF_BOUNDS_INT), c(-2, -OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
     test_subsetting_error(c(-1, NA), )
     test_subsetting_error(c(-1, NA), , drop = TRUE)
@@ -666,17 +666,17 @@ test_that("multi indexing by logicals works", {
     test_subsetting(c(TRUE), c(TRUE), drop = TRUE)
     test_subsetting(c(TRUE), c(TRUE), drop = FALSE)
 
-    test_subsetting_error(c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), )
-    test_subsetting_error(c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), , drop = rep_len(TRUE, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), , drop = FALSE)
+    test_subsetting_error(c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), )
+    test_subsetting_error(c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), , drop = rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), , drop = FALSE)
 
-    test_subsetting_error(, c(rep_len(TRUE, OUT_OF_BOUNDS_INT)))
-    test_subsetting_error(, c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), drop = rep_len(TRUE, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(, c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), drop = FALSE)
+    test_subsetting_error(, c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)))
+    test_subsetting_error(, c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(, c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = FALSE)
 
-    test_subsetting_error(c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, OUT_OF_BOUNDS_INT)))
-    test_subsetting_error(c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), drop = rep_len(TRUE, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, OUT_OF_BOUNDS_INT)), drop = FALSE)
+    test_subsetting_error(c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)))
+    test_subsetting_error(c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = FALSE)
 
     test_subsetting(c(FALSE), )
     test_subsetting(c(FALSE), , drop = FALSE)
@@ -690,17 +690,17 @@ test_that("multi indexing by logicals works", {
     test_subsetting(c(FALSE), c(FALSE), drop = FALSE)
     test_subsetting(c(FALSE), c(FALSE), drop = FALSE)
 
-    test_subsetting_error(c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), )
-    test_subsetting_error(c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), , drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), , drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
+    test_subsetting_error(c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), )
+    test_subsetting_error(c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), , drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), , drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
 
-    test_subsetting_error(, c(rep_len(FALSE, OUT_OF_BOUNDS_INT)))
-    test_subsetting_error(, c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(, c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
+    test_subsetting_error(, c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)))
+    test_subsetting_error(, c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(, c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
 
-    test_subsetting_error(c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, OUT_OF_BOUNDS_INT)))
-    test_subsetting_error(c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
-    test_subsetting_error(c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, OUT_OF_BOUNDS_INT))
+    test_subsetting_error(c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)))
+    test_subsetting_error(c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)), drop = rep_len(FALSE, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
 
     test_subsetting(c(TRUE, FALSE), )
     test_subsetting(c(TRUE, FALSE), , drop = TRUE)
@@ -714,17 +714,17 @@ test_that("multi indexing by logicals works", {
     test_subsetting(c(TRUE, FALSE), c(TRUE, FALSE), drop = TRUE)
     test_subsetting(c(TRUE, FALSE), c(TRUE, FALSE), drop = FALSE)
 
-    test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), )
-    test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), , drop = TRUE)
-    test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), , drop = FALSE)
+    test_subsetting_error(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), )
+    test_subsetting_error(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = TRUE)
+    test_subsetting_error(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = FALSE)
 
-    test_subsetting_error(, rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT))
-    test_subsetting_error(, rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting_error(, rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting_error(, rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(, rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting_error(, rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT))
-    test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting_error(rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting_error(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting_error(rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
     test_subsetting(c(FALSE, TRUE), )
     test_subsetting(c(FALSE, TRUE), , drop = TRUE)
@@ -738,17 +738,17 @@ test_that("multi indexing by logicals works", {
     test_subsetting(c(FALSE, TRUE), c(FALSE, TRUE), drop = TRUE)
     test_subsetting(c(FALSE, TRUE), c(FALSE, TRUE), drop = FALSE)
 
-    test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), )
-    test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), , drop = TRUE)
-    test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), , drop = FALSE)
+    test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), )
+    test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = TRUE)
+    test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), , drop = FALSE)
 
-    test_subsetting_error(, rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT))
-    test_subsetting_error(, rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting_error(, rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting_error(, rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(, rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting_error(, rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT))
-    test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = TRUE)
-    test_subsetting_error(rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), OUT_OF_BOUNDS_INT), drop = FALSE)
+    test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT))
+    test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
+    test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
     test_subsetting(c(TRUE, NA), )
     test_subsetting(c(TRUE, NA), , drop = TRUE)
@@ -778,14 +778,14 @@ test_that("multi indexing by logicals works", {
 
 test_that("multi indexing by characters works", {
 
-    if (is.null(dimnames(CROCHET_EXTRACT_A))) {
+    if (is.null(dimnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT))) {
         skip("skipping character indexing because dimnames are NULL")
     }
 
-    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_A)[1]
-    ROW_NAME_2 <- rownames(CROCHET_EXTRACT_A)[2]
-    COL_NAME_1 <- colnames(CROCHET_EXTRACT_A)[1]
-    COL_NAME_2 <- colnames(CROCHET_EXTRACT_A)[2]
+    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[1]
+    ROW_NAME_2 <- rownames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[2]
+    COL_NAME_1 <- colnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[1]
+    COL_NAME_2 <- colnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[2]
 
     test_subsetting(ROW_NAME_1, )
     test_subsetting(ROW_NAME_1, , drop = TRUE)
@@ -799,17 +799,17 @@ test_that("multi indexing by characters works", {
     test_subsetting(ROW_NAME_1, COL_NAME_1, drop = TRUE)
     test_subsetting(ROW_NAME_1, COL_NAME_1, drop = FALSE)
 
-    test_subsetting_error(OUT_OF_BOUNDS_CHAR, )
-    test_subsetting_error(OUT_OF_BOUNDS_CHAR, , drop = TRUE)
-    test_subsetting_error(OUT_OF_BOUNDS_CHAR, , drop = FALSE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, )
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, , drop = TRUE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, , drop = FALSE)
 
-    test_subsetting_error(, OUT_OF_BOUNDS_CHAR)
-    test_subsetting_error(, OUT_OF_BOUNDS_CHAR, drop = TRUE)
-    test_subsetting_error(, OUT_OF_BOUNDS_CHAR, drop = FALSE)
+    test_subsetting_error(, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR)
+    test_subsetting_error(, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, drop = TRUE)
+    test_subsetting_error(, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, drop = FALSE)
 
-    test_subsetting_error(OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR)
-    test_subsetting_error(OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR, drop = TRUE)
-    test_subsetting_error(OUT_OF_BOUNDS_CHAR, OUT_OF_BOUNDS_CHAR, drop = FALSE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, drop = TRUE)
+    test_subsetting_error(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, drop = FALSE)
 
     test_subsetting(c(ROW_NAME_1, ROW_NAME_2), )
     test_subsetting(c(ROW_NAME_1, ROW_NAME_2), , drop = TRUE)
@@ -835,29 +835,29 @@ test_that("multi indexing by characters works", {
     test_subsetting(c(ROW_NAME_2, ROW_NAME_1), c(COL_NAME_2, COL_NAME_1), drop = TRUE)
     test_subsetting(c(ROW_NAME_2, ROW_NAME_1), c(COL_NAME_2, COL_NAME_1), drop = FALSE)
 
-    test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), )
-    test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), , drop = TRUE)
-    test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), , drop = FALSE)
+    test_subsetting_error(c(ROW_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), )
+    test_subsetting_error(c(ROW_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), , drop = TRUE)
+    test_subsetting_error(c(ROW_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), , drop = FALSE)
 
-    test_subsetting_error(, c(COL_NAME_1, OUT_OF_BOUNDS_CHAR))
-    test_subsetting_error(, c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = TRUE)
-    test_subsetting_error(, c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = FALSE)
+    test_subsetting_error(, c(COL_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR))
+    test_subsetting_error(, c(COL_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), drop = TRUE)
+    test_subsetting_error(, c(COL_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), drop = FALSE)
 
-    test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, OUT_OF_BOUNDS_CHAR))
-    test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = TRUE)
-    test_subsetting_error(c(ROW_NAME_1, OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, OUT_OF_BOUNDS_CHAR), drop = FALSE)
+    test_subsetting_error(c(ROW_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR))
+    test_subsetting_error(c(ROW_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), drop = TRUE)
+    test_subsetting_error(c(ROW_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR), drop = FALSE)
 
-    test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), )
-    test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , drop = TRUE)
-    test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , drop = FALSE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), )
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , drop = TRUE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , drop = FALSE)
 
-    test_subsetting_error(, c(OUT_OF_BOUNDS_CHAR, COL_NAME_1))
-    test_subsetting_error(, c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = TRUE)
-    test_subsetting_error(, c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE)
+    test_subsetting_error(, c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1))
+    test_subsetting_error(, c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = TRUE)
+    test_subsetting_error(, c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE)
 
-    test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(OUT_OF_BOUNDS_CHAR, COL_NAME_1))
-    test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = TRUE)
-    test_subsetting_error(c(OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1))
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = TRUE)
+    test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE)
 
     test_subsetting_error(c(ROW_NAME_1, NA), )
     test_subsetting_error(c(ROW_NAME_1, NA), , drop = TRUE)
