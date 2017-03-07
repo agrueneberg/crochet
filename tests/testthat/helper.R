@@ -80,6 +80,7 @@ replace_vector <- function(x, i, value) {
     CROCHET_REPLACE_ENV$value <- value
     # Dispatch to backend instead of x
     with(CROCHET_REPLACE_ENV, backend[i] <- value)
+    return(x)
 }
 
 replace_matrix <- function(x, i, j, value) {
@@ -88,6 +89,7 @@ replace_matrix <- function(x, i, j, value) {
     CROCHET_REPLACE_ENV$value <- value
     # Dispatch to backend instead of x
     with(CROCHET_REPLACE_ENV, backend[i, j] <- value)
+    return(x)
 }
 
 registerS3method("[<-", "CustomReplaceMatrix", replace(replace_vector = replace_vector, replace_matrix = replace_matrix))

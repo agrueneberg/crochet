@@ -8,10 +8,11 @@ replace(replace_vector, replace_matrix)
 }
 \arguments{
 \item{replace_vector}{A function in the form of \code{function(x, i, ..., value)}
-that takes a subset of \code{x} based on a single index \code{i} and returns a vector.}
+that replaces a vector subset of \code{x} based on a single index \code{i} with the
+values in \code{value} and returns \code{x}.}
 
-\item{replace_matrix}{A function in the form of \code{function(x, i, j, ..., value)} that takes a subset of \code{x} based on two indices \code{i} and \code{j} and
-returns a matrix.}
+\item{replace_matrix}{A function in the form of \code{function(x, i, j, ..., value)} that replaces a matrix subset of \code{x} based on two indices \code{i} and
+\code{j} with the values in \code{value} and returns \code{x}.}
 }
 \value{
 A function in the form of \code{function(x, i, j, ..., value)} that is

@@ -204,10 +204,11 @@ extract <- function(extract_vector, extract_matrix) {
 #' or [base::dimnames()] internally.
 #'
 #' @param replace_vector A function in the form of `function(x, i, ..., value)`
-#' that takes a subset of `x` based on a single index `i` and returns a vector.
+#' that replaces a vector subset of `x` based on a single index `i` with the
+#' values in `value` and returns `x`.
 #' @param replace_matrix A function in the form of `function(x, i, j, ...,
-#' value)` that takes a subset of `x` based on two indices `i` and `j` and
-#' returns a matrix.
+#' value)` that replaces a matrix subset of `x` based on two indices `i` and
+#' `j` with the values in `value` and returns `x`.
 #' @return A function in the form of `function(x, i, j, ..., value)` that is
 #' meant to be used as a method for \code{\link[base]{[<-}} for a custom type.
 #' @export
@@ -238,7 +239,7 @@ replace <- function(replace_vector, replace_matrix) {
             i <- convertIndex(x, i, "k")
             i <- handleNAs(i, value)
             value <- expandValue(value, length(i))
-            replace_vector(x, i, ..., value = value)
+            x <- replace_vector(x, i, ..., value = value)
         # Multi Index: x[i, j], x[i, ], or x[, j]
         } else if (nargs == 4L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
@@ -254,13 +255,13 @@ replace <- function(replace_vector, replace_matrix) {
             i <- handleNAs(i, value)
             j <- handleNAs(j, value)
             value <- expandValue(value, length(i) * length(j))
-            replace_matrix(x, i, j, ..., value = value)
+            x <- replace_matrix(x, i, j, ..., value = value)
         # No Index: x[] or x[, ]
         } else {
             i <- seq(1, nrow(x))
             j <- seq(1, ncol(x))
             value <- expandValue(value, length(i) * length(j))
-            replace_matrix(x, i, j, ..., value = value)
+            x <- replace_matrix(x, i, j, ..., value = value)
         }
 
         return(x)
