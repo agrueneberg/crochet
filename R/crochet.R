@@ -28,7 +28,7 @@ convertIndex <- function(x, i, type) {
         i[i %in% pos_na] <- NA
         # Expand logical index to length of i for single indices
         if (len_initial_i_sans_false > length(i)) {
-            i <- i[1:len_initial_i_sans_false]
+            i <- i[1L:len_initial_i_sans_false]
         }
     } else if (typeof(i) == "character") { # x["a"]
         if (type == "k") {
