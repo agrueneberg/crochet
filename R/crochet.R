@@ -33,7 +33,7 @@ convertIndex <- function(x, i, type) {
     } else if (typeof(i) == "character") { # x["a"]
         if (type == "k") {
             if (class(i) == "matrix" && ncol(i) == 2L) {
-                i <- (match(i[, 2], colnames(x)) - 1) * nrow(x) + match(i[, 1], rownames(x))
+                i <- (match(i[, 2L], colnames(x)) - 1L) * nrow(x) + match(i[, 1L], rownames(x))
                 if (any(is.na(i))) {
                     stop("subscript out of bounds")
                 }
@@ -49,7 +49,7 @@ convertIndex <- function(x, i, type) {
             i <- match(i, names, nomatch = n + 1L) # intentionally overstep bound
         }
     } else if (type == "k" && class(i) == "matrix" && ncol(i) == 2L && is.numeric(i)) { # x[y > 1]
-        i <- (as.integer(i[, 2]) - 1) * nrow(x) + as.integer(i[, 1])
+        i <- (as.integer(i[, 2L]) - 1L) * nrow(x) + as.integer(i[, 1L])
         checkBounds <- TRUE
     } else if (is.numeric(i)) { # x[1], x[-1], x[0]
         if (typeof(i) == "double") {
@@ -66,7 +66,7 @@ convertIndex <- function(x, i, type) {
             if (any(i < 0L, na.rm = TRUE) && (any(i > 0L, na.rm = TRUE) || any(i_is_na))) {
                 stop("only 0's may be mixed with negative subscripts")
             } else if (all(i < 0L, na.rm = TRUE)) { # x[-1]
-                i <- seq(1, n)[i]
+                i <- seq(1L, n)[i]
             }
         }
     }
@@ -79,7 +79,7 @@ convertIndex <- function(x, i, type) {
 handleNAs <- function(i, value) {
     isNA <- is.na(i)
     if (any(isNA)) {
-        if (length(value) == 1) {
+        if (length(value) == 1L) {
             i <- i[!isNA]
         } else {
             stop("NAs are not allowed in subscripted assignments")
@@ -131,7 +131,7 @@ extract <- function(extract_vector, extract_matrix) {
         stop("extract_vector has to be of type closure")
     }
     extract_vector_formals <- methods::formalArgs(extract_vector)
-    if (is.null(extract_vector_formals) || length(extract_vector_formals) < 2L || extract_vector_formals[1] != "x" || extract_vector_formals[2] != "i") {
+    if (is.null(extract_vector_formals) || length(extract_vector_formals) < 2L || extract_vector_formals[1L] != "x" || extract_vector_formals[2L] != "i") {
         stop("extract_vector requires two arguments x and i")
     }
 
@@ -139,7 +139,7 @@ extract <- function(extract_vector, extract_matrix) {
         stop("extract_matrix has to be of type closure")
     }
     extract_matrix_formals <- methods::formalArgs(extract_matrix)
-    if (is.null(extract_matrix_formals) || length(extract_matrix_formals) < 3L || extract_matrix_formals[1] != "x" || extract_matrix_formals[2] != "i" || extract_matrix_formals[3] != "j") {
+    if (is.null(extract_matrix_formals) || length(extract_matrix_formals) < 3L || extract_matrix_formals[1L] != "x" || extract_matrix_formals[2L] != "i" || extract_matrix_formals[3L] != "j") {
         stop("extract_matrix requires three arguments x, i, and j")
     }
 
@@ -160,12 +160,12 @@ extract <- function(extract_vector, extract_matrix) {
         # Multi Index: x[i, j], x[i, ], or x[, j]
         } else if (nargs == 3L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
-                i <- seq(1, nrow(x))
+                i <- seq(1L, nrow(x))
             } else {
                 i <- convertIndex(x, i, "i")
             }
             if (missing(j)) {
-                j <- seq(1, ncol(x))
+                j <- seq(1L, ncol(x))
             } else {
                 j <- convertIndex(x, j, "j")
             }
@@ -176,8 +176,8 @@ extract <- function(extract_vector, extract_matrix) {
             }
         # No Index: x[] or x[, ]
         } else {
-            i <- seq(1, nrow(x))
-            j <- seq(1, ncol(x))
+            i <- seq(1L, nrow(x))
+            j <- seq(1L, ncol(x))
             subset <- extract_matrix(x, i, j, ...)
         }
 
@@ -218,7 +218,7 @@ replace <- function(replace_vector, replace_matrix) {
         stop("replace_vector has to be of type closure")
     }
     replace_vector_formals <- methods::formalArgs(replace_vector)
-    if (is.null(replace_vector_formals) || length(replace_vector_formals) < 2L || replace_vector_formals[1] != "x" || replace_vector_formals[2] != "i" || !("value" %in% replace_vector_formals)) {
+    if (is.null(replace_vector_formals) || length(replace_vector_formals) < 2L || replace_vector_formals[1L] != "x" || replace_vector_formals[2L] != "i" || !("value" %in% replace_vector_formals)) {
         stop("replace_vector requires three arguments x, i, and value")
     }
 
@@ -226,7 +226,7 @@ replace <- function(replace_vector, replace_matrix) {
         stop("replace_matrix has to be of type closure")
     }
     replace_matrix_formals <- methods::formalArgs(replace_matrix)
-    if (is.null(replace_matrix_formals) || length(replace_matrix_formals) < 3L || replace_matrix_formals[1] != "x" || replace_matrix_formals[2] != "i" || replace_matrix_formals[3] != "j" || !("value" %in% replace_vector_formals)) {
+    if (is.null(replace_matrix_formals) || length(replace_matrix_formals) < 3L || replace_matrix_formals[1L] != "x" || replace_matrix_formals[2L] != "i" || replace_matrix_formals[3L] != "j" || !("value" %in% replace_vector_formals)) {
         stop("replace_matrix requires four arguments x, i, j, and value")
     }
 
@@ -243,12 +243,12 @@ replace <- function(replace_vector, replace_matrix) {
         # Multi Index: x[i, j], x[i, ], or x[, j]
         } else if (nargs == 4L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
-                i <- seq(1, nrow(x))
+                i <- seq(1L, nrow(x))
             } else {
                 i <- convertIndex(x, i, "i")
             }
             if (missing(j)) {
-                j <- seq(1, ncol(x))
+                j <- seq(1L, ncol(x))
             } else {
                 j <- convertIndex(x, j, "j")
             }
@@ -258,8 +258,8 @@ replace <- function(replace_vector, replace_matrix) {
             x <- replace_matrix(x, i, j, ..., value = value)
         # No Index: x[] or x[, ]
         } else {
-            i <- seq(1, nrow(x))
-            j <- seq(1, ncol(x))
+            i <- seq(1L, nrow(x))
+            j <- seq(1L, ncol(x))
             value <- expandValue(value, length(i) * length(j))
             x <- replace_matrix(x, i, j, ..., value = value)
         }
