@@ -137,10 +137,6 @@ test_that("single indexing by positive integers works", {
     test_subsetting_error(m, drop = TRUE)
     test_subsetting_error(m, drop = FALSE)
 
-    test_subsetting(c(1, NA))
-    test_subsetting(c(1, NA), drop = TRUE)
-    test_subsetting(c(1, NA), drop = FALSE)
-
 })
 
 test_that("single indexing by negative integers works", {
@@ -193,10 +189,6 @@ test_that("single indexing by negative integers works", {
     test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting_error(c(-1, NA))
-    test_subsetting_error(c(-1, NA), drop = TRUE)
-    test_subsetting_error(c(-1, NA), drop = FALSE)
-
 })
 
 test_that("single indexing by logicals works", {
@@ -238,14 +230,6 @@ test_that("single indexing by logicals works", {
     test_subsetting(m > 1, drop = TRUE)
     test_subsetting(m > 1, drop = FALSE)
 
-    test_subsetting(c(TRUE, NA))
-    test_subsetting(c(TRUE, NA), drop = TRUE)
-    test_subsetting(c(TRUE, NA), drop = FALSE)
-
-    test_subsetting(c(FALSE, NA))
-    test_subsetting(c(FALSE, NA), drop = TRUE)
-    test_subsetting(c(FALSE, NA), drop = FALSE)
-
 })
 
 test_that("single indexing by characters works", {
@@ -282,13 +266,13 @@ test_that("single indexing by characters works", {
     test_subsetting_error(m, drop = TRUE)
     test_subsetting_error(m, drop = FALSE)
 
-    test_subsetting(c(ROW_NAME_1, NA))
-    test_subsetting(c(ROW_NAME_1, NA), drop = TRUE)
-    test_subsetting(c(ROW_NAME_1, NA), drop = FALSE)
-
 })
 
 test_that("single indexing by NA works", {
+
+    if (!is.null(CROCHET_EXTRACT_ENV$SKIP_NA_TESTS) && CROCHET_EXTRACT_ENV$SKIP_NA_TESTS) {
+        skip("skipping NA tests because tests were explicitly disabled")
+    }
 
     test_subsetting(NA)
     test_subsetting(NA, drop = TRUE)
@@ -301,6 +285,30 @@ test_that("single indexing by NA works", {
     test_subsetting(NA_character_)
     test_subsetting(NA_character_, drop = TRUE)
     test_subsetting(NA_character_, drop = FALSE)
+
+    # Positive integers
+    test_subsetting(c(1, NA))
+    test_subsetting(c(1, NA), drop = TRUE)
+    test_subsetting(c(1, NA), drop = FALSE)
+
+    # Negative integers
+    test_subsetting_error(c(-1, NA))
+    test_subsetting_error(c(-1, NA), drop = TRUE)
+    test_subsetting_error(c(-1, NA), drop = FALSE)
+
+    # Logical vectors
+    test_subsetting(c(TRUE, NA))
+    test_subsetting(c(TRUE, NA), drop = TRUE)
+    test_subsetting(c(TRUE, NA), drop = FALSE)
+
+    test_subsetting(c(FALSE, NA))
+    test_subsetting(c(FALSE, NA), drop = TRUE)
+    test_subsetting(c(FALSE, NA), drop = FALSE)
+
+    # Character vectors
+    test_subsetting(c(ROW_NAME_1, NA))
+    test_subsetting(c(ROW_NAME_1, NA), drop = TRUE)
+    test_subsetting(c(ROW_NAME_1, NA), drop = FALSE)
 
 })
 
@@ -479,18 +487,6 @@ test_that("multi indexing by positive integers works", {
     test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting_error(c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(2, CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting(c(1, NA), )
-    test_subsetting(c(1, NA), , drop = TRUE)
-    test_subsetting(c(1, NA), , drop = FALSE)
-
-    test_subsetting(, c(1, NA))
-    test_subsetting(, c(1, NA), drop = TRUE)
-    test_subsetting(, c(1, NA), drop = FALSE)
-
-    test_subsetting(c(1, NA), c(1, NA))
-    test_subsetting(c(1, NA), c(1, NA), drop = TRUE)
-    test_subsetting(c(1, NA), c(1, NA), drop = FALSE)
-
 })
 
 test_that("multi indexing by negative integers works", {
@@ -639,18 +635,6 @@ test_that("multi indexing by negative integers works", {
     test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting(c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), c(-2, -CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting_error(c(-1, NA), )
-    test_subsetting_error(c(-1, NA), , drop = TRUE)
-    test_subsetting_error(c(-1, NA), , drop = FALSE)
-
-    test_subsetting_error(, c(-1, NA))
-    test_subsetting_error(, c(-1, NA), drop = TRUE)
-    test_subsetting_error(, c(-1, NA), drop = FALSE)
-
-    test_subsetting_error(c(-1, NA), c(-1, NA))
-    test_subsetting_error(c(-1, NA), c(-1, NA), drop = TRUE)
-    test_subsetting_error(c(-1, NA), c(-1, NA), drop = FALSE)
-
 })
 
 test_that("multi indexing by logicals works", {
@@ -751,30 +735,6 @@ test_that("multi indexing by logicals works", {
     test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting_error(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    test_subsetting(c(TRUE, NA), )
-    test_subsetting(c(TRUE, NA), , drop = TRUE)
-    test_subsetting(c(TRUE, NA), , drop = FALSE)
-
-    test_subsetting(, c(TRUE, NA))
-    test_subsetting(, c(TRUE, NA), drop = TRUE)
-    test_subsetting(, c(TRUE, NA), drop = FALSE)
-
-    test_subsetting(c(TRUE, NA), c(TRUE, NA))
-    test_subsetting(c(TRUE, NA), c(TRUE, NA), drop = TRUE)
-    test_subsetting(c(TRUE, NA), c(TRUE, NA), drop = FALSE)
-
-    test_subsetting(c(FALSE, NA), )
-    test_subsetting(c(FALSE, NA), , drop = FALSE)
-    test_subsetting(c(FALSE, NA), , drop = FALSE)
-
-    test_subsetting(, c(FALSE, NA))
-    test_subsetting(, c(FALSE, NA), drop = FALSE)
-    test_subsetting(, c(FALSE, NA), drop = FALSE)
-
-    test_subsetting(c(FALSE, NA), c(FALSE, NA))
-    test_subsetting(c(FALSE, NA), c(FALSE, NA), drop = FALSE)
-    test_subsetting(c(FALSE, NA), c(FALSE, NA), drop = FALSE)
-
 })
 
 test_that("multi indexing by characters works", {
@@ -860,21 +820,13 @@ test_that("multi indexing by characters works", {
     test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = TRUE)
     test_subsetting_error(c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), drop = FALSE)
 
-    test_subsetting_error(c(ROW_NAME_1, NA), )
-    test_subsetting_error(c(ROW_NAME_1, NA), , drop = TRUE)
-    test_subsetting_error(c(ROW_NAME_1, NA), , drop = FALSE)
-
-    test_subsetting_error(, c(COL_NAME_1, NA))
-    test_subsetting_error(, c(COL_NAME_1, NA), drop = TRUE)
-    test_subsetting_error(, c(COL_NAME_1, NA), drop = FALSE)
-
-    test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA))
-    test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA), drop = TRUE)
-    test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA), drop = FALSE)
-
 })
 
 test_that("multi indexing by NA works", {
+
+    if (!is.null(CROCHET_EXTRACT_ENV$SKIP_NA_TESTS) && CROCHET_EXTRACT_ENV$SKIP_NA_TESTS) {
+        skip("skipping NA tests because tests were explicitly disabled")
+    }
 
     test_subsetting(NA, )
     test_subsetting(NA, , drop = TRUE)
@@ -911,6 +863,70 @@ test_that("multi indexing by NA works", {
     test_subsetting_error(NA_character_, NA_character_)
     test_subsetting_error(NA_character_, NA_character_, drop = TRUE)
     test_subsetting_error(NA_character_, NA_character_, drop = FALSE)
+
+    # Positive integers
+    test_subsetting(c(1, NA), )
+    test_subsetting(c(1, NA), , drop = TRUE)
+    test_subsetting(c(1, NA), , drop = FALSE)
+
+    test_subsetting(, c(1, NA))
+    test_subsetting(, c(1, NA), drop = TRUE)
+    test_subsetting(, c(1, NA), drop = FALSE)
+
+    test_subsetting(c(1, NA), c(1, NA))
+    test_subsetting(c(1, NA), c(1, NA), drop = TRUE)
+    test_subsetting(c(1, NA), c(1, NA), drop = FALSE)
+
+    # Negative integers
+    test_subsetting_error(c(-1, NA), )
+    test_subsetting_error(c(-1, NA), , drop = TRUE)
+    test_subsetting_error(c(-1, NA), , drop = FALSE)
+
+    test_subsetting_error(, c(-1, NA))
+    test_subsetting_error(, c(-1, NA), drop = TRUE)
+    test_subsetting_error(, c(-1, NA), drop = FALSE)
+
+    test_subsetting_error(c(-1, NA), c(-1, NA))
+    test_subsetting_error(c(-1, NA), c(-1, NA), drop = TRUE)
+    test_subsetting_error(c(-1, NA), c(-1, NA), drop = FALSE)
+
+    # Logical vectors
+    test_subsetting(c(TRUE, NA), )
+    test_subsetting(c(TRUE, NA), , drop = TRUE)
+    test_subsetting(c(TRUE, NA), , drop = FALSE)
+
+    test_subsetting(, c(TRUE, NA))
+    test_subsetting(, c(TRUE, NA), drop = TRUE)
+    test_subsetting(, c(TRUE, NA), drop = FALSE)
+
+    test_subsetting(c(TRUE, NA), c(TRUE, NA))
+    test_subsetting(c(TRUE, NA), c(TRUE, NA), drop = TRUE)
+    test_subsetting(c(TRUE, NA), c(TRUE, NA), drop = FALSE)
+
+    test_subsetting(c(FALSE, NA), )
+    test_subsetting(c(FALSE, NA), , drop = FALSE)
+    test_subsetting(c(FALSE, NA), , drop = FALSE)
+
+    test_subsetting(, c(FALSE, NA))
+    test_subsetting(, c(FALSE, NA), drop = FALSE)
+    test_subsetting(, c(FALSE, NA), drop = FALSE)
+
+    test_subsetting(c(FALSE, NA), c(FALSE, NA))
+    test_subsetting(c(FALSE, NA), c(FALSE, NA), drop = FALSE)
+    test_subsetting(c(FALSE, NA), c(FALSE, NA), drop = FALSE)
+
+    # Character vectors
+    test_subsetting_error(c(ROW_NAME_1, NA), )
+    test_subsetting_error(c(ROW_NAME_1, NA), , drop = TRUE)
+    test_subsetting_error(c(ROW_NAME_1, NA), , drop = FALSE)
+
+    test_subsetting_error(, c(COL_NAME_1, NA))
+    test_subsetting_error(, c(COL_NAME_1, NA), drop = TRUE)
+    test_subsetting_error(, c(COL_NAME_1, NA), drop = FALSE)
+
+    test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA))
+    test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA), drop = TRUE)
+    test_subsetting_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA), drop = FALSE)
 
 })
 
