@@ -170,9 +170,9 @@ extract <- function(extract_vector, extract_matrix) {
                 j <- convertIndex(x, j, "j")
             }
             subset <- extract_matrix(x, i, j, ...)
-            # Let R handle drop behavior
+            # Let R handle drop behavior: as.vector removes names
             if (drop == TRUE && (nrow(subset) == 1L || ncol(subset) == 1L)) {
-                subset <- subset[, ]
+                subset <- subset[, , drop = TRUE]
             }
         # No Index: x[] or x[, ]
         } else {
