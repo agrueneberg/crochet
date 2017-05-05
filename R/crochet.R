@@ -101,7 +101,7 @@ expandValue <- function(value, replacement_length) {
     return(value)
 }
 
-#' Creates an implementation of [ for custom matrix-like types
+#' Create an Implementation of [ For Custom Matrix-Like Types
 #'
 #' `extract` is a function that converts different index types such as negative
 #' integer vectors, character vectors, or logical vectors passed to the `[`
@@ -187,7 +187,7 @@ extract <- function(extract_vector, extract_matrix) {
 
 }
 
-#' Creates an implementation of [<- for custom matrix-like types
+#' Create an Implementation of [<- For Custom Matrix-Like Types
 #'
 #' `replace` is a function that converts different index types such as negative
 #' integer vectors, character vectors, or logical vectors passed to the `[<-`

@@ -2,7 +2,7 @@
 % Please edit documentation in R/crochet.R
 \name{replace}
 \alias{replace}
-\title{Creates an implementation of [<- for custom matrix-like types}
+\title{Create an Implementation of [<- For Custom Matrix-Like Types}
 \usage{
 replace(replace_vector, replace_matrix)
 }
