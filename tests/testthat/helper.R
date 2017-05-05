@@ -74,8 +74,6 @@ registerS3method("[", "CustomReplaceMatrix", function(x, ...) {
 })
 
 replace_vector <- function(x, i, value) {
-    message(paste(i, collapse = ", "))
-    message(paste(value, collapse = ", "))
     CROCHET_REPLACE_ENV$i <- i
     CROCHET_REPLACE_ENV$value <- value
     # Dispatch to backend instead of x
