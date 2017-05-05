@@ -1,3 +1,10 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+- Fixed the license template.
+
+
 ## Test environments
 
 * Local Arch Linux install, R 3.4.0
