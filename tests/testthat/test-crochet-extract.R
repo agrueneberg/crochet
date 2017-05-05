@@ -274,6 +274,8 @@ test_that("single indexing by NA works", {
         skip("skipping NA tests because tests were explicitly disabled")
     }
 
+    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[1]
+
     test_subsetting(NA)
     test_subsetting(NA, drop = TRUE)
     test_subsetting(NA, drop = FALSE)
@@ -827,6 +829,9 @@ test_that("multi indexing by NA works", {
     if (!is.null(CROCHET_EXTRACT_ENV$SKIP_NA_TESTS) && CROCHET_EXTRACT_ENV$SKIP_NA_TESTS) {
         skip("skipping NA tests because tests were explicitly disabled")
     }
+
+    ROW_NAME_1 <- rownames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[1]
+    COL_NAME_1 <- colnames(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)[1]
 
     test_subsetting(NA, )
     test_subsetting(NA, , drop = TRUE)
