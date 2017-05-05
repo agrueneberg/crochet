@@ -123,8 +123,8 @@ expandValue <- function(value, replacement_length) {
 #' matrix.
 #' @return A function in the form of `function(x, i, j, ..., drop = TRUE)` that
 #' is meant to be used as a method for \code{\link[base]{[}} for a custom type.
-#' @export
 #' @example man/examples/extract.R
+#' @export
 extract <- function(extract_vector, extract_matrix) {
 
     if (missing(extract_vector) || typeof(extract_vector) != "closure") {
@@ -211,6 +211,7 @@ extract <- function(extract_vector, extract_matrix) {
 #' `j` with the values in `value` and returns `x`.
 #' @return A function in the form of `function(x, i, j, ..., value)` that is
 #' meant to be used as a method for \code{\link[base]{[<-}} for a custom type.
+#' @example man/examples/replace.R
 #' @export
 replace <- function(replace_vector, replace_matrix) {
 

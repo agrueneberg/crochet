@@ -40,3 +40,36 @@ extract_matrix <- function(x, i, j) {
 b[1, ] # Get the subset from the source
 a[1, ] # Get the subset through the extract function
 ```
+
+The `replace` function works similarly, but is more difficult to demonstrate because writing to a closed over matrix will produce a copy and not change the original matrix.
+
+```R
+replace_vector <- function(x, i, value) {
+    .GlobalEnv$i <- i
+    .GlobalEnv$value <- value
+    # Dispatch to b instead to x for this demo
+    with(.GlobalEnv, b[i] <- value)
+    # Don't forget to return x
+    return(x)
+}
+
+replace_matrix <- function(x, i, j, value) {
+    .GlobalEnv$i <- i
+    .GlobalEnv$j <- j
+    .GlobalEnv$value <- value
+    # Dispatch to b instead to x for this demo
+    with(.GlobalEnv, b[i, j] <- value)
+    # Don't forget to return x
+    return(x)
+}
+
+`[<-.TestMatrix` <- replace(replace_vector = replace_vector, replace_matrix = replace_matrix)
+
+a[1, ] <- pi
+a[]
+b[]
+
+b[2, ] <- pi
+a[]
+b[]
+```
