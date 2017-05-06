@@ -73,3 +73,9 @@ b[2, ] <- pi
 a[]
 b[]
 ```
+
+
+Documentation
+-------------
+
+Further documentation can be found on [RDocumentation](http://www.rdocumentation.org/packages/crochet).
