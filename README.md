@@ -75,6 +75,23 @@ b[]
 ```
 
 
+Installation
+------------
+
+To get the current released version from CRAN:
+
+```R
+install.packages("crochet")
+```
+
+To get the current development version from GitHub:
+
+```R
+# install.packages("devtools")
+devtools::install_github("agrueneberg/crochet")
+```
+
+
 Documentation
 -------------
 
