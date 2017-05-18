@@ -92,6 +92,13 @@ devtools::install_github("agrueneberg/crochet")
 ```
 
 
+Contribute
+----------
+
+- Issue Tracker: https://github.com/agrueneberg/crochet/issues
+- Source Code: https://github.com/agrueneberg/crochet
+
+
 Documentation
 -------------
 
