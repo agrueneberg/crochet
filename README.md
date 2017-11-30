@@ -9,7 +9,7 @@ crochet is an R package that provides functions to help implement the extraction
 
 ## Example
 
-`extract` is a function that accepts two arguments `extract_vector` (in the form of `function(x, i)`) and `extract_matrix` (in the form of `function(x, i, j)`), and returns a function that can be used as a method for `[` for a custom type.
+`extract` is a function that accepts two arguments `extract_vector` (in the form of `function(x, i, ...)`) and `extract_matrix` (in the form of `function(x, i, j, ...)`), and returns a function that can be used as a method for `[` for a custom type.
 
 The following example creates a dummy matrix `b` and an instance `a` of a custom type called `TestMatrix`. `TestMatrix` is an S3 "class" that in addition to `[` implements methods for `dim` and `dimnames`. In this case, the `extract_vector` and `extract_matrix` function close over `b` and simply delegate the subsetting. Note that the `[` character is not allowed in a variable name, so it needs to be escaped with backticks.
 
@@ -27,11 +27,11 @@ dimnames.TestMatrix <- function(x) {
     dimnames(b)
 }
 
-extract_vector <- function(x, i) {
+extract_vector <- function(x, i, ...) {
     b[i, drop = FALSE]
 }
 
-extract_matrix <- function(x, i, j) {
+extract_matrix <- function(x, i, j, ...) {
     b[i, j, drop = FALSE]
 }
 
@@ -44,7 +44,7 @@ a[1, ] # Get the subset through the extract function
 The `replace` function works similarly, but is more difficult to demonstrate because writing to a closed over matrix will produce a copy and not change the original matrix.
 
 ```R
-replace_vector <- function(x, i, value) {
+replace_vector <- function(x, i, ..., value) {
     .GlobalEnv$i <- i
     .GlobalEnv$value <- value
     # Dispatch to b instead to x for this demo
@@ -53,7 +53,7 @@ replace_vector <- function(x, i, value) {
     return(x)
 }
 
-replace_matrix <- function(x, i, j, value) {
+replace_matrix <- function(x, i, j, ..., value) {
     .GlobalEnv$i <- i
     .GlobalEnv$j <- j
     .GlobalEnv$value <- value
