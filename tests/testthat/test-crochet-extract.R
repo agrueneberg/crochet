@@ -32,12 +32,12 @@ test_that("maximum dimension requirement are met", {
 context("[")
 
 test_subsetting <- function(...) {
-    expect_equal(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT[...], CROCHET_EXTRACT_ENV$COMPARE_OBJECT[...])
+    expect_equal(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT[...], CROCHET_EXTRACT_ENV$COMPARE_OBJECT[...], info = paste0("INFO: ", capture.output(match.call())))
 }
 
 test_subsetting_error <- function(...) {
-    expect_error(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT[...])
-    expect_error(CROCHET_EXTRACT_ENV$COMPARE_OBJECT[...])
+    expect_error(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT[...], info = paste0("INFO: ", capture.output(match.call())))
+    expect_error(CROCHET_EXTRACT_ENV$COMPARE_OBJECT[...], info = paste0("INFO: ", capture.output(match.call())))
 }
 
 test_that("single indexing by nothing works", {
