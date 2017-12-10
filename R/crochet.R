@@ -270,3 +270,13 @@ replace <- function(replace_vector, replace_matrix) {
     })
 
 }
+
+# Convert one-dimensional index k to two-dimensional indices i and j.
+# Assumes indices to be one-based.
+ktoij <- function(x, k) {
+    k <- k - 1L
+    n <- nrow(x)
+    i <- (k %% n) + 1L
+    j <- as.integer(k / n) + 1L
+    list(i = i, j = j)
+}
