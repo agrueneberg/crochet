@@ -78,9 +78,6 @@ test_that("single replacement by positive integers works", {
     test_replacement(1.9, value = value)
     test_replacement(c(1.9, 2.9), value = value)
     test_replacement(c(2.9, 1.9), value = value)
-    test_replacement(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
-    test_replacement(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value)
-    test_replacement(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
     m <- matrix(data = c(1, 1, 2, 2), ncol = 2, byrow = TRUE)
     test_replacement(m, value = value)
     m <- matrix(data = c(1, 1, 2, 2), ncol = 2, byrow = TRUE)
@@ -95,8 +92,6 @@ test_that("single replacement by positive integers works", {
     test_replacement(m, value = value)
     m <- matrix(data = c(2.9, 2.9, 1.9, 1.9), ncol = 2, byrow = TRUE)
     test_replacement(m, value = value)
-    m <- matrix(data = c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), ncol = 2, byrow = TRUE)
-    test_replacement_error(m, value = value)
     test_replacement(c(1, NA), value = value)
 
 })
@@ -112,9 +107,6 @@ test_that("single replacement by negative integers works", {
     test_replacement(-1.9, value = value)
     test_replacement(c(-1.9, -2.9), value = value)
     test_replacement(c(-2.9, -1.9), value = value)
-    test_replacement(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
-    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), value = value)
-    test_replacement(c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
     test_replacement_error(c(-1, NA), value = value)
 
 })
@@ -129,12 +121,6 @@ test_that("single replacement by logicals works", {
     test_replacement(m > 1, value = value)
     test_replacement(c(TRUE, NA), value = value)
     test_replacement(c(FALSE, NA), value = value)
-
-    # Bizarre expansion behavior of matrix not worth implementing
-    # test_replacement(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    # test_replacement(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    # test_replacement(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    # test_replacement(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
 
 })
 
@@ -153,13 +139,6 @@ test_that("single replacement by characters works", {
     test_replacement(m, value = value)
     m <- matrix(data = c(ROW_NAME_2, COL_NAME_2, ROW_NAME_1, COL_NAME_1), ncol = 2, byrow = TRUE)
     test_replacement(m, value = value)
-    m <- matrix(data = c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), ncol = 2, byrow = TRUE)
-    test_replacement_error(m, value = value)
-
-    # Replacement by characters doesn't work on vectors
-    # test_replacement(ROW_NAME_1, value = value)
-    # test_replacement(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, value = value)
-    # test_replacement(c(ROW_NAME_1, NA), value = value)
 
 })
 
@@ -181,6 +160,36 @@ test_that("single replacement by zero works", {
     test_replacement(c(0, 1), value = value)
     test_replacement(c(0, -1), value = value)
     test_replacement_error(c(0, 1, -1), value = value)
+
+})
+
+test_that("single out-of-bounds replacements works", {
+
+    if (!is.null(CROCHET_REPLACE_ENV$SKIP_OUT_OF_BOUNDS_TESTS) && CROCHET_REPLACE_ENV$SKIP_OUT_OF_BOUNDS_TESTS) {
+        skip("skipping out-of-bounds tests because tests were explicitly disabled")
+    }
+
+    # positive integers
+    test_replacement(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
+    test_replacement(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value)
+    test_replacement(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    m <- matrix(data = c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), ncol = 2, byrow = TRUE)
+    test_replacement_error(m, value = value)
+
+    # negative integers
+    test_replacement(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
+    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), value = value)
+    test_replacement(c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+
+    # logicals (bizarre expansion behavior, not worth implementing)
+    #test_replacement(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    #test_replacement(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    #test_replacement(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    #test_replacement(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+
+    # characters
+    m <- matrix(data = c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), ncol = 2, byrow = TRUE)
+    test_replacement_error(m, value = value)
 
 })
 
@@ -219,15 +228,6 @@ test_that("multi replacement by positive integers works", {
     test_replacement(c(2.9, 1.9), , value = value)
     test_replacement(, c(2.9, 1.9), value = value)
     test_replacement(c(2.9, 1.9), c(2.9, 1.9), value = value)
-    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, , value = value)
-    test_replacement_error(, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
-    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
-    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), , value = value)
-    test_replacement_error(, c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value)
-    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value)
-    test_replacement_error(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
-    test_replacement_error(, c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    test_replacement_error(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
     test_replacement(c(1, NA), , value = value)
     test_replacement(, c(1, NA), value = value)
     test_replacement(c(1, NA), c(1, NA), value = value)
@@ -263,15 +263,6 @@ test_that("multi replacement by negative integers works", {
     test_replacement(c(-2.9, -1.9), , value = value)
     test_replacement(, c(-2.9, -1.9), value = value)
     test_replacement(c(-2.9, -1.9), c(-2.9, -1.9), value = value)
-    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
-    test_replacement(, c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), , value = value)
-    test_replacement(, c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), value = value)
-    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), value = value)
-    test_replacement(c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
-    test_replacement(, c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    test_replacement(c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
     test_replacement_error(c(-1, NA), , value = value)
     test_replacement_error(, c(-1, NA), value = value)
     test_replacement_error(c(-1, NA), c(-1, NA), value = value)
@@ -283,27 +274,15 @@ test_that("multi replacement by logicals works", {
     test_replacement(c(TRUE), , value = value)
     test_replacement(, c(TRUE), value = value)
     test_replacement(c(TRUE), c(TRUE), value = value)
-    test_replacement_error(c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), , value = value)
-    test_replacement_error(, c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
-    test_replacement_error(c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
     test_replacement(c(FALSE), , value = value)
     test_replacement(, c(FALSE), value = value)
     test_replacement(c(FALSE), c(FALSE), value = value)
-    test_replacement_error(c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), , value = value)
-    test_replacement_error(, c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
-    test_replacement_error(c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
     test_replacement(c(TRUE, FALSE), , value = value)
     test_replacement(, c(TRUE, FALSE), value = value)
     test_replacement(c(TRUE, FALSE), c(TRUE, FALSE), value = value)
-    test_replacement_error(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
-    test_replacement_error(, rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    test_replacement_error(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
     test_replacement(c(FALSE, TRUE), , value = value)
     test_replacement(, c(FALSE, TRUE), value = value)
     test_replacement(c(FALSE, TRUE), c(FALSE, TRUE), value = value)
-    test_replacement_error(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
-    test_replacement_error(, rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    test_replacement_error(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
     test_replacement(c(TRUE, NA), , value = value)
     test_replacement(, c(TRUE, NA), value = value)
     test_replacement(c(TRUE, NA), c(TRUE, NA), value = value)
@@ -327,21 +306,12 @@ test_that("multi replacement by characters works", {
     test_replacement(ROW_NAME_1, , value = value)
     test_replacement(, COL_NAME_1, value = value)
     test_replacement(ROW_NAME_1, COL_NAME_1, value = value)
-    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, , value = value)
-    test_replacement_error(, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, value = value)
-    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, value = value)
     test_replacement(c(ROW_NAME_1, ROW_NAME_2), , value = value)
     test_replacement(, c(COL_NAME_1, COL_NAME_2), value = value)
     test_replacement(c(ROW_NAME_1, ROW_NAME_2), c(COL_NAME_1, COL_NAME_2), value = value)
     test_replacement(c(ROW_NAME_2, ROW_NAME_1), , value = value)
     test_replacement(, c(COL_NAME_2, COL_NAME_1), value = value)
     test_replacement(c(ROW_NAME_2, ROW_NAME_1), c(COL_NAME_2, COL_NAME_1), value = value)
-    test_replacement_error(c(ROW_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), , value = value)
-    test_replacement_error(, c(COL_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), value = value)
-    test_replacement_error(c(ROW_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), value = value)
-    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , value = value)
-    test_replacement_error(, c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), value = value)
-    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), value = value)
     test_replacement_error(c(ROW_NAME_1, NA), , value = value)
     test_replacement_error(, c(COL_NAME_1, NA), value = value)
     test_replacement_error(c(ROW_NAME_1, NA), c(COL_NAME_1, NA), value = value)
@@ -376,6 +346,61 @@ test_that("multi replacement by zero works", {
     test_replacement_error(c(0, 1, -1), , value = value)
     test_replacement_error(, c(0, 1, -1), value = value)
     test_replacement_error(c(0, 1, -1), c(0, 1, -1), value = value)
+
+})
+
+test_that("multi out-of-bounds replacements works", {
+
+    if (!is.null(CROCHET_REPLACE_ENV$SKIP_OUT_OF_BOUNDS_TESTS) && CROCHET_REPLACE_ENV$SKIP_OUT_OF_BOUNDS_TESTS) {
+        skip("skipping out-of-bounds tests because tests were explicitly disabled")
+    }
+
+    # positive integers
+    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, , value = value)
+    test_replacement_error(, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
+    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
+    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), , value = value)
+    test_replacement_error(, c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value)
+    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value)
+    test_replacement_error(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
+    test_replacement_error(, c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement_error(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+
+    # negative integers
+    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
+    test_replacement(, c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), , value = value)
+    test_replacement(, c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), value = value)
+    test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), value = value)
+    test_replacement(c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
+    test_replacement(, c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement(c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+
+    # logicals
+    test_replacement_error(c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), , value = value)
+    test_replacement_error(, c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
+    test_replacement_error(c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
+    test_replacement_error(c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), , value = value)
+    test_replacement_error(, c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
+    test_replacement_error(c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), c(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)), value = value)
+    test_replacement_error(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
+    test_replacement_error(, rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement_error(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement_error(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), , value = value)
+    test_replacement_error(, rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement_error(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+
+    # character
+    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, , value = value)
+    test_replacement_error(, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, value = value)
+    test_replacement_error(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, value = value)
+    test_replacement_error(c(ROW_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), , value = value)
+    test_replacement_error(, c(COL_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), value = value)
+    test_replacement_error(c(ROW_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), c(COL_NAME_1, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), value = value)
+    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), , value = value)
+    test_replacement_error(, c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), value = value)
+    test_replacement_error(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, ROW_NAME_1), c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, COL_NAME_1), value = value)
 
 })
 
