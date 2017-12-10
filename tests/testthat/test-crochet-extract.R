@@ -225,7 +225,7 @@ test_that("single indexing by logicals works", {
     test_subsetting(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    m <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
+    m <- matrix(data = rnorm(prod(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT))), nrow = nrow(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), ncol = ncol(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT))
     test_subsetting(m > 1)
     test_subsetting(m > 1, drop = TRUE)
     test_subsetting(m > 1, drop = FALSE)

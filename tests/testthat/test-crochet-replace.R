@@ -125,7 +125,7 @@ test_that("single replacement by logicals works", {
     test_replacement(FALSE, value = value)
     test_replacement(c(TRUE, FALSE), value = value)
     test_replacement(c(FALSE, TRUE), value = value)
-    m <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
+    m <- matrix(data = rnorm(prod(dim(CROCHET_REPLACE_ENV$CUSTOM_OBJECT))), nrow = nrow(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), ncol = ncol(CROCHET_REPLACE_ENV$CUSTOM_OBJECT))
     test_replacement(m > 1, value = value)
     test_replacement(c(TRUE, NA), value = value)
     test_replacement(c(FALSE, NA), value = value)
