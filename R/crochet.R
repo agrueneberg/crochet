@@ -280,3 +280,9 @@ ktoij <- function(x, k) {
     j <- as.integer(k / n) + 1L
     list(i = i, j = j)
 }
+
+# Convert two-dimensional indices i and j to one-dimensional index k.
+# Assumes indices to be one-based.
+ijtok <- function(x, i, j) {
+    (j - 1L) * nrow(x) + i
+}
