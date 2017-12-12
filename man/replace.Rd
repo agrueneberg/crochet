@@ -31,8 +31,8 @@ are recycled to match the replacement length.
 [i, j]: R:i,%20j
 }
 \details{
-The custom type must implement methods for \code{\link[base:dim]{base::dim()}} and
-\code{\link[base:dimnames]{base::dimnames()}} for this function to work. Implementing methods for
+The custom type must implement methods for \code{\link[base:length]{base::length()}}, \code{\link[base:dim]{base::dim()}}
+and \code{\link[base:dimnames]{base::dimnames()}} for this function to work. Implementing methods for
 \code{\link[base:nrow]{base::nrow()}}, \code{\link[base:ncol]{base::ncol()}}, \code{\link[base:rownames]{base::rownames()}}, and \code{\link[base:colnames]{base::colnames()}}
 is not necessary as the default method of those generics calls \code{\link[base:dim]{base::dim()}}
 or \code{\link[base:dimnames]{base::dimnames()}} internally.

@@ -2,7 +2,7 @@
 convertIndex <- function(x, i, type) {
     if (type == "k") {
         # Single Index
-        n <- nrow(x) * ncol(x)
+        n <- length(x)
         checkBounds <- FALSE
     } else if (type == "i") {
         # Rows of Multi Index
@@ -110,8 +110,8 @@ expandValue <- function(value, replacement_length) {
 #' `extract_vector` or `i` and `j` parameters of `extract_matrix` to facilitate
 #' implementing the extraction mechanism for custom matrix-like types.
 #'
-#' The custom type must implement methods for [base::dim()] and
-#' [base::dimnames()] for this function to work. Implementing methods for
+#' The custom type must implement methods for [base::length()], [base::dim()]
+#' and [base::dimnames()] for this function to work. Implementing methods for
 #' [base::nrow()], [base::ncol()], [base::rownames()], and [base::colnames()]
 #' is not necessary as the default method of those generics calls [base::dim()]
 #' or [base::dimnames()] internally.
@@ -197,8 +197,8 @@ extract <- function(extract_vector, extract_matrix) {
 #' implementing the replacement mechanism for custom matrix-like types. Values
 #' are recycled to match the replacement length.
 #'
-#' The custom type must implement methods for [base::dim()] and
-#' [base::dimnames()] for this function to work. Implementing methods for
+#' The custom type must implement methods for [base::length()], [base::dim()]
+#' and [base::dimnames()] for this function to work. Implementing methods for
 #' [base::nrow()], [base::ncol()], [base::rownames()], and [base::colnames()]
 #' is not necessary as the default method of those generics calls [base::dim()]
 #' or [base::dimnames()] internally.
@@ -239,7 +239,7 @@ replace <- function(replace_vector, replace_matrix) {
         if (nargs == 3L && !missing(i) && missing(j)) {
             i <- convertIndex(x, i, "k")
             i <- handleNAs(i, value)
-            if (any(i > prod(dim(x)))) {
+            if (any(i > length(x))) {
                 stop("out-of-bounds expansion not implemented")
             }
             value <- expandValue(value, length(i))

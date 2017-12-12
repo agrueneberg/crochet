@@ -16,7 +16,7 @@ test_that("minimum dimension requirement are met", {
 
     expect_gt(nrow(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), 3)
     expect_gt(ncol(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), 3)
-    expect_gt(prod(dim(CROCHET_REPLACE_ENV$CUSTOM_OBJECT)), 3)
+    expect_gt(length(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), 3)
 
 })
 
@@ -24,7 +24,7 @@ test_that("maximum dimension requirement are met", {
 
     expect_lt(nrow(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)
     expect_lt(ncol(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)
-    expect_lt(prod(dim(CROCHET_REPLACE_ENV$CUSTOM_OBJECT)), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)
+    expect_lt(length(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT)
 
 })
 
@@ -62,7 +62,7 @@ test_replacement_not_implemented <- function(..., value) {
     CROCHET_REPLACE_ENV$RESET()
 }
 
-length <- prod(dim(CROCHET_REPLACE_ENV$CUSTOM_OBJECT))
+length <- length(CROCHET_REPLACE_ENV$CUSTOM_OBJECT)
 values <- CROCHET_REPLACE_ENV$VALUE_POOL
 value <- values[1]
 
@@ -122,7 +122,7 @@ test_that("single replacement by logicals works", {
     test_replacement(FALSE, value = value)
     test_replacement(c(TRUE, FALSE), value = value)
     test_replacement(c(FALSE, TRUE), value = value)
-    m <- matrix(data = rnorm(prod(dim(CROCHET_REPLACE_ENV$CUSTOM_OBJECT))), nrow = nrow(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), ncol = ncol(CROCHET_REPLACE_ENV$CUSTOM_OBJECT))
+    m <- matrix(data = rnorm(length), nrow = nrow(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), ncol = ncol(CROCHET_REPLACE_ENV$CUSTOM_OBJECT))
     test_replacement(m > 1, value = value)
     test_replacement(c(TRUE, NA), value = value)
     test_replacement(c(FALSE, NA), value = value)

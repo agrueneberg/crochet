@@ -1,5 +1,11 @@
 context("requirements for [")
 
+test_that("lengths are the same", {
+
+    expect_equal(length(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), length(CROCHET_EXTRACT_ENV$COMPARE_OBJECT))
+
+})
+
 test_that("dims are the same", {
 
     expect_equal(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), dim(CROCHET_EXTRACT_ENV$COMPARE_OBJECT))
@@ -16,7 +22,7 @@ test_that("minimum dimension requirement are met", {
 
     expect_gt(nrow(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), 3)
     expect_gt(ncol(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), 3)
-    expect_gt(prod(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)), 3)
+    expect_gt(length(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), 3)
 
 })
 
@@ -24,7 +30,7 @@ test_that("maximum dimension requirement are met", {
 
     expect_lt(nrow(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
     expect_lt(ncol(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
-    expect_lt(prod(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
+    expect_lt(length(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
 
 })
 
@@ -225,7 +231,7 @@ test_that("single indexing by logicals works", {
     test_subsetting(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = TRUE)
     test_subsetting(rep_len(c(FALSE, TRUE), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT), drop = FALSE)
 
-    m <- matrix(data = rnorm(prod(dim(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT))), nrow = nrow(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), ncol = ncol(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT))
+    m <- matrix(data = rnorm(length(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT)), nrow = nrow(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), ncol = ncol(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT))
     test_subsetting(m > 1)
     test_subsetting(m > 1, drop = TRUE)
     test_subsetting(m > 1, drop = FALSE)

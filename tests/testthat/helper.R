@@ -2,6 +2,10 @@
 
 ## CustomExtractMatrix (stores characters as a string in an attribute called _data)
 
+registerS3method("length", "CustomExtractMatrix", function(x) {
+    prod(attr(x, "_dim"))
+})
+
 registerS3method("dim", "CustomExtractMatrix", function(x) {
     attr(x, "_dim")
 })
