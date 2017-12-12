@@ -58,7 +58,7 @@ convertIndex <- function(x, i, type) {
         # Remove all 0s
         i <- i[i != 0L]
         if (length(i) == 0L) { # x[0]
-            stop("Unsupported index type")
+            stop("indexing by 0 not implemented")
         } else {
             i_is_na <- is.na(i)
             # Negative integers are not allowed to be combined with
@@ -239,6 +239,9 @@ replace <- function(replace_vector, replace_matrix) {
         if (nargs == 3L && !missing(i) && missing(j)) {
             i <- convertIndex(x, i, "k")
             i <- handleNAs(i, value)
+            if (any(i > prod(dim(x)))) {
+                stop("out-of-bounds expansion not implemented")
+            }
             value <- expandValue(value, length(i))
             x <- replace_vector(x, i, ..., value = value)
         # Multi Index: x[i, j], x[i, ], or x[, j]

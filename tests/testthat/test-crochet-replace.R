@@ -57,6 +57,11 @@ test_replacement_error <- function(..., value) {
     CROCHET_REPLACE_ENV$RESET()
 }
 
+test_replacement_not_implemented <- function(..., value) {
+    expect_error(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value, "not implemented", info = paste0("INFO: ", capture.output(match.call())))
+    CROCHET_REPLACE_ENV$RESET()
+}
+
 length <- prod(dim(CROCHET_REPLACE_ENV$CUSTOM_OBJECT))
 values <- CROCHET_REPLACE_ENV$VALUE_POOL
 value <- values[1]
@@ -146,17 +151,13 @@ test_that("single replacement by NA works", {
 
     test_replacement(NA, value = value)
     test_replacement(NA_integer_, value = value)
-
-    # Bizarre expansion behavior of matrix not worth implementing
-    # test_replacement(NA_character_, value = value)
+    #test_replacement_not_implemented(NA_character_, value = value) # expansion behavior (tricky to implement)
 
 })
 
 test_that("single replacement by zero works", {
 
-    # Not implemented
-    # test_replacement_error(0)
-
+    test_replacement_not_implemented(0, value = value)
     test_replacement(c(0, 1), value = value)
     test_replacement(c(0, -1), value = value)
     test_replacement_error(c(0, 1, -1), value = value)
@@ -170,9 +171,9 @@ test_that("single out-of-bounds replacements works", {
     }
 
     # positive integers
-    test_replacement(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value)
-    test_replacement(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value)
-    test_replacement(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    test_replacement_not_implemented(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, value = value) # expansion behavior
+    test_replacement_not_implemented(c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, 2), value = value) # expansion behavior
+    test_replacement_not_implemented(c(2, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value) # expansion behavior
     m <- matrix(data = c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), ncol = 2, byrow = TRUE)
     test_replacement_error(m, value = value)
 
@@ -181,11 +182,11 @@ test_that("single out-of-bounds replacements works", {
     test_replacement(c(-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT, -2), value = value)
     test_replacement(c(-2, -CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
 
-    # logicals (bizarre expansion behavior, not worth implementing)
-    #test_replacement(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    #test_replacement(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    #test_replacement(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
-    #test_replacement(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value)
+    # logicals
+    #test_replacement_not_implemented(rep_len(TRUE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value) # expansion behavior (tricky to implement)
+    #test_replacement_not_implemented(rep_len(FALSE, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value) # expansion behavior (tricky to implement)
+    #test_replacement_not_implemented(rep_len(c(TRUE, FALSE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value) # expansion behavior (tricky to implement)
+    #test_replacement_not_implemented(rep_len(c(FALSE, TRUE), CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT), value = value) # expansion behavior (tricky to implement)
 
     # characters
     m <- matrix(data = c(CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR, CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR), ncol = 2, byrow = TRUE)
@@ -334,9 +335,7 @@ test_that("multi replacement by NA works", {
 
 test_that("multi replacement by zero works", {
 
-    # Not implemented
-    # test_replacement_error(0, 0)
-
+    test_replacement_not_implemented(0, 0, value = value)
     test_replacement(c(0, 1), , value = value)
     test_replacement(, c(0, 1), value = value)
     test_replacement(c(0, 1), c(0, 1), value = value)
