@@ -274,6 +274,11 @@ replace <- function(replace_vector, replace_matrix) {
 
 }
 
+# Incomplete check if x is matrix-like. Should check for length as well.
+isMatrixLike <- function(x) {
+    length(dim(x)) == 2L
+}
+
 # Convert one-dimensional index k to two-dimensional indices i and j.
 # Assumes indices to be one-based.
 ktoij <- function(x, k) {
