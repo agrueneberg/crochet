@@ -9,74 +9,142 @@ crochet is an R package that provides functions to help implement the extraction
 
 ## Example
 
-`extract` is a function that accepts two arguments `extract_vector` (in the form of `function(x, i, ...)`) and `extract_matrix` (in the form of `function(x, i, j, ...)`), and returns a function that can be used as a method for `[` for a custom type.
+In this example we are going to implement a custom matrix-like type that stores data in form of characters as a string in the `_data` attribute of an object. This is not going to be particularly useful, but serves as an easy to understand starting point that can be adapted for other storage mechanisms, e.g., databases, shared memory, and so on.
 
-The following example creates a dummy matrix `b` and an instance `a` of a custom type called `TestMatrix`. `TestMatrix` is an S3 "class" that in addition to `[` implements methods for `length`, `dim` and `dimnames`. In this case, the `extract_vector` and `extract_matrix` function close over `b` and simply delegate the subsetting. Note that the `[` character is not allowed in a variable name, so it needs to be escaped with backticks.
+First we need to clarify what we mean by matrix-like type: a matrix-like type is a class (i.e., implemented using any of R's object-oriented mechanisms) that implements **at least** the `dim()`, `length()`, `dimnames()`, and the `[` extraction method.
 
-```R
-b <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
-dimnames(b) <- list(letters[1:5], letters[1:5])
-
-a <- structure(list(), class = "TestMatrix")
-
-dim.TestMatrix <- function(x) {
-    dim(b)
-}
-
-length.TestMatrix <- function(x) {
-    prod(dim(b))
-}
-
-dimnames.TestMatrix <- function(x) {
-    dimnames(b)
-}
-
-extract_vector <- function(x, i, ...) {
-    b[i, drop = FALSE]
-}
-
-extract_matrix <- function(x, i, j, ...) {
-    b[i, j, drop = FALSE]
-}
-
-`[.TestMatrix` <- extract(extract_vector = extract_vector, extract_matrix = extract_matrix)
-
-b[1, ] # Get the subset from the source
-a[1, ] # Get the subset through the extract function
-```
-
-The `replace` function works similarly, but is more difficult to demonstrate because writing to a closed over matrix will produce a copy and not change the original matrix.
+Let's call our type `StringMatrix` and implement it as an S3 class. If you need a refresher on S3 classes, please read the [OO field guide](http://adv-r.had.co.nz/OO-essentials.html) chapter in the **Advanced R** book by Hadley Wickham first. Let's start with implementing the `dim()`, `length()`, and `dimnames()` methods:
 
 ```R
-replace_vector <- function(x, i, ..., value) {
-    .GlobalEnv$i <- i
-    .GlobalEnv$value <- value
-    # Dispatch to b instead to x for this demo
-    with(.GlobalEnv, b[i] <- value)
-    # Don't forget to return x
-    return(x)
+dim.StringMatrix <- function(x) {
+    attr(x, "_dim") # store dimensions in `_dim` attribute
 }
 
-replace_matrix <- function(x, i, j, ..., value) {
-    .GlobalEnv$i <- i
-    .GlobalEnv$j <- j
-    .GlobalEnv$value <- value
-    # Dispatch to b instead to x for this demo
-    with(.GlobalEnv, b[i, j] <- value)
-    # Don't forget to return x
-    return(x)
+length.StringMatrix <- function(x) {
+    prod(dim(x)) # rely on `dim()` method above
 }
 
-`[<-.TestMatrix` <- replace(replace_vector = replace_vector, replace_matrix = replace_matrix)
-
-a[1, ] <- pi
-a[]
-b[]
-
-b[2, ] <- pi
-a[]
-b[]
+dimnames.StringMatrix <- function(x) {
+    attr(x, "_dimnames") # store dim names in `_dimnames` attribute
+}
 ```
+
+Subsetting in R is very powerful and can therefore be difficult to implement depending on how many indexing mechanisms you want to support. For example, given a 5x5 matrix, all of the following cases (non-exhaustive) are equivalent:
+
+```R
+X[seq(1, 25, by = 5)] # subsetting by positive integers
+X[1, ] # simplifying subsetting by positive integers
+X[-(2:5), ] # simplifying subsetting by negative integers
+X[c(TRUE, FALSE, FALSE, FALSE, FALSE), ] # simplifying subsetting by booleans
+X["row_1", ] # simplifying subsetting by row names (only if dimnames exist)
+```
+
+This complexity motivated the development of the crochet package. The `extract()` function of the package takes care of converting all those indexing mechanisms to positive integers, which is typically the easiest mechanism to implement. `extract()` returns a function that can be used as a method for `[` for a custom type. Matrices can be subsetted using one-dimensional (`i` only) and two-dimensional indices (`i` and `j`) and both have very different behaviors. Therefore, two functions need to be provided to `extract()` as `extract_vector` and `extract_matrix`. `extract_vector` has to be a function of the form `function(x, i, ...)` and `extract_matrix` a function of the form `function(x, i, j, ...)`. Both functions return a subset of `x`.
+
+The following snippets gives a simple way to extract characters from a string one by one. In R, we can extract the *n*th character from a string using the `substr()` function: `substr(x, n, n)`. Conversely, the *n*th character can be replaced as follows: `substr(x, n, n) <- value`. Note that the `[` character is not allowed in a variable name, so it needs to be escaped with backticks when establishing the return value of `extract()` as a method of `StringMatrix`.
+
+```R
+`[.StringMatrix` <- extract(
+    extract_vector = function(x, i, ...) { # i are positive integers
+        # Reserve output vector
+        subset <- vector(mode = "character", length = length(i))
+        # Populate output vector
+        for (singleIdx in 1:length(i)) {
+            subset[singleIdx] <- substr(attr(x, "_data"), i[singleIdx], i[singleIdx])
+        }
+        # Return output vector
+        return(subset)
+    },
+    extract_matrix = function(x, i, j, ...) { # i and j are positive integers
+        # Reserve output matrix
+        subset <- matrix(
+            data = vector(mode = "character", length = length(i) * length(j)),
+            nrow = length(i),
+            ncol = length(j)
+        )
+        # Populate output matrix
+        for (colIdx in 1:length(j)) {
+            for (rowIdx in 1:length(i)) {
+                # two-dimensional index needs to be converted to one-dimensional index
+                singleIdx <- crochet:::ijtok(x, i[rowIdx], j[colIdx])
+                subset[rowIdx, colIdx] <- substr(attr(x, "_data"), singleIdx, singleIdx)
+            }
+        }
+        # Return output matrix
+        return(subset)
+    }
+)
+```
+
+We can now create an object of the `StringMatrix` class and provide it with some data:
+
+```R
+# Generate data
+n <- 5
+p <- 5
+alphabet <- c(0:9, letters)
+data <- sample(alphabet, replace = TRUE, size = n * p)
+
+# Create object
+obj <- list()
+class(obj) <- "StringMatrix"
+attr(obj, "_dim") <- c(n, p)
+attr(obj, "_dimnames") <- list(paste0("row_", 1:n), paste0("col_", 1:p))
+attr(obj, "_data") <- paste(data, collapse = "")
+
+# Call some methods
+dim(obj)
+nrow(obj) # you get this for free by implementing `dim()`
+ncol(obj) # you get this for free by implementing `dim()`
+length(obj)
+dimnames(obj)
+rownames(obj) # you get this for free by implementing `dimnames()`
+colnames(obj) # you get this for free by implementing `dimnames()`
+
+# Extract some data
+obj[seq(1, length(obj), by = p)] # subsetting by positive integers
+obj[1, ] # simplifying subsetting by positive integers
+obj[-(2:length(obj)), ] # simplifying subsetting by negative integers
+obj[c(TRUE, rep_len(FALSE, nrow(obj) - 1)), ] # simplifying subsetting by booleans
+obj["row_1", ] # simplifying subsetting by row names (only if dimnames exist)
+```
+
+To support replacement, `replace()` returns a function that can be used as a method for `[<-` for a custom type. Analogous to the `extract()` method, two parameters are required by `replace()`: `replace_vector` has to be a function of the form `function(x, i, ..., value)` and `replace_matrix` a function of the form `function(x, i, j, ..., value)`. Both functions return a likely modified version of `x`.
+
+```R
+`[<-.StringMatrix` <- replace(
+    replace_vector = function(x, i, ..., value) { # i are positive integers
+        # Perform replacement
+        for (singleIdx in 1:length(i)) {
+            substr(attr(x, "_data"), i[singleIdx], i[singleIdx]) <- value[singleIdx]
+        }
+        # Do not forget to return x
+        return(x)
+    },
+    replace_matrix = function(x, i, j, ..., value) { # i and j are positive integers
+        # Convert value to matrix for easier indexing
+        dim(value) <- c(length(i), length(j))
+        # Perform replacement
+        for (colIdx in 1:length(j)) {
+            for (rowIdx in 1:length(i)) { # two-dimensional index needs to be converted to one-dimensional index
+                singleIdx <- crochet:::ijtok(x, i[rowIdx], j[colIdx])
+                substr(attr(x, "_data"), singleIdx, singleIdx) <- value[rowIdx, colIdx]
+            }
+        }
+        # Do not forget to return x
+        return(x)
+    }
+)
+```
+
+Now we can replace some data:
+
+```R
+obj[1:7] <- "z"
+obj[]
+```
+
+As you can see the simple extraction and replacement functions above cover a lot of scenarios. There are some edge cases not mentioned here that can't be handled by crochet automatically (e.g., x[FALSE], combinations with `NA`s, and so on), so if you want full coverage, you should run the crochet test suite on your custom type. Examples of this can be found in the [BEDMatrix](https://cran.r-project.org/package=BEDMatrix) or [LinkedMatrix](https://cran.r-project.org/package=LinkedMatrix) packages.
 
 
 Installation
