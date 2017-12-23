@@ -4,7 +4,7 @@
 \alias{extract}
 \title{Create an Implementation of [ For Custom Matrix-Like Types}
 \usage{
-extract(extract_vector, extract_matrix)
+extract(extract_vector, extract_matrix, allowDoubles = FALSE)
 }
 \arguments{
 \item{extract_vector}{A function in the form of \code{function(x, i, ...)} that
@@ -13,6 +13,11 @@ takes a subset of \code{x} based on a single index \code{i} and returns a vector
 \item{extract_matrix}{A function in the form of \code{function(x, i, j, ...)}
 that takes a subset of \code{x} based on two indices \code{i} and \code{j} and returns a
 matrix.}
+
+\item{allowDoubles}{If set, indices of type double are not converted to
+integers if the operation would overflow to support matrices with \code{nrow()},
+\code{ncol()}, or \code{length()} greater than the largest integer that can be
+represented (\code{.Machine$integer.max}).}
 }
 \value{
 A function in the form of \code{function(x, i, j, ..., drop = TRUE)} that

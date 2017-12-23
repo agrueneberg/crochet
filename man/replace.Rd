@@ -4,7 +4,7 @@
 \alias{replace}
 \title{Create an Implementation of [<- For Custom Matrix-Like Types}
 \usage{
-replace(replace_vector, replace_matrix)
+replace(replace_vector, replace_matrix, allowDoubles = FALSE)
 }
 \arguments{
 \item{replace_vector}{A function in the form of \code{function(x, i, ..., value)}
@@ -13,6 +13,11 @@ values in \code{value} and returns \code{x}.}
 
 \item{replace_matrix}{A function in the form of \code{function(x, i, j, ..., value)} that replaces a matrix subset of \code{x} based on two indices \code{i} and
 \code{j} with the values in \code{value} and returns \code{x}.}
+
+\item{allowDoubles}{If set, indices of type double are not converted to
+integers if the operation would overflow to support matrices with \code{nrow()},
+\code{ncol()}, or \code{length()} greater than the largest integer that can be
+represented (\code{.Machine$integer.max}).}
 }
 \value{
 A function in the form of \code{function(x, i, j, ..., value)} that is

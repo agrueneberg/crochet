@@ -1,5 +1,5 @@
 # Convert non-numeric types to positive integers
-convertIndex <- function(x, i, type) {
+convertIndex <- function(x, i, type, allowDoubles = FALSE) {
     if (type == "k") {
         # Single Index
         n <- length(x)
@@ -53,7 +53,10 @@ convertIndex <- function(x, i, type) {
         checkBounds <- TRUE
     } else if (is.numeric(i)) { # x[1], x[-1], x[0]
         if (typeof(i) == "double") {
-            i <- as.integer(i)
+            # Convert to integer if there is no overflow
+            if (!(any(abs(i) > .Machine$integer.max, na.rm = TRUE) && allowDoubles)) {
+                i <- as.integer(i)
+            }
         }
         # Remove all 0s
         i <- i[i != 0L]
@@ -121,11 +124,15 @@ expandValue <- function(value, replacement_length) {
 #' @param extract_matrix A function in the form of `function(x, i, j, ...)`
 #' that takes a subset of `x` based on two indices `i` and `j` and returns a
 #' matrix.
+#' @param allowDoubles If set, indices of type double are not converted to
+#' integers if the operation would overflow to support matrices with `nrow()`,
+#' `ncol()`, or `length()` greater than the largest integer that can be
+#' represented (`.Machine$integer.max`).
 #' @return A function in the form of `function(x, i, j, ..., drop = TRUE)` that
 #' is meant to be used as a method for \code{\link[base]{[}} for a custom type.
 #' @example man/examples/extract.R
 #' @export
-extract <- function(extract_vector, extract_matrix) {
+extract <- function(extract_vector, extract_matrix, allowDoubles = FALSE) {
 
     if (missing(extract_vector) || typeof(extract_vector) != "closure") {
         stop("extract_vector has to be of type closure")
@@ -155,19 +162,19 @@ extract <- function(extract_vector, extract_matrix) {
 
         # Single Index: x[i]
         if (nargs == 2L && !missing(i) && missing(j)) {
-            i <- convertIndex(x, i, "k")
+            i <- convertIndex(x, i, "k", allowDoubles = allowDoubles)
             subset <- extract_vector(x, i)
         # Multi Index: x[i, j], x[i, ], or x[, j]
         } else if (nargs == 3L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
                 i <- seq(1L, nrow(x))
             } else {
-                i <- convertIndex(x, i, "i")
+                i <- convertIndex(x, i, "i", allowDoubles = allowDoubles)
             }
             if (missing(j)) {
                 j <- seq(1L, ncol(x))
             } else {
-                j <- convertIndex(x, j, "j")
+                j <- convertIndex(x, j, "j", allowDoubles = allowDoubles)
             }
             subset <- extract_matrix(x, i, j, ...)
             # Let R handle drop behavior: as.vector removes names
@@ -209,11 +216,15 @@ extract <- function(extract_vector, extract_matrix) {
 #' @param replace_matrix A function in the form of `function(x, i, j, ...,
 #' value)` that replaces a matrix subset of `x` based on two indices `i` and
 #' `j` with the values in `value` and returns `x`.
+#' @param allowDoubles If set, indices of type double are not converted to
+#' integers if the operation would overflow to support matrices with `nrow()`,
+#' `ncol()`, or `length()` greater than the largest integer that can be
+#' represented (`.Machine$integer.max`).
 #' @return A function in the form of `function(x, i, j, ..., value)` that is
 #' meant to be used as a method for \code{\link[base]{[<-}} for a custom type.
 #' @example man/examples/replace.R
 #' @export
-replace <- function(replace_vector, replace_matrix) {
+replace <- function(replace_vector, replace_matrix, allowDoubles = FALSE) {
 
     if (missing(replace_vector) || typeof(replace_vector) != "closure") {
         stop("replace_vector has to be of type closure")
@@ -237,7 +248,7 @@ replace <- function(replace_vector, replace_matrix) {
 
         # Single Index: x[i]
         if (nargs == 3L && !missing(i) && missing(j)) {
-            i <- convertIndex(x, i, "k")
+            i <- convertIndex(x, i, "k", allowDoubles = allowDoubles)
             i <- handleNAs(i, value)
             if (any(i > length(x))) {
                 stop("out-of-bounds expansion not implemented")
@@ -249,12 +260,12 @@ replace <- function(replace_vector, replace_matrix) {
             if (missing(i)) {
                 i <- seq(1L, nrow(x))
             } else {
-                i <- convertIndex(x, i, "i")
+                i <- convertIndex(x, i, "i", allowDoubles = allowDoubles)
             }
             if (missing(j)) {
                 j <- seq(1L, ncol(x))
             } else {
-                j <- convertIndex(x, j, "j")
+                j <- convertIndex(x, j, "j", allowDoubles = allowDoubles)
             }
             i <- handleNAs(i, value)
             j <- handleNAs(j, value)
