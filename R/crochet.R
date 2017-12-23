@@ -296,7 +296,7 @@ ktoij <- function(x, k) {
     k <- k - 1L
     n <- nrow(x)
     i <- (k %% n) + 1L
-    j <- as.integer(k / n) + 1L
+    j <- floor(k / n) + 1L # use floor instead of as.integer to support doubles
     list(i = i, j = j)
 }
 
