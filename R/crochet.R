@@ -54,7 +54,7 @@ convertIndex <- function(x, i, type, allowDoubles = FALSE) {
     } else if (is.numeric(i)) { # x[1], x[-1], x[0]
         if (typeof(i) == "double") {
             # Convert to integer if there is no overflow
-            if (!(any(abs(i) > .Machine$integer.max, na.rm = TRUE) && allowDoubles)) {
+            if (!(allowDoubles && any(abs(i) > .Machine$integer.max, na.rm = TRUE))) {
                 i <- as.integer(i)
             }
         }
