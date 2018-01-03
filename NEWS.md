@@ -5,6 +5,7 @@
   indices of type double to integers if the operation would overflow. Defaults
   to `FALSE` to reduce the burden of implementing backends in statically typed
   languages.
+* Add `ktoij()` and `ijtok()` helper functions.
 
 
 # crochet 1.0.0

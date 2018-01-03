@@ -45,7 +45,7 @@ registerS3method("[", "CustomExtractMatrix", extract(
         if (length(i) > 0L && length(j) > 0L) {
             for (colIdx in 1L:length(j)) {
                 for (rowIdx in 1L:length(i)) {
-                    k <- crochet:::ijtok(x, i[rowIdx], j[colIdx])
+                    k <- ijtok(x, i[rowIdx], j[colIdx])
                     Z[rowIdx, colIdx] <- substr(attr(x, "_data"), k, k)
                 }
             }
@@ -74,7 +74,7 @@ registerS3method("[<-", "CustomReplaceMatrix", replace(
         if (length(i) > 0L && length(j) > 0L) {
             for (colIdx in 1L:length(j)) {
                 for (rowIdx in 1L:length(i)) {
-                    k <- crochet:::ijtok(x, i[rowIdx], j[colIdx])
+                    k <- ijtok(x, i[rowIdx], j[colIdx])
                     substr(attr(x, "_data"), k, k) <- value[rowIdx, colIdx]
                 }
             }

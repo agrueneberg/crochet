@@ -290,8 +290,19 @@ isMatrixLike <- function(x) {
     length(dim(x)) == 2L
 }
 
-# Convert one-dimensional index k to two-dimensional indices i and j.
-# Assumes indices to be one-based.
+#' Convert One-Dimensional Index k to Two-Dimensional Indices i and j
+#'
+#' `ktoij` is a helper function that converts a one-dimensional index `k` to
+#' two-dimensional indices `i` and `j`. This can be useful if, for example,
+#' two-dimensional indexing is easier to implement than one-dimensional
+#' indexing.
+#'
+#' It is assumed that all indices are one-based.
+#'
+#' @param x A matrix-like object.
+#' @param k A one-dimensional index.
+#' @return A list containing indices `i` and `j`.
+#' @export
 ktoij <- function(x, k) {
     k <- k - 1L
     n <- nrow(x)
@@ -300,8 +311,21 @@ ktoij <- function(x, k) {
     list(i = i, j = j)
 }
 
-# Convert two-dimensional indices i and j to one-dimensional index k.
-# Assumes indices to be one-based.
+
+#' Convert Two-Dimensional Indices i and j to One-Dimensional Index k
+#'
+#' `ijtok` is a helper function that converts two-dimensional indices `i` and
+#' `j` to a one-dimensional index `k`. This can be useful if, for example,
+#' one-dimensional indexing is easier to implement than two-dimensional
+#' indexing.
+#'
+#' It is assumed that all indices are one-based.
+#'
+#' @param x A matrix-like object.
+#' @param i The first component of a two-dimensional index.
+#' @param j The second component of a two-dimensional index.
+#' @return A one-dimensional index.
+#' @export
 ijtok <- function(x, i, j) {
     (j - 1L) * nrow(x) + i
 }
