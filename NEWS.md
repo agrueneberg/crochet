@@ -1,4 +1,4 @@
-# crochet 1.0.0.9000
+# crochet 2.0.0
 
 * The `length()` method must now be implemented in addition to `dim()` and
   `dimnames()` for a matrix to be supported by crochet. One way to implement
