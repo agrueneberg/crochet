@@ -1,22 +1,15 @@
-## Resubmission
-
-This is a resubmission. In this version I have:
-
-- Fixed the license template.
-
-
 ## Test environments
 
-* Local Arch Linux install, R 3.4.0
-* Ubuntu 12.04.05 on Travis CI, R. 3.4.0
-* win-builder, R-release and R-devel
+* Local Arch Linux install: R 3.4.3
+* Travis CI: R 3.4.2
+* win-builder: R-release and R-devel
 
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs, or NOTEs.
+0 errors | 0 warnings | 0 notes
 
 
-## Downstream dependencies
+## revdep_check results
 
-There are currently no downstream dependencies for this package.
+0 packages with problems
