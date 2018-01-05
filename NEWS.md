@@ -1,5 +1,7 @@
 # crochet 2.0.0.9000
 
+* Fix missing `...` pass-through for single indices in `extract()`.
+
 # crochet 2.0.0
 
 * The `length()` method must now be implemented in addition to `dim()` and

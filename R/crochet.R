@@ -163,7 +163,7 @@ extract <- function(extract_vector, extract_matrix, allowDoubles = FALSE) {
         # Single Index: x[i]
         if (nargs == 2L && !missing(i) && missing(j)) {
             i <- convertIndex(x, i, "k", allowDoubles = allowDoubles)
-            subset <- extract_vector(x, i)
+            subset <- extract_vector(x, i, ...)
         # Multi Index: x[i, j], x[i, ], or x[, j]
         } else if (nargs == 3L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
