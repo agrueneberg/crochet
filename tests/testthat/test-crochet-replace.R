@@ -40,25 +40,25 @@ context("[<-")
 test_replacement <- function(..., value) {
     CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value
     CROCHET_REPLACE_ENV$COMPARE_OBJECT[...] <- value
-    expect_equal(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[], CROCHET_REPLACE_ENV$COMPARE_OBJECT[], info = paste0("INFO: ", capture.output(match.call())))
+    expect_equal(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[], CROCHET_REPLACE_ENV$COMPARE_OBJECT[], info = paste0("INFO: ", deparse(match.call())))
     CROCHET_REPLACE_ENV$RESET()
 }
 
 test_replacement_warning <- function(..., value) {
-    expect_warning(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value, info = paste0("INFO: ", capture.output(match.call())))
-    expect_warning(CROCHET_REPLACE_ENV$COMPARE_OBJECT[...] <- value, info = paste0("INFO: ", capture.output(match.call())))
-    expect_equal(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[], CROCHET_REPLACE_ENV$COMPARE_OBJECT[], info = paste0("INFO: ", capture.output(match.call())))
+    expect_warning(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value, info = paste0("INFO: ", deparse(match.call())))
+    expect_warning(CROCHET_REPLACE_ENV$COMPARE_OBJECT[...] <- value, info = paste0("INFO: ", deparse(match.call())))
+    expect_equal(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[], CROCHET_REPLACE_ENV$COMPARE_OBJECT[], info = paste0("INFO: ", deparse(match.call())))
     CROCHET_REPLACE_ENV$RESET()
 }
 
 test_replacement_error <- function(..., value) {
-    expect_error(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value, info = paste0("INFO: ", capture.output(match.call())))
-    expect_error(CROCHET_REPLACE_ENV$COMPARE_OBJECT[...] <- value, info = paste0("INFO: ", capture.output(match.call())))
+    expect_error(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value, info = paste0("INFO: ", deparse(match.call())))
+    expect_error(CROCHET_REPLACE_ENV$COMPARE_OBJECT[...] <- value, info = paste0("INFO: ", deparse(match.call())))
     CROCHET_REPLACE_ENV$RESET()
 }
 
 test_replacement_not_implemented <- function(..., value) {
-    expect_error(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value, "not implemented", info = paste0("INFO: ", capture.output(match.call())))
+    expect_error(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value, "not implemented", info = paste0("INFO: ", deparse(match.call())))
     CROCHET_REPLACE_ENV$RESET()
 }
 
