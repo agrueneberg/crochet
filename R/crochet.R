@@ -188,10 +188,12 @@ extract <- function(extract_vector, extract_matrix, allowDoubles = FALSE) {
                 subset <- subset[, , drop = TRUE]
             }
         # No Index: x[] or x[, ]
-        } else {
+        } else if (missing(i) && missing(j)) {
             i <- seq(1L, nrow(x))
             j <- seq(1L, ncol(x))
             subset <- extract_matrix(x, i, j, ...)
+        } else {
+            stop("incorrect number of dimensions")
         }
 
         return(subset)
@@ -279,11 +281,13 @@ replace <- function(replace_vector, replace_matrix, allowDoubles = FALSE) {
             value <- expandValue(value, length(i) * length(j))
             x <- replace_matrix(x, i, j, ..., value = value)
         # No Index: x[] or x[, ]
-        } else {
+        } else if (missing(i) && missing(j)) {
             i <- seq(1L, nrow(x))
             j <- seq(1L, ncol(x))
             value <- expandValue(value, length(i) * length(j))
             x <- replace_matrix(x, i, j, ..., value = value)
+        } else {
+            stop("incorrect number of subscripts")
         }
 
         return(x)

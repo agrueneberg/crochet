@@ -403,6 +403,12 @@ test_that("multi out-of-bounds replacements works", {
 
 })
 
+test_that("n-dimensional replacement causes an error", {
+
+    test_replacement_error(1, 1, 1, value = value)
+
+})
+
 test_that("value expansion works", {
 
     test_replacement(1, value = values[1])

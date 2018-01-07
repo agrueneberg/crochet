@@ -420,3 +420,9 @@ test_that("multi indexing by zero works", {
     test_subsetting_error(c(0, 1, -1), c(0, 1, -1))
 
 })
+
+test_that("n-dimensional indexing causes an error", {
+
+    test_subsetting_error(1, 1, 1)
+
+})

@@ -3,6 +3,7 @@
 * Fix incorrect index type determination when additional arguments were passed
   to `extract()` and `replace()`.
 * Fix missing `...` pass-through for single indices in `extract()`.
+* Throw an error if index type is not supported.
 
 # crochet 2.0.0
 
