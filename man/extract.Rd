@@ -40,6 +40,9 @@ and \code{\link[base:dimnames]{base::dimnames()}} for this function to work. Imp
 \code{\link[base:nrow]{base::nrow()}}, \code{\link[base:ncol]{base::ncol()}}, \code{\link[base:rownames]{base::rownames()}}, and \code{\link[base:colnames]{base::colnames()}}
 is not necessary as the default method of those generics calls \code{\link[base:dim]{base::dim()}}
 or \code{\link[base:dimnames]{base::dimnames()}} internally.
+
+Optional arguments are supported and will be passed to \code{extract_vector} and
+\code{extract_matrix} as long as they are named.
 }
 \examples{
 b <- matrix(data = rnorm(25), nrow = 5, ncol = 5)

@@ -109,6 +109,59 @@ obj[c(TRUE, rep_len(FALSE, nrow(obj) - 1)), ] # simplifying subsetting by boolea
 obj["row_1", ] # simplifying subsetting by row names (only if dimnames exist)
 ```
 
+Different from `[` for atomic vectors (where both named and unnamed arguments are interpreted as indices), optional named arguments can be passed to `extract_vector` and `extact_matrix` as `...`. This can be useful for some optimization strategies (e.g., fadvise or madvise). Let's add an option to capitalize subsets as a demonstration:
+
+```R
+`[.StringMatrix` <- extract(
+    extract_vector = function(x, i, ...) { # i are positive integers
+        dotdotdot <- list(...)
+        # Reserve output vector
+        subset <- vector(mode = "character", length = length(i))
+        # Populate output vector
+        for (singleIdx in 1:length(i)) {
+            subset[singleIdx] <- substr(attr(x, "_data"), i[singleIdx], i[singleIdx])
+        }
+        # Capitalize output
+        if (!is.null(dotdotdot$capitalize) && dotdotdot$capitalize) {
+            subset <- toupper(subset)
+        }
+        # Return output vector
+        return(subset)
+    },
+    extract_matrix = function(x, i, j, ...) { # i and j are positive integers
+        dotdotdot <- list(...)
+        # Reserve output matrix
+        subset <- matrix(
+            data = vector(mode = "character", length = length(i) * length(j)),
+            nrow = length(i),
+            ncol = length(j)
+        )
+        # Populate output matrix
+        for (colIdx in 1:length(j)) {
+            for (rowIdx in 1:length(i)) {
+                # two-dimensional index needs to be converted to one-dimensional index
+                singleIdx <- crochet:::ijtok(x, i[rowIdx], j[colIdx])
+                subset[rowIdx, colIdx] <- substr(attr(x, "_data"), singleIdx, singleIdx)
+            }
+        }
+        # Capitalize output
+        if (!is.null(dotdotdot$capitalize) && dotdotdot$capitalize) {
+            subset <- toupper(subset)
+        }
+        # Return output matrix
+        return(subset)
+    }
+)
+```
+
+Now we can capitalize the output as follows:
+
+```R
+obj[1, ]
+obj[1, , capitalize = TRUE)
+obj[1, , capitalize = FALSE)
+```
+
 To support replacement, `replace()` returns a function that can be used as a method for `[<-` for a custom type. Analogous to the `extract()` method, two parameters are required by `replace()`: `replace_vector` has to be a function of the form `function(x, i, ..., value)` and `replace_matrix` a function of the form `function(x, i, j, ..., value)`. Both functions return a likely modified version of `x`.
 
 ```R

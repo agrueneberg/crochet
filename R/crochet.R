@@ -119,6 +119,9 @@ expandValue <- function(value, replacement_length) {
 #' is not necessary as the default method of those generics calls [base::dim()]
 #' or [base::dimnames()] internally.
 #'
+#' Optional arguments are supported and will be passed to `extract_vector` and
+#' `extract_matrix` as long as they are named.
+#'
 #' @param extract_vector A function in the form of `function(x, i, ...)` that
 #' takes a subset of `x` based on a single index `i` and returns a vector.
 #' @param extract_matrix A function in the form of `function(x, i, j, ...)`
@@ -152,20 +155,23 @@ extract <- function(extract_vector, extract_matrix, allowDoubles = FALSE) {
 
     return(function(x, i, j, ..., drop = TRUE) {
 
-        nargs <- nargs()
-        # Subtract optional argument drop from nargs if explicitly passed (I still
-        # don't fully understand how this works: x[] and x[drop = TRUE] both result
-        # in nargs == 2L)
-        if (!missing(drop)) {
-            nargs <- nargs - 1L
-        }
+        # The index type can be determined using a mixture of missing(i),
+        # missing(j), and nargs(). missing(i) and missing(j) are enough to
+        # differentiate x[] (as missing(i) && missing(j)) and x[i, j] (as
+        # !missing(i) && !(missing(j)), but x[i] and x[i, ] are both
+        # !missing(i) && missing(j). nargs() counts missing arguments and is 2L
+        # in the case of x[i] and 3L in the case of x[i, j], but drop and the
+        # optional named arguments in ... need to be subtracted from the count.
+
+        dotdotdot <- list(...)
+        numArgs <- nargs() - !missing(drop) - length(names(dotdotdot))
 
         # Single Index: x[i]
-        if (nargs == 2L && !missing(i) && missing(j)) {
+        if (numArgs == 2L && !missing(i) && missing(j)) {
             i <- convertIndex(x, i, "k", allowDoubles = allowDoubles)
             subset <- extract_vector(x, i, ...)
         # Multi Index: x[i, j], x[i, ], or x[, j]
-        } else if (nargs == 3L && (!missing(i) || !missing(j))) {
+        } else if (numArgs == 3L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
                 i <- seq(1L, nrow(x))
             } else {
@@ -244,10 +250,11 @@ replace <- function(replace_vector, replace_matrix, allowDoubles = FALSE) {
 
     return(function(x, i, j, ..., value) {
 
-        nargs <- nargs()
+        dotdotdot <- list(...)
+        numArgs <- nargs() - length(names(dotdotdot))
 
         # Single Index: x[i]
-        if (nargs == 3L && !missing(i) && missing(j)) {
+        if (numArgs == 3L && !missing(i) && missing(j)) {
             i <- convertIndex(x, i, "k", allowDoubles = allowDoubles)
             i <- handleNAs(i, value)
             if (any(i > length(x))) {
@@ -256,7 +263,7 @@ replace <- function(replace_vector, replace_matrix, allowDoubles = FALSE) {
             value <- expandValue(value, length(i))
             x <- replace_vector(x, i, ..., value = value)
         # Multi Index: x[i, j], x[i, ], or x[, j]
-        } else if (nargs == 4L && (!missing(i) || !missing(j))) {
+        } else if (numArgs == 4L && (!missing(i) || !missing(j))) {
             if (missing(i)) {
                 i <- seq(1L, nrow(x))
             } else {

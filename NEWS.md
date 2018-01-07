@@ -1,5 +1,7 @@
 # crochet 2.0.0.9000
 
+* Fix incorrect index type determination when additional arguments were passed
+  to `extract()` and `replace()`.
 * Fix missing `...` pass-through for single indices in `extract()`.
 
 # crochet 2.0.0
