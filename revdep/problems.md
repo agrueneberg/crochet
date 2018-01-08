@@ -10,13 +10,13 @@
 |language |                             |
 |collate  |en_US.UTF-8                  |
 |tz       |America/New_York             |
-|date     |2018-01-03                   |
+|date     |2018-01-08                   |
 
 ## Packages
 
 |package  |*  |version |date       |source                         |
 |:--------|:--|:-------|:----------|:------------------------------|
-|crochet  |   |2.0.0   |2018-01-03 |local (agrueneberg/crochet@NA) |
+|crochet  |   |2.0.1   |2018-01-08 |local (agrueneberg/crochet@NA) |
 |testthat |   |2.0.0   |2017-12-13 |cran (@2.0.0)                  |
 
 # Check results

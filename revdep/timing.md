@@ -2,6 +2,6 @@
 
 |package   |version | check_time|
 |:---------|:-------|----------:|
-|BEDMatrix |1.4.0   |       19.6|
+|BEDMatrix |1.4.0   |       20.6|
 
 

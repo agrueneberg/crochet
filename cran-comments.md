@@ -7,7 +7,12 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+There were 0 errors, 0 warnings, and 1 note.
+
+### NOTE: Days since last update: 5
+
+Sorry, this is a bugfix release. The bug blocked the release of another package
+that newly depends on this package.
 
 
 ## revdep_check results
