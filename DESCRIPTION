@@ -12,6 +12,7 @@ BugReports: https://github.com/agrueneberg/crochet/issues
 Imports:
     methods
 Suggests:
-    testthat
+    testthat,
+    covr
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
