@@ -1,3 +1,8 @@
+# crochet 2.1.0
+
+* Export `convertIndex` function.
+
+
 # crochet 2.0.1
 
 * Fix incorrect index type determination when additional arguments were passed

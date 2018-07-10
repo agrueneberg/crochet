@@ -1,4 +1,21 @@
-# Convert non-numeric types to positive integers
+#' Convert Non-Numeric Index Types to Positive Integers
+#'
+#' Converts different index types such as negative integer vectors, character
+#' vectors, or logical vectors into positive integer vectors.
+#'
+#' @param x A matrix-like object.
+#' @param i The index to convert: may be a one-dimensional or two-dimensional
+#' logical, character, integer, or double vector.
+#' @param type The type of index to convert to: `k` is a one-dimensional index,
+#' `i` is the part of a two-dimensional index that determines the rows, and `j`
+#' is the part of a two-dimensional index that determines the columns.
+#' @param allowDoubles If set, indices of type double are not converted to
+#' integers if the operation would overflow to support matrices with `nrow()`,
+#' `ncol()`, or `length()` greater than the largest integer that can be
+#' represented (`.Machine$integer.max`).
+#' @return The converted index.
+#' @example man/examples/convertIndex.R
+#' @export
 convertIndex <- function(x, i, type, allowDoubles = FALSE) {
     if (type == "k") {
         # Single Index
