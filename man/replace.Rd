@@ -31,9 +31,6 @@ integer vectors. The converted indices are provided as the \code{i} parameter of
 \code{replace_vector} or \code{i} and \code{j} parameters of \code{replace_matrix} to facilitate
 implementing the replacement mechanism for custom matrix-like types. Values
 are recycled to match the replacement length.
-
-[<-\code{function as}i\code{(e.g.}X[i]: R:%3C-%60%0Afunction%20as%20%60i%60%20(e.g.%20%60X[i
-[i, j]: R:i,%20j
 }
 \details{
 The custom type must implement methods for \code{\link[base:length]{base::length()}}, \code{\link[base:dim]{base::dim()}}

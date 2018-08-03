@@ -30,9 +30,6 @@ function as \code{i} (e.g. \code{X[i]}) or \code{i} and \code{j} (e.g. \code{X[i
 integer vectors. The converted indices are provided as the \code{i} parameter of
 \code{extract_vector} or \code{i} and \code{j} parameters of \code{extract_matrix} to facilitate
 implementing the extraction mechanism for custom matrix-like types.
-
-[\code{function as}i\code{(e.g.}X[i]: R:%60%0Afunction%20as%20%60i%60%20(e.g.%20%60X[i
-[i, j]: R:i,%20j
 }
 \details{
 The custom type must implement methods for \code{\link[base:length]{base::length()}}, \code{\link[base:dim]{base::dim()}}
