@@ -4,19 +4,20 @@
 
 |setting  |value                        |
 |:--------|:----------------------------|
-|version  |R version 3.4.3 (2017-11-30) |
+|version  |R version 3.5.1 (2018-07-02) |
 |system   |x86_64, linux-gnu            |
 |ui       |X11                          |
 |language |                             |
 |collate  |en_US.UTF-8                  |
-|tz       |America/New_York             |
-|date     |2018-01-08                   |
+|tz       |US/Eastern                   |
+|date     |2018-08-03                   |
 
 ## Packages
 
 |package  |*  |version |date       |source                         |
 |:--------|:--|:-------|:----------|:------------------------------|
-|crochet  |   |2.0.1   |2018-01-08 |local (agrueneberg/crochet@NA) |
+|covr     |   |3.1.0   |2018-05-18 |cran (@3.1.0)                  |
+|crochet  |   |2.1.0   |2018-08-03 |local (agrueneberg/crochet@NA) |
 |testthat |   |2.0.0   |2017-12-13 |cran (@2.0.0)                  |
 
 # Check results
