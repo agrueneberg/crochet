@@ -1,21 +1,3 @@
-#' Convert Non-Numeric Index Types to Positive Integers
-#'
-#' Converts different index types such as negative integer vectors, character
-#' vectors, or logical vectors into positive integer vectors.
-#'
-#' @param x A matrix-like object.
-#' @param i The index to convert: may be a one-dimensional or two-dimensional
-#' logical, character, integer, or double vector.
-#' @param type The type of index to convert to: `k` is a one-dimensional index,
-#' `i` is the part of a two-dimensional index that determines the rows, and `j`
-#' is the part of a two-dimensional index that determines the columns.
-#' @param allowDoubles If set, indices of type double are not converted to
-#' integers if the operation would overflow to support matrices with `nrow()`,
-#' `ncol()`, or `length()` greater than the largest integer that can be
-#' represented (`.Machine$integer.max`).
-#' @return The converted index.
-#' @example man/examples/convertIndex.R
-#' @export
 convertIndex <- function(x, i, type, allowDoubles = FALSE) {
     if (type == "k") {
         # Single Index
@@ -121,37 +103,6 @@ expandValue <- function(value, replacement_length) {
     return(value)
 }
 
-#' Create an Implementation of [ For Custom Matrix-Like Types
-#'
-#' `extract` is a function that converts different index types such as negative
-#' integer vectors, character vectors, or logical vectors passed to the `[`
-#' function as `i` (e.g. `X[i]`) or `i` and `j` (e.g. `X[i, j]`) into positive
-#' integer vectors. The converted indices are provided as the `i` parameter of
-#' `extract_vector` or `i` and `j` parameters of `extract_matrix` to facilitate
-#' implementing the extraction mechanism for custom matrix-like types.
-#'
-#' The custom type must implement methods for [base::length()], [base::dim()]
-#' and [base::dimnames()] for this function to work. Implementing methods for
-#' [base::nrow()], [base::ncol()], [base::rownames()], and [base::colnames()]
-#' is not necessary as the default method of those generics calls [base::dim()]
-#' or [base::dimnames()] internally.
-#'
-#' Optional arguments are supported and will be passed to `extract_vector` and
-#' `extract_matrix` as long as they are named.
-#'
-#' @param extract_vector A function in the form of `function(x, i, ...)` that
-#' takes a subset of `x` based on a single index `i` and returns a vector.
-#' @param extract_matrix A function in the form of `function(x, i, j, ...)`
-#' that takes a subset of `x` based on two indices `i` and `j` and returns a
-#' matrix.
-#' @param allowDoubles If set, indices of type double are not converted to
-#' integers if the operation would overflow to support matrices with `nrow()`,
-#' `ncol()`, or `length()` greater than the largest integer that can be
-#' represented (`.Machine$integer.max`).
-#' @return A function in the form of `function(x, i, j, ..., drop = TRUE)` that
-#' is meant to be used as a method for \code{\link[base]{[}} for a custom type.
-#' @example man/examples/extract.R
-#' @export
 extract <- function(extract_vector, extract_matrix, allowDoubles = FALSE) {
 
     if (missing(extract_vector) || typeof(extract_vector) != "closure") {
@@ -219,36 +170,6 @@ extract <- function(extract_vector, extract_matrix, allowDoubles = FALSE) {
 
 }
 
-#' Create an Implementation of [<- For Custom Matrix-Like Types
-#'
-#' `replace` is a function that converts different index types such as negative
-#' integer vectors, character vectors, or logical vectors passed to the `[<-`
-#' function as `i` (e.g. `X[i]`) or `i` and `j` (e.g. `X[i, j]`) into positive
-#' integer vectors. The converted indices are provided as the `i` parameter of
-#' `replace_vector` or `i` and `j` parameters of `replace_matrix` to facilitate
-#' implementing the replacement mechanism for custom matrix-like types. Values
-#' are recycled to match the replacement length.
-#'
-#' The custom type must implement methods for [base::length()], [base::dim()]
-#' and [base::dimnames()] for this function to work. Implementing methods for
-#' [base::nrow()], [base::ncol()], [base::rownames()], and [base::colnames()]
-#' is not necessary as the default method of those generics calls [base::dim()]
-#' or [base::dimnames()] internally.
-#'
-#' @param replace_vector A function in the form of `function(x, i, ..., value)`
-#' that replaces a vector subset of `x` based on a single index `i` with the
-#' values in `value` and returns `x`.
-#' @param replace_matrix A function in the form of `function(x, i, j, ...,
-#' value)` that replaces a matrix subset of `x` based on two indices `i` and
-#' `j` with the values in `value` and returns `x`.
-#' @param allowDoubles If set, indices of type double are not converted to
-#' integers if the operation would overflow to support matrices with `nrow()`,
-#' `ncol()`, or `length()` greater than the largest integer that can be
-#' represented (`.Machine$integer.max`).
-#' @return A function in the form of `function(x, i, j, ..., value)` that is
-#' meant to be used as a method for \code{\link[base]{[<-}} for a custom type.
-#' @example man/examples/replace.R
-#' @export
 replace <- function(replace_vector, replace_matrix, allowDoubles = FALSE) {
 
     if (missing(replace_vector) || typeof(replace_vector) != "closure") {
@@ -318,19 +239,6 @@ isMatrixLike <- function(x) {
     length(dim(x)) == 2L
 }
 
-#' Convert One-Dimensional Index k to Two-Dimensional Indices i and j
-#'
-#' `ktoij` is a helper function that converts a one-dimensional index `k` to
-#' two-dimensional indices `i` and `j`. This can be useful if, for example,
-#' two-dimensional indexing is easier to implement than one-dimensional
-#' indexing.
-#'
-#' It is assumed that all indices are one-based.
-#'
-#' @param x A matrix-like object.
-#' @param k A one-dimensional index.
-#' @return A list containing indices `i` and `j`.
-#' @export
 ktoij <- function(x, k) {
     k <- k - 1L
     n <- nrow(x)
@@ -339,21 +247,6 @@ ktoij <- function(x, k) {
     list(i = i, j = j)
 }
 
-
-#' Convert Two-Dimensional Indices i and j to One-Dimensional Index k
-#'
-#' `ijtok` is a helper function that converts two-dimensional indices `i` and
-#' `j` to a one-dimensional index `k`. This can be useful if, for example,
-#' one-dimensional indexing is easier to implement than two-dimensional
-#' indexing.
-#'
-#' It is assumed that all indices are one-based.
-#'
-#' @param x A matrix-like object.
-#' @param i The first component of a two-dimensional index.
-#' @param j The second component of a two-dimensional index.
-#' @return A one-dimensional index.
-#' @export
 ijtok <- function(x, i, j) {
     (j - 1L) * nrow(x) + i
 }
