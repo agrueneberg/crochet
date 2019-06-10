@@ -1,5 +1,5 @@
 export(convertIndex)
 export(extract)
+export(replace)
 export(ijtok)
 export(ktoij)
-export(replace)
