@@ -14,4 +14,3 @@ Imports:
 Suggests:
     testthat,
     covr
-Encoding: UTF-8
