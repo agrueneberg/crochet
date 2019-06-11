@@ -1,5 +1,3 @@
-context("requirements for [")
-
 test_that("lengths are the same", {
 
     expect_equal(length(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), length(CROCHET_EXTRACT_ENV$COMPARE_OBJECT))
@@ -33,9 +31,6 @@ test_that("maximum dimension requirement are met", {
     expect_lt(length(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT)
 
 })
-
-
-context("[")
 
 test_subsetting <- function(...) {
 

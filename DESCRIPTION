@@ -12,5 +12,5 @@ BugReports: https://github.com/agrueneberg/crochet/issues
 Imports:
     methods
 Suggests:
-    testthat,
+    testthat (>= 2.1.0),
     covr

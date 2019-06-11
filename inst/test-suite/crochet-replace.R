@@ -1,5 +1,3 @@
-context("requirements for [<-")
-
 test_that("dims are the same", {
 
     expect_equal(dim(CROCHET_REPLACE_ENV$CUSTOM_OBJECT), dim(CROCHET_REPLACE_ENV$COMPARE_OBJECT))
@@ -33,9 +31,6 @@ test_that("both matrices are the same", {
     expect_equal(CROCHET_REPLACE_ENV$CUSTOM_OBJECT[], CROCHET_REPLACE_ENV$COMPARE_OBJECT[])
 
 })
-
-
-context("[<-")
 
 test_replacement <- function(..., value) {
     CROCHET_REPLACE_ENV$CUSTOM_OBJECT[...] <- value
