@@ -199,7 +199,7 @@ obj[1:7] <- "z"
 obj[]
 ```
 
-As you can see the simple extraction and replacement functions above cover a lot of scenarios. There are some edge cases not mentioned here that can't be handled by crochet automatically (e.g., x[FALSE], combinations with `NA`s, and so on), so if you want full coverage, you should run the crochet test suite on your custom type. Examples of this can be found in the [BEDMatrix](https://cran.r-project.org/package=BEDMatrix) or [LinkedMatrix](https://cran.r-project.org/package=LinkedMatrix) packages.
+As you can see the simple extraction and replacement functions above cover a lot of scenarios. There are some edge cases not mentioned here that can't be handled by crochet automatically (e.g., x[FALSE], combinations with `NA`s, and so on), so if you want full coverage, you should run the crochet test suite on your custom type. Examples of this can be found in `tests/testthat/test-stringmatrix.R` for the `StringMatrix` type, and in the [BEDMatrix](https://cran.r-project.org/package=BEDMatrix) or [LinkedMatrix](https://cran.r-project.org/package=LinkedMatrix) packages.
 
 
 Installation

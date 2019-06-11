@@ -1,20 +1,20 @@
-# Types
+# Define StringMatrix, an example of a custom type that implements extraction
+# using the 'extract' function and replacement using the 'replace' function.
+# See README for more information on this example type.
 
-## CustomExtractMatrix (stores characters as a string in an attribute called _data)
-
-registerS3method("length", "CustomExtractMatrix", function(x) {
+registerS3method("length", "StringMatrix", function(x) {
     prod(attr(x, "_dim"))
 })
 
-registerS3method("dim", "CustomExtractMatrix", function(x) {
+registerS3method("dim", "StringMatrix", function(x) {
     attr(x, "_dim")
 })
 
-registerS3method("dimnames", "CustomExtractMatrix", function(x) {
+registerS3method("dimnames", "StringMatrix", function(x) {
     attr(x, "_dimnames")
 })
 
-registerS3method("[", "CustomExtractMatrix", extract(
+registerS3method("[", "StringMatrix", extract(
     extract_vector = function(x, i, ...) {
         Z <- vector(mode = typeof(attr(x, "_data")), length = length(i))
         # Handle x[FALSE]
@@ -54,10 +54,7 @@ registerS3method("[", "CustomExtractMatrix", extract(
     }
 ))
 
-
-## CustomReplaceMatrix (builds on top of CustomExtractMatrix and allows to change data stored in the _data attribute)
-
-registerS3method("[<-", "CustomReplaceMatrix", replace(
+registerS3method("[<-", "StringMatrix", replace(
     replace_vector = function(x, i, ..., value) {
         value <- as.character(value)
         # Handle x[FALSE]
@@ -83,9 +80,7 @@ registerS3method("[<-", "CustomReplaceMatrix", replace(
     }
 ))
 
-
-# Tests
-
+# Prepare instances of custom type for testing
 seed <- 4711L
 n <- 5L
 p <- 5L
@@ -94,47 +89,40 @@ VALUE_POOL <- c(0:9, letters)
 OUT_OF_BOUNDS_INT <- 100
 OUT_OF_BOUNDS_CHAR <- "x"
 
-createCustomExtractMatrix <- function() {
-    obj <- list()
-    class(obj) <- "CustomExtractMatrix"
-    attr(obj, "_dim") <- c(n, p)
-    attr(obj, "_dimnames") <- dimnames
+generateValues <- function() {
     set.seed(seed)
-    attr(obj, "_data") <- paste(sample(VALUE_POOL, replace = TRUE, size = n * p), collapse = "")
-    return(obj)
+    sample(VALUE_POOL, replace = TRUE, size = n * p)
 }
 
-createCustomReplaceMatrix <- function() {
+createStringMatrix <- function() {
     obj <- list()
-    class(obj) <- c("CustomReplaceMatrix", "CustomExtractMatrix")
+    class(obj) <- "StringMatrix"
     attr(obj, "_dim") <- c(n, p)
     attr(obj, "_dimnames") <- dimnames
-    set.seed(seed)
-    attr(obj, "_data") <- paste(sample(VALUE_POOL, replace = TRUE, size = n * p), collapse = "")
+    attr(obj, "_data") <- paste(generateValues(), collapse = "")
     return(obj)
 }
 
 createMatrix <- function() {
-    set.seed(seed)
-    matrix(data = sample(VALUE_POOL, replace = TRUE, size = n * p), nrow = n, ncol = p, dimnames = dimnames)
+    matrix(data = generateValues(), nrow = n, ncol = p, dimnames = dimnames)
 }
 
-# Load external tests for extract function
+# Source extraction tests
 CROCHET_EXTRACT_ENV <- new.env()
 CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
 CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
 CROCHET_EXTRACT_ENV$COMPARE_OBJECT <- createMatrix()
-CROCHET_EXTRACT_ENV$CUSTOM_OBJECT <- createCustomExtractMatrix()
+CROCHET_EXTRACT_ENV$CUSTOM_OBJECT <- createStringMatrix()
 source(system.file("test-suite", "crochet-extract.R", package = "crochet"), local = TRUE)
 
-# Load external tests for replace function
+# Source replacement tests
 CROCHET_REPLACE_ENV <- new.env()
 CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
 CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
 CROCHET_REPLACE_ENV$VALUE_POOL <- VALUE_POOL
 CROCHET_REPLACE_ENV$RESET <- function() {
     CROCHET_REPLACE_ENV$COMPARE_OBJECT <- createMatrix()
-    CROCHET_REPLACE_ENV$CUSTOM_OBJECT <- createCustomReplaceMatrix()
+    CROCHET_REPLACE_ENV$CUSTOM_OBJECT <- createStringMatrix()
 }
 CROCHET_REPLACE_ENV$RESET()
 source(system.file("test-suite", "crochet-replace.R", package = "crochet"), local = TRUE)
