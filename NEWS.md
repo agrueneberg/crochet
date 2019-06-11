@@ -2,6 +2,7 @@
 
 * Move test suite to `inst/test-suite` so that it can be used without
   `--install-tests`.
+* Move example in README to `StringMatrix` vignette.
 
 
 # crochet 2.1.0

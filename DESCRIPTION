@@ -9,8 +9,14 @@ Description: Functions to help implement the extraction / subsetting / indexing
 Authors@R: person("Alexander", "Grueneberg", email = "alexander.grueneberg@googlemail.com", role = c("aut", "cre"))
 URL: https://github.com/agrueneberg/crochet
 BugReports: https://github.com/agrueneberg/crochet/issues
+Depends:
+    R (>= 3.0.0)
 Imports:
     methods
 Suggests:
     testthat (>= 2.1.0),
+    knitr,
+    rmarkdown,
     covr
+VignetteBuilder:
+    knitr
