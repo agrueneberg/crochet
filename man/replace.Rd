@@ -46,8 +46,9 @@ A function in the form of \code{function(x, i, j, ..., value)} that is meant to
 be used as a method for \code{\link[base]{[<-}} for a custom type.
 }
 \seealso{
-  Run \code{vignette("StringMatrix", package = "crochet")} to see a vignette
-  containing a complete example on how to use \code{replace} for a custom type.
+\code{vignette("StringMatrix", package = "crochet")} for a vignette containing
+a complete example on how to use \code{replace} to implement \code{[<-} for a
+custom type.
 }
 \examples{
 b <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
