@@ -1,3 +1,23 @@
+# This file contains tests (for use with the R package 'testthat') to check if
+# a custom type that implements extraction using the 'extract' function behaves
+# similarly to a regular R matrix.
+#
+# To run these tests as part your test suite for your custom type, prepare an
+# environment called 'CROCHET_EXTRACT_ENV' that contains the following names:
+# 'CUSTOM_OBJECT' (an instance of your custom type that implements extraction
+# using the 'extract' function containing dummy data with at least 3 rows and 3
+# columns), 'COMPARE_OBJECT' (a regular matrix that represents the same dummy
+# data as your object), 'OUT_OF_BOUNDS_INT' (an integer that represents an out
+# of bounds value for your object in integer indexing), 'OUT_OF_BOUNDS_CHAR' (a
+# string that represents an out of bounds value for your object in character
+# indexing), and optionally 'SKIP_NA_TESTS' (a boolean whether to skip missing
+# value tests or not). Once the environment is prepared, the tests can be
+# sourced using 'source(system.file("test-suite", "crochet-extract.R", package
+# = "crochet"), local = TRUE)'.
+#
+# See tests/testthat/test-extract.R for a contrieved example, or the BEDMatrix
+# and LinkedMatrix packages for more realistic examples.
+
 test_that("lengths are the same", {
 
     expect_equal(length(CROCHET_EXTRACT_ENV$CUSTOM_OBJECT), length(CROCHET_EXTRACT_ENV$COMPARE_OBJECT))
