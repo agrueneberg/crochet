@@ -119,15 +119,15 @@ createMatrix <- function() {
     matrix(data = sample(VALUE_POOL, replace = TRUE, size = n * p), nrow = n, ncol = p, dimnames = dimnames)
 }
 
-# extract
+# Load external tests for extract function
 CROCHET_EXTRACT_ENV <- new.env()
 CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
 CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
 CROCHET_EXTRACT_ENV$COMPARE_OBJECT <- createMatrix()
 CROCHET_EXTRACT_ENV$CUSTOM_OBJECT <- createCustomExtractMatrix()
+source(system.file("test-suite", "crochet-extract.R", package = "crochet"), local = TRUE)
 
-
-# replace
+# Load external tests for replace function
 CROCHET_REPLACE_ENV <- new.env()
 CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
 CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
@@ -137,3 +137,4 @@ CROCHET_REPLACE_ENV$RESET <- function() {
     CROCHET_REPLACE_ENV$CUSTOM_OBJECT <- createCustomReplaceMatrix()
 }
 CROCHET_REPLACE_ENV$RESET()
+source(system.file("test-suite", "crochet-replace.R", package = "crochet"), local = TRUE)
