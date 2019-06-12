@@ -32,14 +32,14 @@ devtools::install_github("agrueneberg/crochet")
 ```
 
 
-Contribute
-----------
-
-- Issue Tracker: https://github.com/agrueneberg/crochet/issues
-- Source Code: https://github.com/agrueneberg/crochet
-
-
 Documentation
 -------------
 
 Further documentation can be found on [RDocumentation](http://www.rdocumentation.org/packages/crochet).
+
+
+Contributing
+------------
+
+- Issue Tracker: https://github.com/agrueneberg/crochet/issues
+- Source Code: https://github.com/agrueneberg/crochet
