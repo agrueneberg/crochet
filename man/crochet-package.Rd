@@ -7,6 +7,19 @@
 \description{
 \packageDescription{crochet}
 }
+\section{Important Functions}{
+\describe{
+  \item{\code{extract}:}{
+    Create an implementation of \code{[} for custom matrix-like types.
+  }
+  \item{\code{replace}:}{
+    Create an implementation of \code{[<-} for custom matrix-like types.
+  }
+  \item{\code{convertIndex}:}{
+    Convert non-numeric index types to positive integers.
+  }
+}
+}
 \section{Discussion}{
 R used to export functions for index conversion such as \code{makeSubscript},
 \code{vectorSubscript}, and \code{arraySubscript} in
@@ -19,8 +32,6 @@ as some packages such as arules and cba still rely on it. I still need to
 investigate whether \code{arraySubscript} would be useful for this package.
 }
 \seealso{
-\code{\link{extract}} and \code{\link{replace}} to create an implementation of
-\code{[} and \code{[<-} for custom types, respecively.
 \code{vignette("StringMatrix", package = "crochet")} for a vignette containing
 a full example for a custom type.
 }
