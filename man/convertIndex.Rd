@@ -32,6 +32,11 @@ convertIndex(x, i, type, allowDoubles = FALSE)
 \value{
 The converted index.
 }
+\seealso{
+\code{\link{extract}} and \code{\link{replace}} to generate implementations for
+\code{[} and \code{[<-} for custom types that use \code{convertIndex} under the
+hood.
+}
 \examples{
 x <- matrix(data = rnorm(25), nrow = 5, ncol = 5)
 dimnames(x) <- list(letters[1:5], letters[1:5])
