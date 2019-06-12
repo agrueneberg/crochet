@@ -15,8 +15,8 @@
 # sourced using 'source(system.file("test-suite", "crochet-extract.R", package
 # = "crochet"), local = TRUE)'.
 #
-# See tests/testthat/test-extract.R for a contrieved example, or the BEDMatrix
-# and LinkedMatrix packages for more realistic examples.
+# See tests/testthat/test-stringmatrix.R, the BEDMatrix package, or the
+# LinkedMatrix package for examples.
 
 test_that("lengths are the same", {
 

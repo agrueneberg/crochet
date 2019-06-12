@@ -16,8 +16,8 @@
 # the tests can be sourced using 'source(system.file("test-suite",
 # "crochet-replace.R", package = "crochet"), local = TRUE)'.
 #
-# See tests/testthat/test-replace.R for a contrieved example, or the BEDMatrix
-# and LinkedMatrix packages for more realistic examples.
+# See tests/testthat/test-stringmatrix.R, the BEDMatrix package, or the
+# LinkedMatrix package for examples.
 
 test_that("dims are the same", {
 
