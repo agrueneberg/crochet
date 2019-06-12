@@ -1,12 +1,11 @@
 \docType{package}
 \name{crochet-package}
 \alias{crochet-package}
-\title{Implementation Helper for [ and [<- Of Custom Matrix-Like Types}
+\title{
+\packageTitle{crochet}
+}
 \description{
-crochet is a package that provides functions to help implement the extraction /
-subsetting / indexing function \code{[} and replacement function \code{[<-} of
-custom matrix-like types (based on S3, S4, etc.), modeled as closely to the
-base matrix class as possible (with tests to prove it).
+\packageDescription{crochet}
 }
 \section{Discussion}{
 R used to export functions for index conversion such as \code{makeSubscript},
