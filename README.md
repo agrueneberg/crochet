@@ -12,7 +12,7 @@ crochet is an R package that provides functions to help implement the extraction
 Example
 -------
 
-An example of a custom type that implements the `extract` and `replace` functions can be found in the `StringMatrix` vignette.
+Check out the `Example of a Custom Type that Implements 'extract' and 'replace'` vignette [on the crochet page on CRAN](https://cran.r-project.org/package=crochet).
 
 
 Installation
