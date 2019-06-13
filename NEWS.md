@@ -1,4 +1,4 @@
-# crochet 2.1.0.9000
+# crochet 2.2.0
 
 * Move test suite to `inst/test-suite` so that it can be used without
   `--install-tests`.
