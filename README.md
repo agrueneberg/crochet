@@ -27,8 +27,8 @@ install.packages("crochet")
 Alternatively, install the development version from GitHub:
 
 ```R
-# install.packages("devtools")
-devtools::install_github("agrueneberg/crochet")
+# install.packages("remotes")
+remotes::install_github("agrueneberg/crochet")
 ```
 
 
