@@ -1,6 +1,7 @@
 # crochet
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/crochet)](https://CRAN.R-project.org/package=crochet)
+[![Number of direct and total dependencies](https://tinyverse.netlify.com/badge/crochet)](https://tinyverse.netlify.com)
 [![Rdoc](http://www.rdocumentation.org/badges/version/crochet)](http://www.rdocumentation.org/packages/crochet)
 [![Travis-CI Build Status](https://travis-ci.org/agrueneberg/crochet.svg?branch=master)](https://travis-ci.org/agrueneberg/crochet)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/5osfclaxqxhq04r2?svg=true)](https://ci.appveyor.com/project/agrueneberg/crochet)
