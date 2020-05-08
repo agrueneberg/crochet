@@ -1,6 +1,6 @@
 # crochet 2.2.0.9000
 
-
+* Use `inherits(., *)` instead of `class(.) == *` (R4 compat).
 
 
 # crochet 2.2.0
