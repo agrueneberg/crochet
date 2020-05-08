@@ -47,7 +47,7 @@ convertIndex <- function(x, i, type, allowDoubles = FALSE) {
             }
             i <- match(i, names, nomatch = n + 1L) # intentionally overstep bound
         }
-    } else if (type == "k" && inherits(i, "matrix") && ncol(i) == 2L && is.numeric(i)) { # x[y > 1]
+    } else if (type == "k" && inherits(i, "matrix") && ncol(i) == 2L && is.numeric(i)) { # x[i] where i is numeric matrix
         i <- (as.integer(i[, 2L]) - 1L) * nrow(x) + as.integer(i[, 1L])
         checkBounds <- TRUE
     } else if (is.numeric(i)) { # x[1], x[-1], x[0]
