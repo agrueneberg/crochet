@@ -1,6 +1,7 @@
 # crochet 2.2.0.9000
 
 * Use `inherits(., *)` instead of `class(.) == *` (R4 compat).
+* Make test suite compatible with tinytest package.
 
 
 # crochet 2.2.0
