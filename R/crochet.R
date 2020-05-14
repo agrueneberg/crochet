@@ -17,7 +17,7 @@ convertIndex <- function(x, i, type, allowDoubles = FALSE) {
         if (type != "k" && len_initial_i > n) {
             stop("(subscript) logical subscript too long")
         }
-        len_initial_i_sans_false <- len_initial_i - sum(i == FALSE, na.rm = T)
+        len_initial_i_sans_false <- len_initial_i - sum(i == FALSE, na.rm = TRUE)
         # Expand logical index to length of vector while preserving
         # positions of missing values
         i <- rep_len(i, n)
