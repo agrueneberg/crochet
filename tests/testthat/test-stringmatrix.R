@@ -108,21 +108,27 @@ createMatrix <- function() {
 }
 
 # Source extraction tests
-CROCHET_EXTRACT_ENV <- new.env()
-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
-CROCHET_EXTRACT_ENV$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
-CROCHET_EXTRACT_ENV$COMPARE_OBJECT <- createMatrix()
-CROCHET_EXTRACT_ENV$CUSTOM_OBJECT <- createStringMatrix()
-source(system.file("test-suite", "crochet-extract.R", package = "crochet"), local = TRUE)
+extractionTests <- new.env()
+extractionTests$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
+extractionTests$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
+extractionTests$COMPARE_OBJECT <- createMatrix()
+extractionTests$CUSTOM_OBJECT <- createStringMatrix()
+source(
+    file = system.file("test-suite", "crochet-extract.R", package = "crochet"),
+    local = extractionTests
+)
 
 # Source replacement tests
-CROCHET_REPLACE_ENV <- new.env()
-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
-CROCHET_REPLACE_ENV$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
-CROCHET_REPLACE_ENV$VALUE_POOL <- VALUE_POOL
-CROCHET_REPLACE_ENV$RESET <- function() {
-    CROCHET_REPLACE_ENV$COMPARE_OBJECT <- createMatrix()
-    CROCHET_REPLACE_ENV$CUSTOM_OBJECT <- createStringMatrix()
+replacementTests <- new.env()
+replacementTests$OUT_OF_BOUNDS_INT <- OUT_OF_BOUNDS_INT
+replacementTests$OUT_OF_BOUNDS_CHAR <- OUT_OF_BOUNDS_CHAR
+replacementTests$VALUE_POOL <- VALUE_POOL
+replacementTests$RESET <- function() {
+    replacementTests$COMPARE_OBJECT <- createMatrix()
+    replacementTests$CUSTOM_OBJECT <- createStringMatrix()
 }
-CROCHET_REPLACE_ENV$RESET()
-source(system.file("test-suite", "crochet-replace.R", package = "crochet"), local = TRUE)
+replacementTests$RESET()
+source(
+    file = system.file("test-suite", "crochet-replace.R", package = "crochet"),
+    local = replacementTests
+)

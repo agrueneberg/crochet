@@ -1,5 +1,11 @@
 # crochet 2.2.0.9000
 
+## Breaking changes
+
+* Test suite environments need to be passed via `local` argument of `source`.
+
+## Other changes
+
 * Use `inherits(., *)` instead of `class(.) == *` (R4 compat).
 * Make test suite compatible with tinytest package.
 
