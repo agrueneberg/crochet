@@ -15,7 +15,7 @@
 # 'source(system.file("test-suite", "crochet-extract.R", package = "crochet"),
 # local = env)' where 'env' is the environment.
 #
-# See tests/testthat/test-stringmatrix.R, the BEDMatrix package, or the
+# See inst/tinytest/test-stringmatrix.R, the BEDMatrix package, or the
 # LinkedMatrix package for examples.
 
 # Environment needs to be passed via 'local' argument of 'source'.
