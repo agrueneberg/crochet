@@ -1,5 +1,5 @@
 Package: crochet
-Version: 2.3.0
+Version: 2.3.0.9000
 License: MIT + file LICENSE
 Title: Implementation Helper for '[' and '[<-' of Custom Matrix-Like Types
 Description: Functions to help implement the extraction / subsetting / indexing
