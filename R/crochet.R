@@ -234,11 +234,6 @@ replace <- function(replace_vector, replace_matrix, allowDoubles = FALSE) {
 
 }
 
-# Incomplete check if x is matrix-like. Should check for length as well.
-isMatrixLike <- function(x) {
-    length(dim(x)) == 2L
-}
-
 ktoij <- function(x, k) {
     k <- k - 1L
     n <- nrow(x)
